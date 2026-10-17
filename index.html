@@ -1,0 +1,1479 @@
+<title>Крымский тюльпан</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@500;600&display=swap">
+<style>
+/* Раскладка: липкая шапка с вкладками; сверху KPI, под ними журнал сезонов (таблица модели), затем три картины: продажи, поля, деньги. Выравнивание по левому краю. */
+:root{
+ --bg:#EEF3EE; --surface:#FFFFFF; --ink:#12281B; --muted:#5A6D60; --line:#D5DFD6; --soft:#E4ECE5;
+ --tulip:#C2234B; --amber:#D98E04; --blue:#1D78B5; --leaf:#2E7D4F;
+ --input:#FFE57A; --input-ink:#4A3A00; --input-line:#E9C72E; --bad:#B3261E; --good:#1F7A4D;
+ --f-display:'Unbounded','Onest',system-ui,sans-serif; --f-body:'Onest',system-ui,-apple-system,'Segoe UI',sans-serif;
+ --shadow:0 1px 0 rgba(18,40,27,.04),0 8px 24px -12px rgba(18,40,27,.18);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+ --bg:#0C1611; --surface:#14241B; --ink:#E7F1E8; --muted:#97AB9C; --line:#25382C; --soft:#1B2E23;
+ --tulip:#D6456C; --amber:#BC8412; --blue:#3D8CC8; --leaf:#4DBA82;
+ --input:#4C4107; --input-ink:#FFE9A0; --input-line:#8A7410; --bad:#FF8A80; --good:#6FD6A0;
+ --shadow:0 8px 24px -12px rgba(0,0,0,.6); color-scheme:dark}}
+:root[data-theme="dark"]{
+ --bg:#0C1611; --surface:#14241B; --ink:#E7F1E8; --muted:#97AB9C; --line:#25382C; --soft:#1B2E23;
+ --tulip:#D6456C; --amber:#BC8412; --blue:#3D8CC8; --leaf:#4DBA82;
+ --input:#4C4107; --input-ink:#FFE9A0; --input-line:#8A7410; --bad:#FF8A80; --good:#6FD6A0;
+ --shadow:0 8px 24px -12px rgba(0,0,0,.6); color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--f-body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0}
+.wrap{max-width:1240px;margin:0 auto}
+h1,h2,h3{margin:0;font-weight:600;text-wrap:balance}
+h2{font:600 19px/1.25 var(--f-display);letter-spacing:-.01em}
+h3{font-size:15px}
+p{margin:0}
+.num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+/* header */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px)));padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px))}
+.top .wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto}
+.brand svg{width:34px;height:34px;flex:none}
+.brand b{font:600 15px/1.1 var(--f-display);letter-spacing:-.01em;display:block}
+.brand span{font-size:12px;color:var(--muted)}
+nav.tabs{display:flex;background:var(--soft);border-radius:999px;padding:4px;gap:2px}
+nav.tabs button{border:0;background:none;color:var(--muted);font:600 14px var(--f-body);padding:8px 16px;border-radius:999px;cursor:pointer}
+nav.tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);font:500 13px var(--f-body);padding:8px 12px;border-radius:10px;cursor:pointer}
+.btn:hover{border-color:var(--muted)}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+main{padding-block:22px 60px;display:flex;flex-direction:column;gap:26px}
+section[hidden]{display:none}
+.lead{color:var(--muted);max-width:68ch;margin-top:6px}
+.legend-y{display:inline-block;background:var(--input);border:1px solid var(--input-line);border-radius:5px;width:34px;height:15px;vertical-align:-3px;margin-right:6px}
+/* kpi */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:10px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow);min-width:0}
+.kpi small{display:block;color:var(--muted);font-size:12.5px}
+.kpi strong{display:block;font:600 24px/1.2 var(--f-display);margin-top:6px;letter-spacing:-.02em;overflow-wrap:anywhere}
+.kpi em{font-style:normal;font-size:12.5px;color:var(--muted)}
+.kpi.neg strong{color:var(--bad)} .kpi.pos strong{color:var(--good)}
+/* panels */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow);min-width:0}
+.panel>header{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px}
+.params{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field label{font-size:13px;font-weight:600}
+.field small{color:var(--muted);font-size:12px;line-height:1.35}
+input[type=number]{font:500 14px var(--f-body);font-variant-numeric:tabular-nums;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:7px 8px;width:100%;min-width:0}
+input.y,.y input{background:var(--input);color:var(--input-ink);border-color:var(--input-line);font-weight:600}
+input.y::placeholder{color:var(--input-ink);opacity:.5}
+input[type=number]{-moz-appearance:textfield} input::-webkit-inner-spin-button{opacity:.5}
+.seg{display:inline-flex;background:var(--soft);border-radius:9px;padding:3px;gap:2px}
+.seg button{border:0;background:none;color:var(--muted);font:600 13px var(--f-body);padding:6px 10px;border-radius:7px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.row-apply{display:flex;gap:6px}
+/* table */
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:separate;border-spacing:0;width:100%;font-size:13.5px}
+th,td{padding:7px 9px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums}
+thead th{background:var(--soft);font-weight:600;font-size:12px;color:var(--muted);position:sticky;top:0}
+thead tr.g th{color:var(--ink);text-align:center;border-left:1px solid var(--line)}
+th.yr,td.yr{text-align:left;position:sticky;left:0;background:var(--surface);z-index:2;font-weight:700;border-right:1px solid var(--line)}
+thead th.yr{background:var(--soft)}
+td.gs,th.gs{border-left:1px solid var(--line)}
+tbody tr:hover td{background:color-mix(in srgb,var(--soft) 55%,var(--surface))}
+tbody tr:hover td.yr{background:var(--soft)}
+td.in{padding:3px 4px}
+td.in input{width:78px;text-align:right;padding:5px 6px}
+td.cmp{color:var(--ink)}
+td.mute{color:var(--muted)}
+tfoot td{font-weight:700;background:var(--soft);border-bottom:0}
+.neg{color:var(--bad)} .pos{color:var(--good)}
+.tag{font-size:11px;font-weight:600;padding:2px 7px;border-radius:99px;background:var(--soft);color:var(--muted)}
+.tag.warn{background:color-mix(in srgb,var(--bad) 18%,transparent);color:var(--bad)}
+/* charts */
+.grid2{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:14px}
+@media (max-width:900px){.grid2{grid-template-columns:minmax(0,1fr)}}
+.lg{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-bottom:8px}
+.lg i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+svg text{fill:var(--muted);font:11.5px var(--f-body)}
+svg text.b{fill:var(--ink);font-weight:600}
+.fields{display:flex;flex-direction:column;gap:7px}
+.fr{display:grid;grid-template-columns:44px 1fr 76px;align-items:center;gap:10px;font-size:13px}
+.fr .yl{font-weight:700}
+.fr .tr{height:26px;display:flex;gap:2px;min-width:0}
+.fr .seg1{height:100%;border-radius:4px;background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.28) 0 2px,transparent 2px 7px)}
+.fr .v{text-align:right;color:var(--muted)}
+#tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);padding:8px 10px;border-radius:8px;font-size:12.5px;line-height:1.45;z-index:50;max-width:260px;opacity:0;transition:opacity .08s}
+.mat{display:grid;grid-template-columns:auto repeat(3,72px);gap:6px;align-items:center;font-size:13px}
+.mat .h{color:var(--muted);font-size:12px;text-align:center}
+.how{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:900px){.how{grid-template-columns:minmax(0,1fr)}}
+.note{background:var(--soft);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--muted)}
+/* costs tab */
+.cost-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:14px;align-items:start}
+@media (max-width:900px){.cost-grid{grid-template-columns:minmax(0,1fr)}}
+.big{font:600 34px/1.1 var(--f-display);letter-spacing:-.03em}
+.bar{display:flex;height:16px;border-radius:6px;overflow:hidden;gap:2px;margin:10px 0 6px}
+.bar span{display:block;height:100%}
+.sw{display:flex;align-items:center;gap:8px}
+.toggle{display:flex;gap:10px;align-items:center;font-size:13.5px}
+.toggle input{width:18px;height:18px}
+.link{display:flex;flex-direction:column;gap:6px;font-size:13.5px}
+.link div{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dashed var(--line);padding-bottom:5px}
+@media (prefers-reduced-motion:no-preference){.kpi strong{transition:color .2s}}
+</style>
+<style>#tab-costs td.in input{width:112px}</style>
+<style>
+.params{grid-template-columns:repeat(auto-fit,minmax(224px,1fr)) !important}
+.params input[type=number]{width:112px;max-width:100%;flex:none}
+.params .row-apply .btn{padding-inline:10px}
+.params .row-apply{align-items:flex-start}
+.params .row-apply .btn{white-space:nowrap;height:34px;padding-block:0}
+.params input[type=number]{height:34px}
+.params{row-gap:5px;column-gap:14px}
+.params .field{grid-row:span 3;display:grid;grid-template-rows:subgrid;row-gap:5px;align-content:start}
+.params .seg{align-self:start;width:fit-content;height:34px}
+.params .seg button{height:28px;padding-block:0}
+#model{font-size:12.5px}
+#model th,#model td{padding:6px 4px}
+#model thead th{white-space:normal;line-height:1.2;vertical-align:bottom}
+#model td.in{padding:3px 2px}
+#model td.in input{width:54px;padding:5px 4px}
+#model input::-webkit-inner-spin-button,#model input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+#model th.yr,#model td.yr{padding-left:8px;padding-right:8px}
+</style>
+<style>
+nav.tabs{max-width:100%;overflow-x:auto;scrollbar-width:none}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs button{white-space:nowrap}
+nav.tabs button{padding:8px 10px;font-size:13.5px}
+.short{outline:2px solid var(--bad);outline-offset:-1px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 13px var(--f-body);padding:6px 12px;border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.cardgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.cardgrid .panel h3{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.cardgrid .panel h3 span{font:600 14px var(--f-body);color:var(--muted)}
+.cardgrid td.in input{width:92px}
+.cardgrid table td:first-child,.cardgrid table th:first-child{white-space:normal;text-align:left}
+.dim{opacity:.55}
+.row-flex{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.eq{font-size:12.5px;color:var(--muted);line-height:1.6}
+.eq b{color:var(--ink)}
+#tab-closure td.chk,#tab-closure th.chk{text-align:center;width:44px}
+#tab-closure input[type=checkbox]{width:18px;height:18px}
+.verdict{font:600 30px/1.1 var(--f-display);letter-spacing:-.03em}
+.cap-bars{display:flex;flex-direction:column;gap:6px}
+#model th,#model td{padding:6px 3px}
+#model td.in input{width:50px}
+#costT th,#costT td{padding:6px 8px}
+#gS td:first-child,#gS th:first-child,#gT th:first-child{text-align:left}
+.kpis{grid-template-columns:repeat(auto-fit,minmax(138px,1fr))}
+.kpi strong{font-size:20px}
+.kpi.neg strong,.kpi.pos strong{overflow-wrap:normal}
+</style>
+<div id="tip" role="tooltip"></div>
+<header class="top"><div class="wrap">
+ <div class="brand">
+  <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="var(--ink)"/><path d="M20 8c-7 1-9 9-7 14 1.5 4 4.5 5.5 7 5.500s5.500-1.500 7-5.500c2-5 0-13-7-14z" fill="var(--tulip)"/><path d="M20 8c-2.600 3-2.600 12 0 19.500M20 8c2.600 3 2.600 12 0 19.500" stroke="var(--ink)" stroke-width="1.200" fill="none" opacity=".55"/><path d="M20 27v8M20 32c-3-.5-5-2.500-5.500-5M20 32c3-.5 5-2.500 5.500-5" stroke="#4DBA82" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+  <div><b>Крымский тюльпан</b><span>модель роста питомника</span></div>
+ </div>
+ <nav class="tabs" role="tablist">
+  <button role="tab" id="t-start" aria-selected="false" data-tab="start">Старт</button>
+  <button role="tab" id="t-plan" aria-selected="false" data-tab="plan">План</button>
+  <button role="tab" id="t-model" aria-selected="false" data-tab="model">Модель</button>
+  <button role="tab" id="t-costs" aria-selected="false" data-tab="costs">Затраты 1-го цикла</button>
+  <button role="tab" id="t-capex" aria-selected="false" data-tab="capex">Капзатраты</button>
+  <button role="tab" id="t-grades" aria-selected="false" data-tab="grades">Разборы</button>
+  <button role="tab" id="t-closure" aria-selected="false" data-tab="closure">Закрытие 2027</button>
+  <button role="tab" id="t-versions" aria-selected="false" data-tab="versions">Версии</button>
+  <button role="tab" id="t-guide" aria-selected="false" data-tab="guide">Инструкция</button>
+ </nav>
+ <button class="btn warn" id="plan-badge" type="button" hidden title="Вся модель считается по карте на вкладке «План». Нажмите, чтобы открыть">Считается по плану</button>
+ <button class="btn" id="theme" type="button">Тема</button>
+ <button class="btn" id="reset" type="button">Сбросить к исходным</button>
+</div></header>
+<div class="wrap"><main>
+
+<section id="tab-start" hidden aria-labelledby="t-start">
+ <div style="margin-bottom:18px">
+  <h2>Как устроен процесс выращивания</h2>
+  <p class="lead">Если вы видите модель впервые, начните отсюда. За пару минут станет понятно, откуда берутся площадь, деньги и цифры на других вкладках. Числа на этой странице живые: они меняются вместе с вашими вводными.</p>
+ </div>
+ <div class="kpis" id="st-kpi"></div>
+ <div class="grid2" style="margin-top:14px">
+  <div class="panel"><header><div><h3>Один сезон</h3><p class="lead">Так проходит каждый год. Деньги сезона стоят в одной строке журнала.</p></div></header>
+   <ol class="cyc">
+    <li><span class="mo">Октябрь</span><b>Посадка</b><small>Сажаем луковицы в поле.</small></li>
+    <li><span class="mo">Октябрь – май</span><b>Уход</b><small>Подготовка почвы, полив, подкормка. Здесь тратим ФОТ.</small></li>
+    <li><span class="mo">Июнь</span><b>Выкопка и сортировка</b><small>Выкапываем и раскладываем на три разбора.</small></li>
+    <li><span class="mo">Август</span><b>Продажа</b><small>Продаём 1-й разбор. Здесь приходит выручка.</small></li>
+    <li><span class="mo">Октябрь</span><b>Снова в землю</b><small>Всё непроданное сажаем в новом сезоне.</small></li>
+   </ol></div>
+  <div class="panel"><header><div><h3>Как размножается луковица</h3><p class="lead">Что вырастает из посаженной луковицы каждого разбора. Правило можно менять внизу вкладки «Модель».</p></div></header>
+   <div id="st-mx"></div>
+   <p class="note" style="margin-top:12px">1-й разбор: крупный, цветёт, его продаём. 2-й: меньше и дешевле, цветение не гарантировано. 3-й: мелкий, не цветёт, но за два года вырастает до 1-го.</p></div>
+ </div>
+ <h3 style="margin:22px 0 10px;font-size:18px">Процесс по шагам</h3>
+ <div class="steps" id="st-steps"></div>
+ <div class="panel" style="margin-top:14px"><header><div><h3>Что стоит знать о допущениях</h3><p class="lead">Эти договорённости заложены в расчёт. От них зависят итоговые цифры.</p></div></header><ul class="ass" id="st-ass"></ul></div>
+ <div class="panel" style="margin-top:14px"><header><h3>Куда дальше</h3></header><div class="row-flex" id="st-go"></div></div>
+</section>
+
+<section id="tab-model" hidden aria-labelledby="t-model">
+ <div style="margin-bottom:18px">
+  <h2>Модель выращивания тюльпанов</h2>
+  <p class="lead"><span class="legend-y"></span>Жёлтые ячейки можно менять, всё остальное считается само. Сезон 2026 означает: посадка осенью 2026, выкопка в июне 2027, продажа в августе 2027.</p>
+ </div>
+ <div style="display:flex;flex-direction:column;gap:26px">
+ <div class="kpis" id="kpis"></div>
+
+ <div class="panel">
+  <header><div><h2>Правила расчёта</h2><p class="lead">Эти числа управляют всей таблицей ниже.</p></div></header>
+  <div class="params">
+   <div class="field"><label for="p-haPerMln">Гектаров на 1 млн шт. посадки</label><input class="y" type="number" step="0.1" min="0" id="p-haPerMln" data-path="haPerMln"><small>Площадь = млн шт. × это число. По умолчанию 2 га на миллион.</small></div>
+   <div class="field"><label for="p-coefAll">Гектаров на 1 млн ₽ ФОТ</label><div class="row-apply"><input class="y" type="number" step="0.05" min="0.1" id="p-coefAll" placeholder="1,5"><button class="btn" type="button" id="apply-coef">Во все годы</button></div><small>ФОТ = га ÷ коэффициент. По годам коэффициенты из вашего файла, меняются в таблице.</small></div>
+   <div class="field"><label for="p-q2">Закупка 2-го цикла в 2027, млн шт.</label><input class="y" type="number" step="0.5" min="0" id="p-q2" data-path="buyQ.1"><small>Закупленные луковицы 1-го разбора. Закупки других лет задаются в журнале в колонке «закупные» и на вкладке «План». Цена закупки в таблице.</small></div>
+   <div class="field"><label for="p-all">Цена 1-го разбора, ₽/шт.</label><div class="row-apply"><input class="y" type="number" step="1" min="0" id="p-all" value="30"><button class="btn" type="button" id="apply-all">Во все годы</button></div><small>Для отдельных лет цену можно менять в таблице.</small></div>
+   <div class="field"><label for="p-w2">Цена 2-го разбора, % от 1-го</label><input class="y" type="number" step="1" min="0" id="p-w2" data-path="w2" data-pct="1"><small>Затраты сезона распределяются между разборами пропорционально цене. <span id="w2-rub"></span></small></div>
+   <div class="field"><label for="p-w3">Цена 3-го разбора, % от 1-го</label><input class="y" type="number" step="1" min="0" id="p-w3" data-path="w3" data-pct="1"><small>Мелкая луковица, цвести не будет. <span id="w3-rub"></span></small></div>
+   <div class="field"><label for="p-disc">Ставка дисконтирования, % в год</label><input class="y" type="number" step="1" min="0" id="p-disc" data-path="disc" data-pct="1"><small>Для NPV и IRR. Это доходность, которую инвестор мог бы получить в другом месте.</small></div>
+   <div class="field"><label for="p-target">Целевая себестоимость, ₽/шт.</label><input class="y" type="number" step="1" min="0" id="p-target" data-path="target"><small>Из вашего файла: целевая себестоимость выращивания луковицы 10 ₽.</small></div>
+  </div>
+ </div>
+
+ <div class="panel">
+  <header><div><h2>Журнал сезонов</h2><p class="lead">Посадка, цены, продажи, затраты и баланс по каждому сезону. Капитальные затраты берутся с вкладки «Капзатраты».</p></div></header>
+  <div class="tw"><table id="model"></table></div>
+ </div>
+
+ <div class="panel">
+  <header><div><h2>Себестоимость выращивания</h2><p class="lead">Затраты сезона (посадка и ФОТ, без капзатрат) делятся на выкопанные луковицы. Для 2-го и 3-го разбора себестоимость ниже в той же пропорции, что и цена.</p></div></header>
+  <div class="grid2">
+   <div class="tw"><table id="costT"></table></div>
+   <div><div class="lg"><span><i style="background:var(--blue)"></i>Себестоимость 1-го разбора</span><span><i style="background:var(--tulip);height:3px;vertical-align:3px"></i>Цена продажи</span><span><i style="background:var(--amber);height:3px;vertical-align:3px"></i>Цель</span></div><div id="ch-cost"></div></div>
+  </div>
+  <p class="note" style="margin-top:12px" id="cost-note"></p>
+ </div>
+
+ <div class="panel">
+  <header><div><h2>Картина по продажам</h2><p class="lead">Сколько выкопанных луковиц уходит на продажу и сколько остаётся на выращивание. Продавать можно только 1-й разбор, остальное сажается снова.</p></div></header>
+  <div class="grid2">
+   <div><div class="lg"><span><i style="background:var(--tulip)"></i>Продаём</span><span><i style="background:var(--blue)"></i>Сажаем снова</span></div><div id="ch-flow"></div></div>
+   <div class="tw"><table id="salesT"></table></div>
+  </div>
+ </div>
+
+ <div class="grid2">
+  <div class="panel"><header><div><h2>Карта полей</h2><p class="lead">Площадь посадки по сезонам и откуда взят материал.</p></div></header>
+   <div class="lg"><span><i style="background:var(--tulip)"></i>Закупные</span><span><i style="background:var(--amber)"></i>Свои, 1-й цикл</span><span><i style="background:var(--blue)"></i>Свои, 2-й цикл</span></div>
+   <div class="fields" id="fields"></div></div>
+  <div class="panel"><header><div><h2>Деньги</h2><p class="lead">Баланс сезона и накопленный итог, млн ₽.</p></div></header>
+   <div class="lg"><span><i style="background:var(--blue)"></i>Сезон в плюсе</span><span><i style="background:var(--tulip)"></i>Сезон в минусе</span><span><i style="background:var(--ink);height:3px;vertical-align:3px"></i>Накопленный баланс</span></div>
+   <div id="ch-cash"></div></div>
+ </div>
+
+ <div class="panel" id="invest">
+  <header><div><h2>Показатели инвестора</h2><p class="lead">Те же деньги по сезонам, но с учётом того, что рубль сегодня дороже рубля через несколько лет. 2026 год считается нулевым, дальше каждый год дисконтируется по ставке из «Правил расчёта».</p></div></header>
+  <div class="kpis" id="invK"></div>
+  <label class="toggle" style="margin:14px 0 4px"><input type="checkbox" id="termOn"><span>Добавить в последний год стоимость запаса луковиц на конец периода (по ценам разборов последнего года)</span></label>
+  <div class="grid2" style="margin-top:12px">
+   <div><div class="lg"><span><i style="background:var(--ink);height:3px;vertical-align:3px"></i>Накопленный баланс</span><span><i style="background:var(--tulip);height:3px;vertical-align:3px"></i>С учётом ставки (накопленный PV)</span></div><div id="ch-inv"></div></div>
+   <div><div class="tw"><table id="invT"></table></div><p class="lead" style="font-size:12.5px;margin-top:8px" id="invNote"></p></div>
+  </div>
+ </div>
+
+ <div class="panel">
+  <header><div><h2>Как размножается луковица</h2><p class="lead">Правило из листа «2 цикла вегетативного пр-ва». Меняя числа, можно проверять другие сорта и урожайность.</p></div></header>
+  <div class="how">
+   <div>
+    <p class="lead" style="margin:0 0 10px">Посадили луковицу строки, выкопали столько луковиц каждого разбора:</p>
+    <div class="mat" id="mat"></div>
+   </div>
+   <div style="display:flex;flex-direction:column;gap:12px">
+    <div class="field"><label for="p-loss">Потери при выкопке и хранении, %</label><input class="y" type="number" step="1" min="0" max="90" id="p-loss" data-path="loss"><small>Убирается из выкопанного до продажи и посадки. В исходном файле 0.</small></div>
+    <p class="note">1-й разбор: большая луковица под посадку или продажу с гарантированным цветением. 2-й: доращивание цветком, цветение не гарантировано, меньший размер, дешевле. 3-й: мелкая, цвести не будет, до 1-го разбора вырастет через 2 года.</p>
+   </div>
+  </div>
+ </div>
+ </div>
+</section>
+
+<section id="tab-costs" hidden aria-labelledby="t-costs">
+ <div style="margin-bottom:18px">
+  <h2>Затраты первого цикла</h2>
+  <p class="lead"><span class="legend-y"></span>Закупка маточного материала, ФОТ на выращивание и обустройство хранения. Итоги этой вкладки сразу попадают в сезон 2026 модели.</p>
+ </div>
+ <div class="cost-grid">
+  <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+   <div class="panel"><header><h2>Закупка маточного посадочного материала</h2></header><div class="tw"><table id="c-buy"></table></div>
+    <div class="field" style="margin-top:12px;max-width:260px"><label for="p-tprice">Целевая цена закупки, ₽/шт.</label><input class="y" type="number" step="1" min="0" id="p-tprice" data-path="tprice"><small>Из вашего файла: целевая цена 35 ₽. Для сравнения со средней ценой.</small></div></div>
+   <div class="panel"><header><h2>ФОТ по выращиванию</h2></header><div class="tw"><table id="c-fot"></table></div>
+    <div class="field" style="margin-top:12px;max-width:260px"><label for="p-area0">Площадь посадки 2026, га</label><input class="y" type="number" step="0.1" min="0" id="p-area0" data-path="area0"><small id="area0-note"></small></div></div>
+   <div class="panel"><header><div><h2>Рабочее пространство для сортировки и хранения</h2><p class="lead">Цикл 27-28, если продаём выращенное.</p></div></header><div class="tw"><table id="c-ws"></table></div>
+    <label class="toggle" style="margin-top:12px"><input type="checkbox" id="wsOn"><span>Добавить эту сумму в капитальные затраты 2027 года в журнале сезонов</span></label></div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+   <div class="panel"><small style="color:var(--muted)">Итого за сезон</small><div class="big num" id="c-total">—</div>
+    <div class="bar" id="c-bar"></div><div class="lg" id="c-lg" style="margin:6px 0 0"></div></div>
+   <div class="panel"><h3 style="margin-bottom:10px">Что уходит в модель, сезон 2026</h3><div class="link" id="c-link"></div></div>
+   <div class="panel"><h3 style="margin-bottom:10px">Показатели</h3><div class="link" id="c-kpi"></div></div>
+  </div>
+ </div>
+</section>
+
+<section id="tab-capex" hidden aria-labelledby="t-capex">
+ <div style="margin-bottom:18px">
+  <h2>Капитальные затраты</h2>
+  <p class="lead"><span class="legend-y"></span>Оборудование, техника и помещения по годам, млн ₽. Суммы по годам 2026–2033 попадают в журнал сезонов. Годы 2034 и 2035 справочные: модель считает до 2033.</p>
+ </div>
+ <div style="display:flex;flex-direction:column;gap:14px">
+  <div class="grid2">
+   <div class="panel"><small style="color:var(--muted)">Всего за 2026–2033, в модели</small><div class="big num" id="cx-total">—</div><div class="lead" id="cx-all" style="margin-top:6px"></div></div>
+   <div class="panel"><div class="cap-bars" id="cx-bars"></div></div>
+  </div>
+  <div class="cardgrid" id="cx-cards"></div>
+ </div>
+</section>
+
+<section id="tab-grades" hidden aria-labelledby="t-grades">
+ <div style="margin-bottom:18px">
+  <h2>Разборы по сезонам</h2>
+  <p class="lead">Как луковицы раскладываются по разборам, как работают две линии и как они суммируются. Левая часть вашего листа «2 цикла» это 1-й цикл: луковицы, купленные в 2026 году (88 700 шт.), и потом свои из них. Правая часть это 2-й цикл: закупленные в 2027 году 5 млн и потом свои из них.</p>
+ </div>
+ <div style="display:flex;flex-direction:column;gap:14px">
+  <div class="panel"><header><h3>Все сезоны, млн шт.</h3></header><div class="tw"><table id="gT"></table></div></div>
+  <div class="panel"><header><div><h3 id="g-title">Сезон</h3><p class="lead" id="g-sub"></p></div><div class="chips" id="g-chips" role="group" aria-label="Сезон"></div></header>
+   <div class="grid2"><div class="tw"><table id="gS"></table></div><div id="gEq" class="eq"></div></div></div>
+ </div>
+</section>
+
+<section id="tab-plan" hidden aria-labelledby="t-plan">
+ <div style="margin-bottom:18px">
+  <h2>План: карта решений</h2>
+  <p class="lead">Здесь вы сами решаете, в каком году закупать луковицы, в каком году закончить проект и в какие годы делать капитальные затраты. Меняйте карту и сразу смотрите результат. Закупки, цены и продажи (в том числе ползунки) общие для всей модели и сразу попадают в журнал. Чтобы закрытие проекта и переносы капзатрат тоже применились на остальных вкладках, включите галочку ниже.</p>
+ </div>
+ <div style="display:flex;flex-direction:column;gap:14px">
+  <div class="panel">
+   <div class="row-flex" style="gap:18px;align-items:flex-end">
+    <label class="toggle"><input type="checkbox" id="plan-on"><span><b>Считать всю модель по моему плану</b></span></label>
+    <div class="vsel"><label>Когда заканчиваем проект<select id="plan-end" aria-label="Когда заканчиваем проект"></select></label></div>
+    <button class="btn" id="plan-pct-reset" type="button">Продажи из журнала</button>
+    <button class="btn" id="plan-reset" type="button">Сбросить карту</button>
+   </div>
+   <p class="note" id="plan-state" style="margin-top:12px"></p>
+  </div>
+  <div class="kpis" id="pl-kpi"></div>
+  <div class="panel"><header><div><h3>Карта по годам</h3><p class="lead">Жёлтые ячейки можно менять. В блоке капзатрат нажмите на год, в который статью нужно сделать, или на «нет», если статья не нужна. Серые годы идут после закрытия проекта.</p></div></header>
+   <div class="tw"><table id="pl-map"></table></div>
+   <p class="note" style="margin-top:12px">Платим только за луковицы, купленные в этот год: цена × количество. Своё потомство бесплатно, в том числе луковицы, выращенные из закупки 2027 года. Закупки общие для всей модели: то, что вы вводите здесь, сразу видно в журнале сезонов. Продажи по годам задаются ползунком здесь или в журнале в млн шт. В последний сезон перед закрытием продаются все выкопанные разборы: 1-й по цене, 2-й и 3-й по их доле цены.</p></div>
+  <div class="grid2">
+   <div class="panel"><header><div><h3>Накопленный баланс</h3><p class="lead">Мой план и расчёт без плана, млн ₽.</p></div></header><div id="pl-chart"></div></div>
+   <div class="panel"><header><h3>Сравнение с расчётом без плана</h3></header><div class="tw"><table id="pl-cmp"></table></div></div>
+  </div>
+ </div>
+</section>
+<section id="tab-closure" hidden aria-labelledby="t-closure">
+ <div style="margin-bottom:18px">
+  <h2>Закрытие в 2027 году: сценарии</h2>
+  <p class="lead">Что получится, если проект остановить после первого цикла. В сценарии А закупку 5 млн луковиц и посадку осенью 2027 не делаем. Выберите сценарий: продать всё сразу или часть луковиц доростить ещё один сезон.</p>
+ </div>
+ <div style="display:flex;flex-direction:column;gap:14px">
+  <div class="panel">
+   <header><h3>Сценарий</h3></header>
+   <div class="chips" id="cl-chips" role="group" aria-label="Сценарий закрытия"></div>
+   <p class="lead" id="cl-desc" style="margin:12px 0 0"></p>
+   <div class="row-flex" id="cl-custom" hidden style="margin-top:12px;gap:14px;align-items:flex-end">
+    <div class="field" style="max-width:190px"><label for="cl-s0">Продаём 1-го разбора в 2027, %</label><input class="y" type="number" step="5" min="0" max="100" id="cl-s0" data-path="cl2.sell.0" data-pct="1"></div>
+    <div class="field" style="max-width:190px"><label for="cl-s1">Продаём 2-го разбора в 2027, %</label><input class="y" type="number" step="5" min="0" max="100" id="cl-s1" data-path="cl2.sell.1" data-pct="1"></div>
+    <div class="field" style="max-width:190px"><label for="cl-s2">Продаём 3-го разбора в 2027, %</label><input class="y" type="number" step="5" min="0" max="100" id="cl-s2" data-path="cl2.sell.2" data-pct="1"></div>
+   </div>
+  </div>
+  <div class="kpis" id="cl-kpi"></div>
+  <div class="panel"><header><div><h3>Что происходит в выбранном сценарии</h3><p class="lead">Первая продажа в августе 2027. Всё непроданное сажаем в октябре 2027, выкапываем в июне 2028 и продаём в августе 2028.</p></div></header><div class="tw"><table id="cl-flow"></table></div></div>
+  <div class="panel"><header><div><h3>Сравнение сценариев</h3><p class="lead">Нажмите на название сценария в заголовке, чтобы посмотреть его подробно.</p></div></header><div class="tw"><table id="cl-cmp"></table></div>
+   <p class="note" style="margin-top:12px" id="cl-cmpnote"></p></div>
+  <div class="grid2">
+   <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+    <div class="panel"><header><div><h3>Второй сезон: доращивание</h3><p class="lead">Относится к сценариям, где часть луковиц сажаем ещё на сезон.</p></div></header>
+     <div class="row-flex" style="align-items:flex-end;gap:14px">
+      <div class="vsel"><label>ФОТ второго сезона<select id="cl-fotmode" aria-label="ФОТ второго сезона"><option value="rule">Расчётный: площадь ÷ коэффициент 2027</option><option value="same">Как в 2026 году</option><option value="custom">Своё значение</option></select></label></div>
+      <div class="field" style="max-width:170px"><label for="cl-fotc">Своё значение ФОТ, млн ₽</label><input class="y" type="number" step="0.05" min="0" id="cl-fotc" data-path="cl2.fotCustom"></div>
+      <div class="field" style="max-width:170px"><label for="cl-cap2">Капзатраты 2-го сезона, млн ₽</label><input class="y" type="number" step="0.1" min="0" id="cl-cap2" data-path="cl2.capex2"></div>
+     </div>
+     <p class="note" style="margin-top:12px" id="cl-fotnow"></p></div>
+    <div class="panel"><header><h3>Себестоимость первого урожая (июнь 2027)</h3></header><div class="tw"><table id="cl-grades"></table></div>
+     <p class="note" style="margin-top:12px" id="cl-note"></p></div>
+   </div>
+   <div class="panel"><header><h3>Затраты первого сезона</h3></header><div class="tw"><table id="cl-costs"></table></div>
+    <p class="lead" style="margin-top:10px;font-size:13px">Галочками выберите капзатраты, которые уже сделаны к моменту закрытия. Рабочее пространство можно включать по статьям. Эти затраты общие для всех сценариев.</p></div>
+  </div>
+ </div>
+</section>
+
+<section id="tab-versions" hidden aria-labelledby="t-versions">
+ <div style="margin-bottom:18px">
+  <h2>Версии расчёта</h2>
+  <p class="lead">Зафиксируйте текущие числа под своим названием, поменяйте вводные и сравните два расчёта рядом. Версии хранятся в этом браузере. Чтобы перенести их на другой компьютер, скачайте файл и загрузите его там.</p>
+ </div>
+ <div style="display:flex;flex-direction:column;gap:14px">
+  <div class="panel">
+   <header><h3>Зафиксировать расчёт</h3></header>
+   <div class="vsave"><input type="text" class="y" id="v-name" maxlength="60" placeholder="Название, например: цена 25 ₽" aria-label="Название версии"><button class="btn pri" id="v-save" type="button">Зафиксировать расчёт</button></div>
+   <p class="note" id="v-msg" role="status" style="margin-top:10px"></p>
+  </div>
+  <div class="panel"><header><h3>Сохранённые версии</h3></header><div class="tw"><table id="v-list"></table></div></div>
+  <div class="panel">
+   <header><div><h3>Сравнение</h3><p class="lead">Выберите две версии. «Текущий расчёт» это то, что сейчас стоит на вкладках.</p></div>
+    <div class="vsel"><label>Версия A<select id="v-a" aria-label="Версия A"></select></label><label>Версия B<select id="v-b" aria-label="Версия B"></select></label></div></header>
+   <div class="tw"><table id="v-cmp"></table></div>
+   <div class="grid2" style="margin-top:16px">
+    <div><h3 style="font-size:15px;margin-bottom:6px">Накопленный баланс, млн ₽</h3><div class="lg"><span><i style="background:var(--ink);height:3px;vertical-align:3px"></i><b id="v-la">A</b></span><span><i style="background:var(--tulip);height:3px;vertical-align:3px"></i><b id="v-lb">B</b></span></div><div id="ch-v"></div></div>
+    <div><h3 style="font-size:15px;margin-bottom:6px">Чем отличаются вводные</h3><div class="tw" style="max-height:340px;overflow:auto"><table id="v-diff"></table></div></div>
+   </div>
+  </div>
+  <div class="panel">
+   <header><div><h3>Перенос и резервная копия</h3><p class="lead">Файл содержит все сохранённые версии. Его можно загрузить в этот же файл модели на другом компьютере.</p></div></header>
+   <div class="row-flex"><button class="btn" id="v-dl" type="button">Скачать все версии</button><label class="btn" style="cursor:pointer">Загрузить из файла<input type="file" id="v-file" accept=".json,application/json" hidden></label></div>
+   <details style="margin-top:12px"><summary style="cursor:pointer;font-weight:600">Если скачивание не работает: перенос текстом</summary>
+    <div class="row-flex" style="margin-top:10px"><button class="btn" id="v-show" type="button">Показать данные</button><button class="btn" id="v-load" type="button">Загрузить из текста</button></div>
+    <textarea id="v-text" rows="5" aria-label="Данные версий" style="width:100%;margin-top:10px;font:12px/1.4 ui-monospace,monospace;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px"></textarea>
+   </details>
+  </div>
+ </div>
+</section>
+
+<section id="tab-guide" hidden aria-labelledby="t-guide">
+<style>#tab-guide ol,#tab-guide ul{margin:8px 0 0;padding-left:22px;display:flex;flex-direction:column;gap:6px;max-width:80ch}#tab-guide .panel{margin-bottom:14px}#tab-guide code{background:var(--soft);padding:1px 6px;border-radius:5px;font-size:13px}#v-list td:first-child,#v-list th:first-child,#v-cmp td:first-child,#v-cmp th:first-child,#v-diff td:first-child,#v-diff th:first-child{text-align:left;white-space:normal}
+#v-list th,#v-list td,#v-cmp th,#v-cmp td,#v-diff th,#v-diff td{padding:8px 10px}
+.btn.pri{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:600}
+.vsave{display:flex;gap:10px;flex-wrap:wrap}
+.vsave input{flex:1;min-width:200px;height:38px;padding:0 12px;border:1px solid var(--input-line);border-radius:10px;font:600 14px var(--f-body)}
+.vsave .btn{height:38px;padding-block:0}
+.vsel{display:flex;gap:10px;flex-wrap:wrap}
+.vsel label{display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--muted)}
+.vsel select{font:500 13px var(--f-body);height:36px;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);max-width:260px}
+.vact{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.vact .btn{padding:6px 10px;white-space:nowrap}
+.btn.warn{border-color:var(--bad);color:var(--bad)}
+th.hastip{cursor:help}
+th.hastip:hover{color:var(--ink)}
+.kpi strong .u{font:500 12px var(--f-body);letter-spacing:0;color:var(--muted)}
+.steps{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.step{display:flex;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow);min-width:0}
+.step .n{flex:none;width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font:700 13px var(--f-display)}
+.step h4{margin:2px 0 4px;font:700 15.5px/1.3 var(--f-body)}
+.step p{margin:0;font-size:14px;line-height:1.5;color:var(--ink)}
+.step .go{margin-top:10px;border:0;background:none;padding:0;color:var(--blue);font:600 13px var(--f-body);cursor:pointer}
+.step .go:hover{text-decoration:underline}
+.cyc{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column}
+.cyc li{position:relative;padding:0 0 14px 28px;display:flex;flex-direction:column;gap:1px}
+.cyc li::before{content:"";position:absolute;left:5px;top:6px;width:11px;height:11px;border-radius:50%;background:var(--tulip)}
+.cyc li::after{content:"";position:absolute;left:10px;top:20px;bottom:-2px;width:1px;background:var(--line)}
+.cyc li:last-child{padding-bottom:0}.cyc li:last-child::after{display:none}
+.cyc .mo{font:600 12px var(--f-body);color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.cyc b{font-size:15px}.cyc small{font-size:13.5px;color:var(--muted)}
+.mxr{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 0;border-bottom:1px solid var(--line)}
+.mxr:last-child{border-bottom:0}
+.mxr .lb{width:84px;font-size:13px;color:var(--muted)}
+.mxr .arr{color:var(--muted);font-size:18px}
+.mxr .to{display:flex;gap:6px;flex-wrap:wrap}
+.gc{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:1px solid var(--line);background:var(--surface);border-radius:999px;font:600 13px var(--f-body)}
+.gc i{width:9px;height:9px;border-radius:50%;background:var(--c)}
+.gc em{font-style:normal;color:var(--muted);font-weight:500}
+.ass{margin:8px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:7px;max-width:90ch}
+#st-go .btn{font-weight:600}
+#cl-custom[hidden]{display:none}
+#cl-cmp th.scn{cursor:pointer;white-space:normal;min-width:130px}
+#cl-cmp th.scn:hover{color:var(--ink)}
+#cl-cmp .selc{background:color-mix(in srgb,var(--blue) 9%,transparent)}
+#cl-flow th,#cl-flow td,#cl-cmp th,#cl-cmp td{padding:8px 10px}
+#cl-flow th{white-space:normal}
+#pl-map th,#pl-map td{padding:5px 6px;text-align:center}
+#pl-map th:first-child,#pl-map td:first-child{text-align:left;white-space:normal;min-width:230px;position:sticky;left:0;background:var(--surface);z-index:1}
+#pl-map td.in input{width:64px}
+#pl-map .sec td{background:var(--soft);font-weight:600;text-align:left;white-space:normal}
+#pl-map .pcell{width:100%;min-width:44px;min-height:30px;border:1px dashed var(--line);background:transparent;border-radius:8px;cursor:pointer;font:600 12px var(--f-body);color:var(--muted)}
+#pl-map .pcell:hover{border-color:var(--muted)}
+#pl-map .pcell[aria-pressed="true"]{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}
+#pl-map .pcell.off[aria-pressed="true"]{background:var(--tulip);border-color:var(--tulip)}
+#pl-map .pcl{opacity:.45;background:var(--soft)}
+#pl-map .pcl input{opacity:.7}
+#pl-map tr.tot td{font-weight:600;border-top:1px solid var(--line)}
+#pl-chart svg text{font:11px var(--f-body);fill:var(--muted)}
+#pl-cmp td,#pl-cmp th{padding:7px 10px}
+#plan-end{max-width:none;min-width:290px}
+@media (min-width:1000px){#kpis{grid-template-columns:repeat(4,1fr)}nav.tabs{order:3;flex:1 0 100%;max-width:none;justify-content:space-between}nav.tabs button{padding:8px 12px;font-size:14px}.top .wrap .btn{white-space:nowrap}}
+#pl-map input.pslider{width:100%;min-width:56px;padding:0;border:0;background:none;height:20px;accent-color:var(--ink);cursor:pointer}
+#pl-map input.pslider:disabled{opacity:.4;cursor:default}
+#pl-map td.pw-bad{background:color-mix(in srgb,var(--bad) 14%,transparent);box-shadow:inset 0 0 0 1.5px var(--bad)}
+#pl-map td.pw-warn{background:color-mix(in srgb,var(--amber) 22%,transparent);box-shadow:inset 0 0 0 1.5px var(--amber)}
+#pl-map .pvbad{color:var(--bad)!important;font-weight:600}
+</style>
+<div style="margin-bottom:18px"><h2>Как пользоваться моделью</h2><p class="lead">Модель показывает, как растёт питомник тюльпанов по сезонам: сколько сажаем, продаём и тратим, сколько стоит вырастить одну луковицу и когда проект выходит в плюс.</p></div>
+<div class="panel"><h3>Главное</h3><ul><li><span class="legend-y"></span>Жёлтые ячейки можно менять. Белые считаются сами и пересчитываются сразу.</li><li>Введённые числа запоминаются в этом браузере. Кнопка «Сбросить к исходным» возвращает исходные числа из вашего файла «Расчеты Крымские тюльпаны 2». Одно отличие: платим только за купленные луковицы, а не за всю посадку 2-го цикла. Сохранённые версии при этом не удаляются.</li><li>Наведите курсор на название любого столбца в таблицах, и появится короткое объяснение. На телефоне нажмите на заголовок.</li><li>Сезон 2026 означает: посадка осенью 2026, выкопка в июне 2027, продажа в августе 2027. Выручка и затраты сезона стоят в одной строке.</li></ul></div>
+<div class="panel"><h3>Вкладки</h3><ul><li><b>Старт.</b> Общая картина процесса выращивания по шагам с живыми цифрами. Лучше начать с неё.</li><li><b>План.</b> Карта решений: в какие годы закупаем луковицы и по какой цене, когда заканчиваем проект и в какие годы делаем каждую капзатрату. Результат виден сразу. Закупки общие для всей модели, а галочка «Считать всю модель по моему плану» переносит на все вкладки закрытие проекта и переносы капзатрат.</li><li><b>Модель.</b> Правила расчёта, журнал сезонов, себестоимость, картина по продажам, карта полей, деньги и показатели инвестора.</li><li><b>Затраты 1-го цикла.</b> Закупка, ФОТ и хранение для первой посадки. Итоги идут в сезон 2026.</li><li><b>Капзатраты.</b> Статьи по годам. Суммы 2026–2033 идут в журнал сезонов.</li><li><b>Разборы.</b> Как луковицы раскладываются по разборам в каждой линии и как линии суммируются.</li><li><b>Закрытие 2027.</b> Сколько получится, если закрыть проект после первого цикла.</li><li><b>Версии.</b> Фиксация расчётов, сравнение двух версий и перенос между компьютерами.</li></ul></div>
+<div class="panel"><h3>Шаг 1. Правила расчёта</h3><ol><li><b>Гектаров на 1 млн шт.</b> Площадь равна млн шт. посадки, умноженным на это число (по умолчанию 2).</li><li><b>Гектаров на 1 млн ₽ ФОТ.</b> ФОТ равен гектарам, делённым на коэффициент. Коэффициенты по годам (1,25 до 2,6) уже стоят в таблице. Поле «Во все годы» ставит один коэффициент на все сезоны.</li><li><b>Закупка 2-го цикла.</b> Сколько млн закупленных луковиц сажаем в 2027 (по умолчанию 5). Закупки других лет задаются в журнале и на вкладке «План».</li><li><b>Цена 1-го разбора.</b> Одна цена на все годы одной кнопкой или своя цена для каждого года в таблице.</li><li><b>Цена 2-го и 3-го разбора.</b> Доля от цены 1-го. Пропорционально цене распределяются и затраты в себестоимости.</li><li><b>Целевая себестоимость.</b> Ориентир из вашего файла, 10 ₽ за луковицу.</li></ol></div>
+<div class="panel"><h3>Шаг 2. Журнал сезонов</h3><ol><li><b>Цена закупки, ₽.</b> Цена, по которой покупаете луковицы (по умолчанию 35 ₽). Затраты на посадку равны цене, умноженной на купленное в этом году количество. Своё потомство бесплатно: например, 14,9 млн шт. в 2028 году выращены из закупки 2027 года и ничего не стоят. Сколько докупаем в каждом году, задаётся в колонке «закупные» журнала и на вкладке «План».</li><li><b>Цена реализации, ₽.</b> Цена одной проданной луковицы. Задаётся для каждого года, в том числе для первых трёх.</li><li><b>Продаём, 1ц и 2ц.</b> Сколько млн луковиц 1-го разбора продаём из каждой линии. Остальное сажается снова. Красная рамка означает, что столько 1-го разбора нет, и продажа ограничится имеющимся. Если продажи года заданы ползунком на вкладке «План», эти ячейки заблокированы и показывают итог.</li><li><b>га/ФОТ.</b> Коэффициент для отдельного года.</li><li><b>Себестоимость.</b> Показана в журнале для 1-го разбора, а по всем трём разборам в отдельном блоке ниже.</li><li><b>Баланс.</b> Выручка минус посадка, ФОТ и капзатраты. «Накопл.» показывает общий итог. Когда он становится положительным, проект окупился.</li></ol></div>
+<div class="panel"><h3>Как считается себестоимость</h3><ul><li><code>себестоимость 1-го разбора = (посадка + ФОТ сезона) ÷ (выкопано 1-го + 2-го × доля цены + 3-го × доля цены)</code>.</li><li>Себестоимость 2-го и 3-го разбора равна себестоимости 1-го, умноженной на их долю цены.</li><li>Капитальные затраты в себестоимость не входят.</li><li>Свои луковицы для посадки считаются бесплатными, поэтому в годы без закупки (по умолчанию с 2028) себестоимость сильно ниже целевой.</li></ul></div>
+<div class="panel"><h3>Что такое разборы и как размножается луковица</h3><ul><li>Разбор это сортировочная группа луковиц после выкопки. 1-й разбор: большая луковица под посадку или продажу с гарантированным цветением. 2-й: доращивание цветком, цветение не гарантировано, меньший размер и дешевле. 3-й: мелкая, цвести не будет, до 1-го разбора вырастет через 2 года.</li><li>Правило размножения в таблице внизу вкладки «Модель»: строка означает, что посадили, столбец означает, сколько луковиц этого разбора выкопали из одной посаженной.</li><li>Из 1-го разбора получаются 1-й, 2-й и 3-й по одному. Из 2-го вырастает один 1-й. Из 3-го вырастает один 2-й. Если посадили a, b и c луковиц 1-го, 2-го и 3-го разбора, выкопаем 1-го <code>a + b</code>, 2-го <code>a + c</code>, 3-го <code>a</code>.</li><li>Числа можно менять. Поле «Потери» уменьшает всё выкопанное на заданный процент.</li></ul></div>
+<div class="panel"><h3>Две линии</h3><ul><li><b>1-й цикл.</b> Старт — луковицы, купленные в 2026 (88 700 шт.), дальше цикл растёт из своих, это колонки «свои 1ц». Левая часть листа «2 цикла» в вашем файле.</li><li><b>2-й цикл.</b> Старт — луковицы, купленные в 2027 году и позже (по умолчанию 5 млн в 2027), дальше цикл растёт из своих, это колонки «свои 2ц». Правая часть листа. Купленные в этом году луковицы стоят в журнале в колонке «закупные», потомство в колонке «свои 2ц».</li><li>Продажи задаются отдельно для каждой линии, посадка следующего сезона равна выкопанному минус проданное. Итог линий суммируется на вкладке «Разборы».</li></ul></div>
+<div class="panel"><h3>Показатели инвестора</h3><ul><li><b>Ставка дисконтирования.</b> Ставка, которую задаёте в «Правилах расчёта» (по умолчанию 15%). Чем она выше, тем меньше стоят поздние деньги.</li><li><b>NPV.</b> Все потоки сезонов, приведённые к 2026 году. Больше нуля значит, что проект зарабатывает больше, чем дала бы ставка.</li><li><b>IRR.</b> Ставка, при которой NPV равен нулю. Сравнивайте её с вашей ставкой: IRR выше, значит проект выгоднее.</li><li><b>Окупаемость с дисконтом.</b> Год, когда накопленный PV впервые становится положительным. Она не бывает раньше обычной окупаемости.</li><li><b>Индекс доходности.</b> Приток в рублях 2026 года, делённый на отток. Больше 1 значит выгодно.</li><li><b>Запас на конец.</b> Галочка добавляет в последний год стоимость нераспроданных луковиц: 1-й разбор по цене 1-го, 2-й и 3-й по их доле цены. Без галочки оценка осторожнее.</li></ul></div>
+<div class="panel"><h3>Версии расчёта</h3><ul><li><b>Зафиксировать.</b> Введите название и нажмите кнопку: все текущие числа сохранятся как версия. После этого можно спокойно менять вводные.</li><li><b>Сравнить.</b> Выберите версии A и B. Таблица покажет баланс, NPV, IRR, окупаемость, затраты и результат закрытия, а ниже будет график и список изменённых вводных.</li><li><b>Открыть в расчёте.</b> Возвращает вводные выбранной версии на все вкладки. Кнопка просит подтвердить замену текущих чисел.</li><li><b>Перенос.</b> «Скачать все версии» сохраняет файл, «Загрузить из файла» добавляет версии из него. Так расчёты можно перенести на другой компьютер. Если скачивание не работает, используйте перенос текстом.</li></ul></div>
+<div class="panel"><h3>План: карта решений</h3><ul><li>На вкладке «План» вы сами выбираете, в какие годы докупать луковицы и по какой цене, когда закончить проект и в какие годы делать каждую капзатрату.</li><li><b>Покупаем</b> и <b>цена закупки.</b> Платим цену × купленное количество, своё потомство бесплатно. По умолчанию 5 млн шт. в 2027 по 35 ₽. Эти поля общие для всей модели: то, что вы вводите на карте, сразу видно в журнале, а изменения в журнале видны на карте.</li><li><b>Когда заканчиваем.</b> Выбираете год последней продажи (август). В сезон перед ним продаются все выкопанные разборы: 1-й по цене, 2-й и 3-й по доле цены. После этого посадок, ФОТ и капзатрат нет, годы на карте серые.</li><li><b>Капзатраты.</b> Нажмите на год, в который статья делается, или на «нет». Если статья стоит в году после закрытия, в расчёт она не входит, и вкладка об этом предупреждает.</li><li>Показатели плана и сравнение с расчётом без плана видны сразу. Галочка «Считать всю модель по моему плану» переносит закрытие и переносы капзатрат на остальные вкладки, а в шапке появляется метка «Считается по плану».</li><li><b>Продажи 1-го разбора.</b> Под каждым годом видно, сколько 1-го разбора выкопано, сколько луковиц всех разборов, какую долю 1-го разбора вы продаёте (ползунок), цену реализации и выручку. Пока ползунок не тронут, продажи берутся из журнала в млн шт. Если доля 100% или в журнале задано больше, чем выкопано, ячейка подсвечивается (красным при нехватке, жёлтым при продаже всего), а подсказка объясняет причину. Если ползунок двинули, продаётся эта доля от выкопанного 1-го разбора (поровну по обеим линиям), а поля продаж этого года в журнале блокируются. Кнопка «Продажи из журнала» возвращает всё как было.</li></ul></div>
+<div class="panel"><h3>Модель закрытия</h3><ul><li>Четыре сценария: А продать всё в 2027, Б продать 1-й разбор и доростить остальное, В доростить всё, Г со своими долями продажи. Сценарий выбирается кнопками, а в таблице сравнения видны все четыре сразу.</li><li>В сценариях с доращиванием во втором сезоне есть только ФОТ и, если хотите, капзатраты 2-го сезона. Закупки нет, потому что луковицы свои. ФОТ можно взять расчётный, как в 2026 или своё значение.</li><li>Продажа в 2027 считает все выкопанные в июне 2027 луковицы с посадки 2026 по ценам 1-го, 2-го и 3-го разбора.</li><li>Затраты: закупка и ФОТ первого цикла плюс ремонт помещения для сортировки и рабочее пространство для сортировки и хранения. Рабочее пространство раскрыто по статьям, и каждую статью можно выключить отдельной галочкой.</li><li>Показана цена 1-го разбора, при которой закрытие выходит в ноль.</li></ul></div>
+</section>
+
+</main></div>
+<script>
+const N=8, Y0=2026;
+function defaults(){
+ const cap={};
+ cap[2026]=[['Ремонт помещения для сортировки',0.5]];
+ cap[2027]=[['Закупка простой навески для выкопки',3],['Оборудование хранилища с вентиляцией',5],['Закупка техники для посадки',12]];
+ cap[2028]=[['Строительство ангара',50],['Закупка техники для выкопки',20],['Закупка техники для сортировки и упаковки',20],['Закупка техники для полевых работ',10]];
+ cap[2029]=[['Оборудование производственного помещения для сортировки и упаковки',40],['Закупка техники для сортировки и упаковки',50],['Закупка техники для полевых работ',10]];
+ cap[2030]=[['Закупка специальной техники',20]];
+ for(let y=2031;y<=2035;y++)cap[y]=[['Закупка специальной техники',20]];
+ return{
+ haPerMln:2, loss:0, buyQ:[0,5,0,0,0,0,0,0], area0:0.5, w2:0.333, w3:0.167, target:10, disc:0.15, termOn:false, wsOn:false, tprice:35,
+ mat:[[1,1,1],[1,0,0],[0,1,0]],
+ coef:[1.25,1.5,1.6,1.8,2,2.2,2.4,2.6],
+ buy:[null,35,35,35,35,35,35,35],
+ price:Array(N).fill(30),
+ s1:[0,0.05,0.1,0.15,0.2,0.5,0.5,1],
+ s2:[0,0.1,2,3,10,20,30,50], pct:Array(N).fill(null),
+ capex:cap, closeSel:['2026.0'], closeWs:true, closeWsOn:[true,true,true,true], cl2:{sc:'A',sell:[1,1,0],fotMode:'rule',fotCustom:0.4,capex2:0}, plan:{on:false,end:0,mv:{}},
+ c1:{ holl:{q:63700,p:2803116.725537112/63700}, crim:{q:25000,p:24.4}, deliv:100000,
+   fot:[['Работы по подготовке почвы',10,5000],['Работы по посадке',10,5000],['Работы по поливу и подкормке',10,5000],['Работы по обрезке цветов',10,5000],['Работы по выкопке',30,5000],['Работы по сортировке и упаковке',10,5000]],
+   ws:[['Сортировочные столы',100000],['Стеллажи для хранения',300000],['Вентиляторы',100000],['Оборудование холодильника',3000000]] }
+ };}
+function c1calc(c){
+ const hs=c.holl.q*c.holl.p, cs=c.crim.q*c.crim.p, buy=hs+cs+c.deliv;
+ const fot=c.fot.reduce((s,r)=>s+r[1]*r[2],0), days=c.fot.reduce((s,r)=>s+r[1],0);
+ const ws=c.ws.reduce((s,r)=>s+r[1],0);
+ return{hs,cs,buy,fot,days,ws,total:buy+fot,qty:c.holl.q+c.crim.q};
+}
+const sum3=a=>a[0]+a[1]+a[2];
+function capTarget(P,yy,i){const m=P.plan.mv[yy+'.'+i];return m===undefined?yy:m}
+function capYear(P,y){
+ if(!P.plan||!P.plan.on)return (P.capex[y]||[]).reduce((s,r)=>s+r[1],0);
+ let s=0;Object.keys(P.capex).forEach(yy=>(P.capex[yy]||[]).forEach((r,i)=>{if(capTarget(P,+yy,i)===y)s+=r[1]}));return s}
+function run(P){
+ const c=c1calc(P.c1), q1=c.qty/1e6, z=()=>[0,0,0];
+ const pl=!!(P.plan&&P.plan.on), tc=(pl&&P.plan.end>Y0&&P.plan.end-Y0<N)?P.plan.end-Y0:N, bqf=t=>(t>0&&t<tc)?(+P.buyQ[t]||0):0;
+ const L=[Array.from({length:N+1},z),Array.from({length:N+1},z)];
+ const D=[Array.from({length:N},z),Array.from({length:N},z)];
+ const S=[Array(N).fill(0),Array(N).fill(0)], req=[P.s1,P.s2], short=[Array(N).fill(false),Array(N).fill(false)];
+ L[0][0]=[q1,0,0];
+ for(let t=0;t<N;t++){
+  if(pl&&t>=tc){L[0][t]=[0,0,0];L[1][t]=[0,0,0]}else L[1][t][0]+=bqf(t);
+  const fin=pl&&tc<N&&t===tc-1;
+  for(let l=0;l<2;l++){
+   const p=L[l][t];
+   D[l][t]=[0,1,2].map(j=>(p[0]*P.mat[0][j]+p[1]*P.mat[1][j]+p[2]*P.mat[2][j])*(1-P.loss/100));
+   const r=req[l][t]||0, pc=(P.pct&&P.pct[t]!=null)?Math.min(1,Math.max(0,+P.pct[t]||0)):null; S[l][t]=fin?D[l][t][0]:(pc!=null?pc*D[l][t][0]:Math.min(r,D[l][t][0])); short[l][t]=!fin&&pc==null&&r>D[l][t][0]+1e-9;
+   const n=fin?[0,0,0]:D[l][t].slice(); if(!fin)n[0]-=S[l][t]; for(let g=0;g<3;g++)L[l][t+1][g]+=n[g];
+  }
+ }
+ const R=[];let cum=0;
+ for(let t=0;t<N;t++){
+  const m1=sum3(L[0][t]), m2=sum3(L[1][t]), mln=m1+m2;
+  const bq=bqf(t), prc=t===0?0:(P.buy[t]||0), paid=t>0&&bq>0;
+  const mlnB=t===0?m1:bq, mln1=t>0?m1:0, mln2=t>0?Math.max(m2-bq,0):0;
+  const ha=t===0?P.area0:mln*P.haPerMln, k=P.haPerMln, hr=t===0?P.area0/mln:k;
+  const price=t===0?(m1>0?c.buy/1e6/m1:0):prc;
+  const plant=t===0?c.buy/1e6:bq*price;
+  const kf=Math.max(P.coef[t]||0,0.05), fot=t===0?c.fot/1e6:ha/kf;
+  const coefEff=t===0?(fot>0?ha/fot:0):kf;
+  const closed=pl&&t>=tc, capex=closed?0:capYear(P,Y0+t)+(t===1&&P.wsOn?c.ws/1e6:0);
+  const d=[0,1,2].map(g=>D[0][t][g]+D[1][t][g]), dug=sum3(d), fin=pl&&tc<N&&t===tc-1;
+  const sold1g=S[0][t]+S[1][t], sold=sold1g+(fin?d[1]+d[2]:0), rev=P.price[t]*sold1g+(fin?P.price[t]*(P.w2*d[1]+P.w3*d[2]):0);
+  const bal=rev-plant-fot-capex; cum+=bal;
+  const costBase=plant+fot, dugW=d[0]+P.w2*d[1]+P.w3*d[2];
+  const c1u=dugW>0?costBase/dugW:null;
+  R.push({year:Y0+t,mln,ha,haB:mlnB*(t===0?ha/Math.max(m1,1e-12):k),ha1:mln1*k,ha2:mln2*k,mlnB,mln1,mln2,
+   price,paid:t===0||paid,sp:P.price[t],sold,sold1:S[0][t],sold2:S[1][t],short1:short[0][t],short2:short[1][t],
+   d1max:D[0][t][0],d2max:D[1][t][0],rev,plant,fot,coefEff,capex,bal,cum,closed,fin,
+   dug,keep:dug-sold,d1:d[0],d2:d[1],d3:d[2],costBase,dugW,cost1:c1u,cost2:c1u==null?null:c1u*P.w2,cost3:c1u==null?null:c1u*P.w3,
+   pl:[0,1,2].map(g=>L[0][t][g]+L[1][t][g])});
+ }
+ const last=R[N-1], tot=k=>R.reduce((a,r)=>a+r[k],0);
+ const sv=P.price[N-1]*((last.d1-last.sold)+P.w2*last.d2+P.w3*last.d3);
+ let pay=null;for(let t=1;t<N;t++)if(R[t].cum>=0&&R[t-1].cum<0){pay=R[t].year;break;}
+ return{R,c,L,D,S,tot:{rev:tot('rev'),plant:tot('plant'),fot:tot('fot'),capex:tot('capex'),sold:tot('sold')},
+  peak:Math.min(...R.map(r=>r.cum)),pay,stock:last.keep,stockVal:sv,inv:invest(P,R,sv)};
+}
+function invest(P,R,term){
+ const cf=R.map((r,t)=>r.bal+(P.termOn&&t===N-1?term:0));
+ const npv=(r)=>cf.reduce((a,v,t)=>a+v/Math.pow(1+r,t),0);
+ const r=P.disc, df=cf.map((_,t)=>1/Math.pow(1+r,t)), pv=cf.map((v,t)=>v*df[t]);
+ let c=0,cumPv=pv.map(v=>c+=v), c2=0, cumCf=cf.map(v=>c2+=v);
+ let dpay=null;for(let t=1;t<N;t++)if(cumPv[t]>=0&&cumPv[t-1]<0){dpay=R[t].year;break;}
+ let pay=null;for(let t=1;t<N;t++)if(cumCf[t]>=0&&cumCf[t-1]<0){pay=R[t].year;break;}
+ let irr=null,lo=-0.9,hi=20;
+ if(npv(lo)*npv(hi)<0){for(let i=0;i<200;i++){const m=(lo+hi)/2;if(npv(lo)*npv(m)<=0)hi=m;else lo=m}irr=(lo+hi)/2}
+ const out=cf.reduce((a,v,t)=>a+(v<0?-v*df[t]:0),0), inn=cf.reduce((a,v,t)=>a+(v>0?v*df[t]:0),0);
+ return{cf,df,pv,cumPv,cumCf,npv:npv(r),irr,dpay,pay,pi:out>0?inn/out:null,sens:[.1,.15,.2,.25,.3].map(x=>[x,npv(x)]),term:P.termOn?term:0};
+}
+const SC=[
+ ['A','Продать всё в 2027','Выкапываем в июне 2027 и продаём в августе все три разбора. Дальше проект закрыт, посадки осенью 2027 нет.'],
+ ['B','Продать 1-й, остальное доростить','1-й разбор продаём в августе 2027. 2-й и 3-й сажаем ещё на один сезон: они вырастут до 1-го и 2-го, и в августе 2028 мы продаём всё.'],
+ ['C','Доростить всё','В 2027 ничего не продаём, все три разбора сажаем ещё на сезон. В августе 2028 продаём всё, что выросло.'],
+ ['D','Свой вариант','Вы сами задаёте, какую долю каждого разбора продать в 2027. Остальное сажаем ещё на сезон и продаём в 2028.']
+];
+const SL={A:'А',B:'Б',C:'В',D:'Г'};
+function scenSell(P,id){return id==='A'?[1,1,1]:id==='B'?[1,0,0]:id==='C'?[0,0,0]:P.cl2.sell.map(x=>Math.min(1,Math.max(0,+x||0)))}
+function closureScen(P,O,id){
+ const base=closure(P,O),d=base.d,w=[1,P.w2,P.w3],cl=P.cl2;
+ const p1=[P.price[0],P.price[0]*P.w2,P.price[0]*P.w3],p2=[P.price[1],P.price[1]*P.w2,P.price[1]*P.w3];
+ const sl=scenSell(P,id);
+ const sold1=d.map((q,g)=>q*sl[g]),rev1g=sold1.map((q,g)=>q*p1[g]),rev1=sum3(rev1g);
+ const pl=d.map((q,g)=>q-sold1[g]),planted=sum3(pl),has=planted>1e-12,k=1-P.loss/100;
+ const d2=has?[0,1,2].map(j=>(pl[0]*P.mat[0][j]+pl[1]*P.mat[1][j]+pl[2]*P.mat[2][j])*k):[0,0,0];
+ const rev2g=d2.map((q,g)=>q*p2[g]),rev2=sum3(rev2g);
+ const area2=planted*P.haPerMln;
+ const fot2=!has?0:cl.fotMode==='same'?base.fot:cl.fotMode==='custom'?(+cl.fotCustom||0):area2/Math.max(P.coef[1]||0,0.05);
+ const capex2=has?(+cl.capex2||0):0;
+ const cost1=base.base+base.capex,cost2=fot2+capex2,total=cost1+cost2,result=rev1+rev2-total;
+ const cf0=rev1-cost1,cf1=rev2-cost2,pv=cf0+cf1/(1+P.disc);
+ const r=P.price[0]>0?P.price[1]/P.price[0]:1;
+ const U=d.reduce((a,q,g)=>a+q*sl[g]*w[g],0)+r*d2.reduce((a,q,g)=>a+q*w[g],0);
+ return{id,sl,d,sold1,rev1g,rev1,pl,planted,has,d2,rev2g,rev2,area2,fot2,capex2,base:base.base,capex1:base.capex,cost1,cost2,total,result,pv,be:U>0?total/U:0,p1,p2,soldN:sum3(sold1)+sum3(d2)};
+}
+function closure(P,O){
+ const c=O.c, d=O.D[0][0], p1=P.price[0], p=[p1,p1*P.w2,p1*P.w3];
+ const rev=d.map((q,g)=>q*p[g]), revT=sum3(rev);
+ const plant=c.buy/1e6, fot=c.fot/1e6, base=plant+fot;
+ const items=[];
+ [[2026,0]].forEach(([y,i])=>{const r=(P.capex[y]||[])[i];if(r)items.push({key:y+'.'+i,name:r[0],y,amt:r[1],on:P.closeSel.includes(y+'.'+i)})});
+ const wsSub=P.c1.ws.map((r,i)=>({name:r[0],amt:r[1]/1e6,on:P.closeWsOn[i]!==false,idx:i}));
+ items.push({key:'ws',name:'Рабочее пространство для сортировки и хранения',y:2027,amt:wsSub.filter(r=>r.on).reduce((a,r)=>a+r.amt,0),on:true,sub:wsSub});
+ const capex=items.filter(i=>i.on).reduce((s,i)=>s+i.amt,0);
+ const wsum=d[0]+P.w2*d[1]+P.w3*d[2];
+ const cost1=wsum>0?base/wsum:0, costF1=wsum>0?(base+capex)/wsum:0;
+ const w=[1,P.w2,P.w3], total=base+capex;
+ return{d,p,rev,revT,plant,fot,base,items,capex,total,result:revT-total,
+  cost:w.map(x=>cost1*x),costFull:w.map(x=>costF1*x),be:wsum>0?total/wsum:0};
+}
+
+
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const KEY='krym-tulip-v2';
+function mig(p){
+ if(!p||typeof p!=='object')return p;
+ if(!Array.isArray(p.buyQ)){p.buyQ=Array(N).fill(0);p.buyQ[1]=p.q2!=null?(+p.q2||0):5}
+ if(p.plan&&typeof p.plan==='object'){delete p.plan.buyQ;delete p.plan.price}
+ delete p.q2;return p}
+let P=defaults();
+try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s){mig(s);const ow=(s.w2===0.6&&s.w3===0.3)||(Math.abs(s.w2-1/3)<1e-9&&Math.abs(s.w3-1/6)<1e-9);if(ow){s.w2=0.333;s.w3=0.167}P=Object.assign(P,s)}}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(P))}catch(e){}};
+const fmt=(n,d=1)=>{if(n==null||!isFinite(n))return '—';const s=Math.abs(n).toLocaleString('ru-RU',{minimumFractionDigits:d,maximumFractionDigits:d});return (n<-1e-9&&+s!==0?'−':'')+s};
+const rub=n=>Math.round(n).toLocaleString('ru-RU');
+const setPath=(o,p,v)=>{const k=p.split('.');let c=o;for(let i=0;i<k.length-1;i++)c=c[k[i]];c[k[k.length-1]]=v};
+const getPath=(o,p)=>p.split('.').reduce((c,k)=>c[k],o);
+const sg=n=>n<-1e-9?'neg':n>1e-9?'pos':'';
+const yearTitle=y=>`Сезон ${y}/${String(y+1).slice(2)}: посадка осенью ${y}, выкопка в июне ${y+1}, продажа в августе ${y+1}`;
+const T=(id,txt,cls)=>{const e=document.getElementById(id);if(!e)return;e.textContent=txt;if(cls!==undefined)e.className=(e.className.replace(/\b(neg|pos)\b/g,'')+' '+cls).trim()};
+let O=run(P), gSel=2;
+
+/* ---------- ввод ---------- */
+document.addEventListener('input',e=>{
+ const i=e.target,p=i.dataset&&i.dataset.path;if(!p)return;
+ let v=i.value===''?null:parseFloat(i.value);if(v!=null&&isNaN(v))v=null;
+ const nullable=/^buy\./.test(p);
+ if(v==null&&!nullable)v=0;
+ if(v!=null&&i.dataset.pct)v/=100;
+ setPath(P,p,v);
+ $$('input[data-path="'+p+'"]').forEach(o=>{if(o!==i&&document.activeElement!==o)o.value=v==null?'':+(v*(i.dataset.pct?100:1)).toFixed(4)});
+ refresh();
+});
+document.addEventListener('change',e=>{
+ const i=e.target;
+ if(i.dataset&&i.dataset.close){const k=i.dataset.close;
+  P.closeSel=P.closeSel.filter(x=>x!==k);if(i.checked)P.closeSel.push(k)
+  refresh();}
+ if(i.dataset&&i.dataset.closews!==undefined){P.closeWsOn[+i.dataset.closews]=i.checked;refresh()}
+ if(i.id==='cl-fotmode'){P.cl2.fotMode=i.value;refresh()}
+ if(i.id==='plan-on'){P.plan.on=i.checked;refresh()}
+ if(i.id==='plan-end'){P.plan.end=+i.value;refresh()}
+ if(i.id==='wsOn'){P.wsOn=i.checked;refresh()}
+ if(i.id==='termOn'){P.termOn=i.checked;refresh()}
+});
+function syncInputs(){$$('input[data-path]').forEach(i=>{if(document.activeElement===i)return;let v=getPath(P,i.dataset.path);if(v!=null&&i.dataset.pct)v=v*100;i.value=v==null?'':+(+v).toFixed(4)})}
+
+/* ---------- журнал ---------- */
+const CIL={buy:'Цена закупки, ₽',buyQ:'Закупка, млн шт.',price:'Цена реализации, ₽',s1:'Продажа 1-го цикла, млн шт.',s2:'Продажа 2-го цикла, млн шт.',coef:'Гектаров на 1 млн ₽ ФОТ'};
+const ci=(path,ph,step)=>{const q=path.split('.');return `<td class="in"><input class="y" type="number" step="${step||'any'}" min="0" data-path="${path}" ${ph?`placeholder="${ph}"`:''} aria-label="${CIL[q[0]]||path}, ${Y0+(+q[1])}"></td>`}
+function buildTable(){
+ let h=`<thead><tr class="g"><th class="yr" rowspan="2">Сезон</th><th colspan="4">Посадка, га</th><th colspan="4">Посадка, млн шт.</th><th colspan="2">Цена 1 шт., ₽</th><th colspan="3">Реализация</th><th colspan="4">Затраты, млн ₽</th><th rowspan="2" title="Себестоимость выращивания 1 шт. 1-го разбора, без капзатрат">себест. 1-го, ₽</th><th colspan="2">Баланс, млн ₽</th></tr>
+ <tr><th class="gs">итого</th><th>закупные</th><th>свои 1ц</th><th>свои 2ц</th><th class="gs">итого</th><th>закупные</th><th>свои 1ц</th><th>свои 2ц</th><th class="gs" title="Сколько стоит купить один тюльпан. Действует в годы, где указана цена">закупки</th><th title="Цена продажи 1-го разбора">реализ.</th><th class="gs" title="Продаём 1-го разбора из линии 1-го цикла, млн шт.">млн, 1ц</th><th title="Продаём 1-го разбора из линии 2-го цикла, млн шт.">млн, 2ц</th><th>млн ₽</th><th class="gs">посадка</th><th>ФОТ</th><th title="Гектаров на 1 млн ₽ ФОТ">га/ФОТ</th><th title="Берётся с вкладки Капзатраты">капит.</th><th class="gs">за сезон</th><th>накопл.</th></tr></thead><tbody>`;
+ for(let t=0;t<N;t++){
+  const c=(k,cls='cmp')=>`<td class="${cls}" id="c${t}-${k}"></td>`;
+  h+=`<tr><td class="yr" title="${yearTitle(Y0+t)}">${Y0+t}</td>${c('ha')}${c('haB','mute')}${c('ha1','mute')}${c('ha2','mute')}${c('mln')}${t===0?c('mlnB','mute'):ci('buyQ.'+t,'—',0.5)}${c('mln1','mute')}${c('mln2','mute')}`;
+  h+= t===0? `<td class="mute gs" id="c0-price" title="Считается на вкладке «Затраты 1-го цикла»"></td>` : ci(`buy.${t}`,'—');
+  h+= ci(`price.${t}`)+ci(`s1.${t}`)+ci(`s2.${t}`)+c('rev')+c('plant')+c('fot');
+  h+= t===0? `<td class="mute" id="c0-k" title="Площадь ÷ ФОТ первого цикла"></td>` : ci(`coef.${t}`,'',0.05);
+  h+= c('capex','mute')+c('cost1')+c('bal')+c('cum')+'</tr>';
+ }
+ h+=`</tbody><tfoot><tr><td class="yr" style="background:var(--soft)">Итого</td><td colspan="10"></td><td id="f-s1"></td><td id="f-s2"></td><td id="f-rev"></td><td id="f-plant"></td><td id="f-fot"></td><td></td><td id="f-capex"></td><td></td><td id="f-bal"></td><td></td></tr></tfoot>`;
+ $('#model').innerHTML=h;
+}
+
+function refresh(){
+ O=run(P);
+ O.R.forEach((r,t)=>{
+  const z=(v,d=1)=>v>1e-9?fmt(v,d):'—';
+  T(`c${t}-ha`,fmt(r.ha,1));T(`c${t}-haB`,z(r.haB));T(`c${t}-ha1`,z(r.ha1));T(`c${t}-ha2`,z(r.ha2));
+  T(`c${t}-mln`,fmt(r.mln,2));T(`c${t}-mlnB`,z(r.mlnB,2));T(`c${t}-mln1`,z(r.mln1,2));T(`c${t}-mln2`,z(r.mln2,2));
+  if(t===0){T('c0-price',fmt(r.price,2));T('c0-k',fmt(r.coefEff,2))}
+  T(`c${t}-rev`,z(r.rev));T(`c${t}-plant`,z(r.plant));T(`c${t}-fot`,fmt(r.fot,1));T(`c${t}-capex`,z(r.capex));
+  T(`c${t}-cost1`,r.cost1==null?'—':fmt(r.cost1,1));
+  T(`c${t}-bal`,fmt(r.bal,1),sg(r.bal));T(`c${t}-cum`,fmt(r.cum,1),sg(r.cum));
+  [['s1',r.short1,r.d1max],['s2',r.short2,r.d2max]].forEach(([k,sh,mx])=>{const i=document.querySelector(`input[data-path="${k}.${t}"]`);if(i){i.classList.toggle('short',sh);i.title=sh?`Столько 1-го разбора нет. Продаётся максимум ${fmt(mx,2)} млн шт.`:''}});
+ });
+ O.R.forEach((r,t)=>{const ov=P.pct&&P.pct[t]!=null,MSG='Задано процентом на вкладке «План»';
+  [['s1',r.sold1],['s2',r.sold2]].forEach(([k,v])=>{const i=document.querySelector(`input[data-path="${k}.${t}"]`);if(!i)return;
+   if(ov){i.disabled=true;i.value=+v.toFixed(3);i.title=MSG;i.classList.remove('short')}
+   else if(i.disabled){i.disabled=false;i.title='';i.value=P[k][t]==null?'':+(+P[k][t]).toFixed(4)}})});
+ T('w2-rub',`При цене 1-го ${fmt(P.price[0],0)} ₽ это ${fmt(P.price[0]*P.w2,2)} ₽.`);T('w3-rub',`При цене 1-го ${fmt(P.price[0],0)} ₽ это ${fmt(P.price[0]*P.w3,2)} ₽.`);
+ const k=O.tot,s1=O.R.reduce((a,r)=>a+r.sold1,0),s2=O.R.reduce((a,r)=>a+r.sold2,0);
+ T('f-s1',fmt(s1,1));T('f-s2',fmt(s2,1));T('f-rev',fmt(k.rev,0));T('f-plant',fmt(k.plant,0));T('f-fot',fmt(k.fot,0));T('f-capex',fmt(k.capex,0));
+ const b=k.rev-k.plant-k.fot-k.capex;T('f-bal',fmt(b,0),sg(b));
+ kpis();invView();costView();salesTable();charts();costsTab();capexTab();gradesTab();closureTab();planTab();startTab();
+ $('#plan-badge').hidden=!P.plan.on;
+ save();
+}
+const unit=v=>String(v).replace(/ (млн ₽|млн шт\.|₽|га|год)$/,'<span class="u"> $1</span>');
+function kpis(){
+ const R=O.R,last=R[N-1],maxHa=Math.max(...R.map(r=>r.ha));
+ const items=[
+  [`Баланс к ${last.year}`,fmt(last.cum,0)+' млн ₽','накопленный итог',sg(last.cum)],
+  ['Выход в плюс',O.pay?O.pay+' год':'после '+last.year,'накопленный баланс ≥ 0',O.pay?'pos':'neg'],
+  ['Нужно финансирование',fmt(-Math.min(0,O.peak),0)+' млн ₽','пик минуса: столько денег нужно найти',''],
+  ['Выручка',fmt(O.tot.rev,0)+' млн ₽',`${fmt(O.tot.sold,1)} млн шт. продано`,''],
+  ['Затраты',fmt(O.tot.plant+O.tot.fot+O.tot.capex,0)+' млн ₽',`посадка ${fmt(O.tot.plant,0)} · ФОТ ${fmt(O.tot.fot,0)} · капит. ${fmt(O.tot.capex,0)}`,''],
+  [`Себестоимость в ${last.year}`,fmt(last.cost1,1)+' ₽',`1-й разбор, без стоимости своих луковиц. Цель ${fmt(P.target,0)} ₽`,last.cost1!=null&&last.cost1<=P.target?'pos':'neg'],
+  ['Максимум площади',fmt(maxHa,0)+' га','в пиковый сезон',''],
+  ['Запас на конец',fmt(O.stock,1)+' млн шт.',`≈ ${fmt(O.stockVal,0)} млн ₽ по ценам 1-го, 2-го и 3-го разбора`,'']
+ ];
+ $('#kpis').innerHTML=items.map(i=>`<div class="kpi ${i[3]}"><small>${i[0]}</small><strong class="num">${unit(i[1])}</strong><em>${i[2]}</em></div>`).join('');
+}
+function invView(){
+ const v=O.inv,last=O.R[N-1],pc=x=>x==null?'—':fmt(x*100,1)+'%';
+ const items=[
+  ['NPV',fmt(v.npv,0)+' млн ₽',`при ставке ${fmt(P.disc*100,0)}% годовых`,sg(v.npv)],
+  ['IRR',v.irr==null?'нет':pc(v.irr),v.irr==null?'потоки не меняют знак':'доходность проекта в год',v.irr==null?'neg':(v.irr>=P.disc?'pos':'neg')],
+  ['Окупаемость с дисконтом',v.dpay?v.dpay+' год':'после '+last.year,v.pay?`без дисконта: ${v.pay} год`:'без дисконта: позже',v.dpay?'pos':'neg'],
+  ['Индекс доходности',v.pi==null?'—':fmt(v.pi,2),'приток ÷ отток в рублях сегодня',v.pi==null?'':v.pi>=1?'pos':'neg']
+ ];
+ $('#invK').innerHTML=items.map(i=>`<div class="kpi ${i[3]}"><small>${i[0]}</small><strong class="num">${unit(i[1])}</strong><em>${i[2]}</em></div>`).join('');
+ let h=`<thead><tr><th class="yr">Сезон</th><th>поток, млн ₽</th><th>коэфф.</th><th>PV, млн ₽</th><th>накопл. PV</th></tr></thead><tbody>`;
+ O.R.forEach((r,t)=>{h+=`<tr><td class="yr">${r.year}</td><td>${fmt(v.cf[t],1)}</td><td class="mute">${fmt(v.df[t],3)}</td><td>${fmt(v.pv[t],1)}</td><td class="${sg(v.cumPv[t])}">${fmt(v.cumPv[t],1)}</td></tr>`});
+ $('#invT').innerHTML=h+'</tbody>';
+ $('#invNote').innerHTML=`<b>NPV при других ставках:</b> `+v.sens.map(a=>`${fmt(a[0]*100,0)}% → ${fmt(a[1],0)}`).join(' · ')+(P.termOn?`<br>В последний год включён запас на ${fmt(v.term,0)} млн ₽ по ценам разборов. Продажа 2-го и 3-го разбора в журнале не заложена, поэтому это допущение.`:'<br>Запас луковиц на конец периода в потоках не учтён, поэтому оценка осторожная.');
+ invChart();
+}
+function invChart(){
+ const el=$('#ch-inv'),v=O.inv,W=Math.max(280,el.clientWidth||480),H=250,m={l:48,r:50,t:14,b:26};
+ const vals=[...v.cumCf,...v.cumPv,0];let lo=Math.min(...vals),hi=Math.max(...vals);const step=nice((hi-lo)/4||1);lo=Math.floor(lo/step)*step;hi=Math.ceil(hi/step)*step;
+ const iw=W-m.l-m.r,ih=H-m.t-m.b,bw=iw/N,y=a=>m.t+ih-((a-lo)/(hi-lo))*ih,X=i=>m.l+i*bw+bw/2;
+ let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" role="img" aria-label="Накопленный баланс с дисконтом и без, млн рублей">`;
+ for(let a=lo;a<=hi+1e-6;a+=step)s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y(a)}" y2="${y(a)}" stroke="${Math.abs(a)<1e-6?'var(--muted)':'var(--line)'}"/><text x="${m.l-6}" y="${y(a)+4}" text-anchor="end">${fmt(a,0)}</text>`;
+ const line=(arr,c,w)=>`<polyline points="${arr.map((a,i)=>X(i)+','+y(a)).join(' ')}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linejoin="round"/>`;
+ s+=line(v.cumCf,'var(--ink)',2)+line(v.cumPv,'var(--tulip)',2.5);
+ O.R.forEach((r,i)=>{
+  const tip=`<b>Сезон ${r.year}</b><br>Накопленный баланс ${fmt(v.cumCf[i],1)}<br>С учётом ставки ${fmt(v.cumPv[i],1)}`;
+  s+=`<g data-tip="${tip}"><circle cx="${X(i)}" cy="${y(v.cumCf[i])}" r="3" fill="var(--ink)"/><circle cx="${X(i)}" cy="${y(v.cumPv[i])}" r="3.5" fill="var(--tulip)"/><rect x="${m.l+i*bw}" y="${m.t}" width="${bw}" height="${ih}" fill="transparent"/></g>`;
+  if(bw>34||i%2===0)s+=`<text x="${X(i)}" y="${H-8}" text-anchor="middle">${bw>34?r.year:String(r.year).slice(2)}</text>`;
+ });
+ const e=N-1,a=v.cumPv[e],b=v.cumCf[e],lx=Math.min(X(e)+8,W-2),an=X(e)+8>W-50?'end':'start';
+ s+=`<text class="b" x="${lx}" y="${y(a)+(a<b?16:-8)}" text-anchor="${an}" fill="var(--tulip)">${fmt(a,0)}</text>`;
+ el.innerHTML=s+'</svg>';
+}
+function costView(){
+ const py=O.R.filter(r=>r.paid).map(r=>r.year);
+ $('#cost-note').textContent=`В годы закупки (${py.join(', ')}) в себестоимость входит цена купленных луковиц. Свои луковицы, выращенные из закупки, считаются бесплатными, поэтому себестоимость сильно ниже. Стоимость своих луковиц в расчёт не включена.`;
+ let h=`<thead><tr><th class="yr">Сезон</th><th>затраты, млн ₽</th><th>выкопано, млн</th><th>1-й, ₽</th><th>2-й, ₽</th><th>3-й, ₽</th><th>цена 1-го</th><th>маржа 1-го</th></tr></thead><tbody>`;
+ O.R.forEach(r=>{
+  const m=r.cost1!=null&&r.sp>0?(r.sp-r.cost1)/r.sp*100:null;
+  h+=`<tr><td class="yr">${r.year}</td><td>${fmt(r.costBase,1)}</td><td>${fmt(r.dug,2)}</td><td><b>${fmt(r.cost1,1)}</b></td><td class="mute">${fmt(r.cost2,1)}</td><td class="mute">${fmt(r.cost3,1)}</td><td class="mute">${fmt(r.sp,0)}</td><td class="${m==null?'':m>=0?'pos':'neg'}">${m==null?'—':fmt(m,0)+'%'}</td></tr>`});
+ $('#costT').innerHTML=h+'</tbody>';
+}
+function salesTable(){
+ let h=`<thead><tr><th class="yr">Сезон</th><th>выкопано</th><th>1-й</th><th>2-й</th><th>3-й</th><th>продаём</th><th>сажаем</th><th>доля</th></tr></thead><tbody>`;
+ O.R.forEach(r=>{const sh=r.dug>0?r.sold/r.dug*100:0;
+  h+=`<tr><td class="yr">${r.year}</td><td>${fmt(r.dug,2)}</td><td class="mute">${fmt(r.d1,2)}</td><td class="mute">${fmt(r.d2,2)}</td><td class="mute">${fmt(r.d3,2)}</td><td><b>${fmt(r.sold,2)}</b></td><td>${fmt(r.keep,2)}</td><td>${fmt(sh,0)}%</td></tr>`});
+ $('#salesT').innerHTML=h+'</tbody>';
+}
+
+/* ---------- графики ---------- */
+function nice(max){if(max<=0)return 1;const e=Math.pow(10,Math.floor(Math.log10(max)));const m=max/e;return (m<=1?1:m<=2?2:m<=2.5?2.5:m<=5?5:10)*e}
+function charts(){flowChart();fieldsMap();cashChart();costChart()}
+function flowChart(){
+ const el=$('#ch-flow'),W=Math.max(280,el.clientWidth||520),H=270,m={l:40,r:6,t:22,b:26};
+ const R=O.R,max=nice(Math.max(...R.map(r=>r.dug),.1)),iw=W-m.l-m.r,ih=H-m.t-m.b,bw=iw/N;
+ const y=v=>m.t+ih-(v/max)*ih;
+ let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" role="img" aria-label="Выкопано: продаём и сажаем снова, млн шт. по сезонам">`;
+ for(let i=0;i<=4;i++){const v=max*i/4;s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${m.l-6}" y="${y(v)+4}" text-anchor="end">${fmt(v,max<5?1:0)}</text>`}
+ R.forEach((r,i)=>{
+  const x=m.l+i*bw+bw*.16,w=bw*.68,hk=(r.keep/max)*ih,hs=(r.sold/max)*ih;
+  const tip=`<b>Сезон ${r.year}</b><br>Выкопано ${fmt(r.dug,2)} млн шт.<br>Продаём ${fmt(r.sold,2)}<br>Сажаем снова ${fmt(r.keep,2)}`;
+  s+=`<g data-tip="${tip.replace(/"/g,'&quot;')}"><rect x="${x}" y="${y(r.keep)}" width="${w}" height="${Math.max(0,hk)}" rx="3" fill="var(--blue)"/>`;
+  if(r.sold>0.005)s+=`<rect x="${x}" y="${y(r.keep)-hs-2}" width="${w}" height="${Math.max(0,hs)}" rx="3" fill="var(--tulip)"/>`;
+  s+=`<rect x="${m.l+i*bw}" y="${m.t}" width="${bw}" height="${ih}" fill="transparent"/></g>`;
+  if(r.dug>0.005)s+=`<text class="b" x="${x+w/2}" y="${y(r.dug)-(r.sold>0.005?6:4)}" text-anchor="middle">${fmt(r.sold/r.dug*100,0)}%</text>`;
+  s+=`<text x="${x+w/2}" y="${H-8}" text-anchor="middle">${bw>34?r.year:String(r.year).slice(2)}</text>`;
+ });
+ el.innerHTML=s+`</svg><p class="lead" style="font-size:12.5px;margin-top:2px">Подпись над столбцом показывает долю продажи от выкопанного. Ось в млн шт.</p>`;
+}
+function fieldsMap(){
+ const max=Math.max(...O.R.map(r=>r.ha),.01);
+ $('#fields').innerHTML=O.R.map(r=>{
+  const seg=(v,c,n)=>v>1e-9?`<div class="seg1" style="width:${v/max*100}%;background-color:${c}" data-tip="<b>${r.year}</b><br>${n}: ${fmt(v,1)} га"></div>`:'';
+  return `<div class="fr"><span class="yl">${r.year}</span><div class="tr">${seg(r.haB,'var(--tulip)','Закупные')}${seg(r.ha1,'var(--amber)','Свои, 1-й цикл')}${seg(r.ha2,'var(--blue)','Свои, 2-й цикл')}</div><span class="v num">${fmt(r.ha,1)} га</span></div>`}).join('');
+}
+function cashChart(){
+ const el=$('#ch-cash'),W=Math.max(280,el.clientWidth||480),H=270,m={l:48,r:50,t:14,b:26};
+ const R=O.R,vals=R.flatMap(r=>[r.bal,r.cum,0]);
+ let lo=Math.min(...vals),hi=Math.max(...vals);const step=nice((hi-lo)/4||1);lo=Math.floor(lo/step)*step;hi=Math.ceil(hi/step)*step;
+ const iw=W-m.l-m.r,ih=H-m.t-m.b,bw=iw/N,y=v=>m.t+ih-((v-lo)/(hi-lo))*ih;
+ let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" role="img" aria-label="Баланс по сезонам и накопленный баланс, млн рублей">`;
+ for(let v=lo;v<=hi+1e-6;v+=step)s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y(v)}" y2="${y(v)}" stroke="${Math.abs(v)<1e-6?'var(--muted)':'var(--line)'}"/><text x="${m.l-6}" y="${y(v)+4}" text-anchor="end">${fmt(v,0)}</text>`;
+ let pts=[];
+ R.forEach((r,i)=>{
+  const x=m.l+i*bw+bw*.2,w=bw*.6,y0=y(0),y1=y(r.bal);
+  const tip=`<b>Сезон ${r.year}</b><br>Выручка ${fmt(r.rev,1)}<br>Посадка ${fmt(r.plant,1)} · ФОТ ${fmt(r.fot,1)} · капит. ${fmt(r.capex,1)}<br>Баланс ${fmt(r.bal,1)}<br>Накопленный ${fmt(r.cum,1)}`;
+  s+=`<g data-tip="${tip}"><rect x="${x}" y="${Math.min(y0,y1)}" width="${w}" height="${Math.max(1,Math.abs(y1-y0))}" rx="3" fill="${r.bal>=0?'var(--blue)':'var(--tulip)'}" opacity=".85"/><rect x="${m.l+i*bw}" y="${m.t}" width="${bw}" height="${ih}" fill="transparent"/></g>`;
+  if(bw>34||i%2===0)s+=`<text x="${x+w/2}" y="${H-8}" text-anchor="middle">${bw>34?r.year:String(r.year).slice(2)}</text>`;
+  pts.push([m.l+i*bw+bw/2,y(r.cum)]);
+ });
+ s+=`<polyline points="${pts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/>`;
+ pts.forEach(p=>s+=`<circle cx="${p[0]}" cy="${p[1]}" r="3.5" fill="var(--ink)" stroke="var(--surface)" stroke-width="2"/>`);
+ const lp=pts[pts.length-1],lc=R[N-1].cum;
+ s+=`<text class="b" x="${Math.min(lp[0]+8,W-2)}" y="${lp[1]+(lc>=0?-8:16)}" text-anchor="${lp[0]+8>W-50?'end':'start'}">${fmt(lc,0)}</text>`;
+ el.innerHTML=s+'</svg>';
+}
+function costChart(){
+ const el=$('#ch-cost'),W=Math.max(280,el.clientWidth||480),H=250,m={l:40,r:8,t:14,b:26};
+ const R=O.R,max=nice(Math.max(...R.map(r=>r.cost1||0),...R.map(r=>r.sp),P.target,1)*1.05),iw=W-m.l-m.r,ih=H-m.t-m.b,bw=iw/N,y=v=>m.t+ih-(v/max)*ih;
+ let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" role="img" aria-label="Себестоимость 1-го разбора, цена продажи и цель, рубли за штуку">`;
+ for(let i=0;i<=4;i++){const v=max*i/4;s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${m.l-6}" y="${y(v)+4}" text-anchor="end">${fmt(v,0)}</text>`}
+ R.forEach((r,i)=>{
+  const x=m.l+i*bw+bw*.2,w=bw*.6,h=((r.cost1||0)/max)*ih;
+  s+=`<g data-tip="<b>Сезон ${r.year}</b><br>Себестоимость 1-го ${fmt(r.cost1,1)} ₽<br>Цена ${fmt(r.sp,0)} ₽"><rect x="${x}" y="${y(r.cost1||0)}" width="${w}" height="${Math.max(0,h)}" rx="3" fill="var(--blue)"/><rect x="${m.l+i*bw}" y="${m.t}" width="${bw}" height="${ih}" fill="transparent"/></g>`;
+  s+=`<text x="${x+w/2}" y="${H-8}" text-anchor="middle">${bw>34?r.year:String(r.year).slice(2)}</text>`;
+ });
+ s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y(P.target)}" y2="${y(P.target)}" stroke="var(--amber)" stroke-width="2" stroke-dasharray="5 4"/>`;
+ s+=`<polyline points="${R.map((r,i)=>`${m.l+i*bw+bw/2},${y(r.sp)}`).join(' ')}" fill="none" stroke="var(--tulip)" stroke-width="2"/>`;
+ el.innerHTML=s+'</svg>';
+}
+
+/* ---------- затраты 1-го цикла ---------- */
+function buildCosts(){
+ const c=P.c1,inp=(p,st)=>`<td class="in"><input class="y" type="number" step="${st||'any'}" min="0" data-path="${p}" aria-label="${p}"></td>`;
+ $('#c-buy').innerHTML=`<thead><tr><th class="yr">Название</th><th>К-во, шт.</th><th>Цена, ₽</th><th>Сумма, ₽</th></tr></thead><tbody>
+ <tr><td class="yr" style="white-space:normal;min-width:190px" title="Цена получена из отдельного расчёта таможенной логистики">Закупка луковиц в Голландии</td>${inp('c1.holl.q')}${inp('c1.holl.p')}<td id="b-h"></td></tr>
+ <tr><td class="yr" style="white-space:normal">Закупка луковиц тюльпанов в Крыму</td>${inp('c1.crim.q')}${inp('c1.crim.p')}<td id="b-c"></td></tr>
+ <tr><td class="yr">Доставка в Крым</td><td></td><td></td>${inp('c1.deliv')}</tr>
+ </tbody><tfoot><tr><td class="yr" style="background:var(--soft)">Итого</td><td id="b-q"></td><td id="b-p"></td><td id="b-t"></td></tr></tfoot>`;
+ $('#c-fot').innerHTML=`<thead><tr><th class="yr">Работа</th><th>Чел-дней</th><th>Ставка, ₽/день</th><th>Сумма, ₽</th></tr></thead><tbody>`+c.fot.map((r,i)=>`<tr><td class="yr" style="white-space:normal;min-width:190px">${r[0]}</td>${inp(`c1.fot.${i}.1`)}${inp(`c1.fot.${i}.2`)}<td id="f-${i}"></td></tr>`).join('')+`</tbody><tfoot><tr><td class="yr" style="background:var(--soft)">Итого</td><td id="f-d"></td><td></td><td id="f-t"></td></tr></tfoot>`;
+ $('#c-ws').innerHTML=`<thead><tr><th class="yr">Статья</th><th>Сумма, ₽</th></tr></thead><tbody>`+c.ws.map((r,i)=>`<tr><td class="yr">${r[0]}</td>${inp(`c1.ws.${i}.1`)}</tr>`).join('')+`</tbody><tfoot><tr><td class="yr" style="background:var(--soft)">Итого</td><td id="w-t"></td></tr></tfoot>`;
+ $('#wsOn').checked=P.wsOn;$('#termOn').checked=P.termOn;
+}
+function costsTab(){
+ const c=O.c;
+ T('b-h',rub(c.hs));T('b-c',rub(c.cs));T('b-q',rub(P.c1.holl.q+P.c1.crim.q));T('b-p',fmt(c.buy/c.qty,2));T('b-t',rub(c.buy));
+ P.c1.fot.forEach((r,i)=>T('f-'+i,rub(r[1]*r[2])));
+ T('f-d',fmt(c.days,0));T('f-t',rub(c.fot));T('w-t',rub(c.ws));
+ T('c-total',rub(c.total)+' ₽');
+ const parts=[['Голландия',c.hs,'var(--tulip)'],['Крым',c.cs,'var(--amber)'],['Доставка',P.c1.deliv,'var(--muted)'],['ФОТ',c.fot,'var(--blue)']];
+ $('#c-bar').innerHTML=parts.map(p=>`<span style="flex:${Math.max(p[1],0)};background:${p[2]}" data-tip="${p[0]}: ${rub(p[1])} ₽ (${fmt(p[1]/c.total*100,0)}%)"></span>`).join('');
+ $('#c-lg').innerHTML=parts.map(p=>`<span><i style="background:${p[2]}"></i>${p[0]} ${fmt(p[1]/c.total*100,0)}%</span>`).join('');
+ const row=(a,b)=>`<div><span>${a}</span><b class="num">${b}</b></div>`;
+ T('area0-note',`В вашем файле 0,5 га. По правилу «${fmt(P.haPerMln,1)} га на 1 млн шт.» вышло бы ${fmt(c.qty/1e6*P.haPerMln,2)} га.`);
+ $('#c-link').innerHTML=row('Посадка, млн шт.',fmt(c.qty/1e6,4))+row('Площадь, га',fmt(P.area0,2))+row('Закупка, млн ₽',fmt(c.buy/1e6,3))+row('ФОТ, млн ₽',fmt(c.fot/1e6,3))+row('Капит. 2026, млн ₽',fmt(capYear(P,2026),2))+(P.wsOn?row('Капит. 2027 (хранение), млн ₽',fmt(c.ws/1e6,2)):'');
+ const avg=c.buy/c.qty,gap=P.tprice>0?(avg/P.tprice-1)*100:0;
+ $('#c-kpi').innerHTML=row('Средняя цена закупки, ₽/шт.',fmt(avg,2))+row('Целевая цена, ₽/шт.',fmt(P.tprice,2))+row('Выше цели',fmt(gap,0)+'%')+row('Всего на 1 шт., ₽',fmt(c.total/c.qty,2))+row('Доля ФОТ',fmt(c.fot/c.total*100,0)+'%');
+}
+
+/* ---------- капзатраты ---------- */
+function buildCapex(){
+ let h='';
+ for(let y=2026;y<=2035;y++){
+  const inM=y<Y0+N;
+  h+=`<div class="panel ${inM?'':'dim'}"><h3>${y}<span id="cx-t${y}"></span></h3><p class="lead" style="font-size:12.5px;margin:2px 0 8px" id="cx-p${y}"></p><div class="tw"><table><thead><tr><th>Назначение</th><th>млн ₽</th></tr></thead><tbody>`+
+   P.capex[y].map((r,i)=>`<tr><td>${r[0]}</td>${`<td class="in"><input class="y" type="number" step="any" min="0" data-path="capex.${y}.${i}.1" aria-label="${r[0]}"></td>`}</tr>`).join('')+`</tbody></table></div>${inM?'':'<p class="lead" style="font-size:12px;margin-top:6px">Вне горизонта модели, справочно.</p>'}</div>`;
+ }
+ $('#cx-cards').innerHTML=h;
+}
+function capexTab(){
+ let tot=0,all=0,max=0;
+ for(let y=2026;y<=2035;y++){const v=capYear(P,y);all+=v;if(y<Y0+N)tot+=v;max=Math.max(max,v);T('cx-t'+y,fmt(v,1)+' млн ₽');
+  const r=y<Y0+N?O.R[y-Y0]:null;T('cx-p'+y,r?`В модели: посадка ${fmt(r.mln,2)} млн шт., ${fmt(r.ha,1)} га`:'')}
+ T('cx-total',fmt(tot,1)+' млн ₽');
+ $('#cx-all').textContent=`Вместе с 2034 и 2035: ${fmt(all,1)} млн ₽. В журнал идут только годы 2026–2033.`+(P.plan.on?' Включён свой план: суммы по годам учитывают переносы статей на вкладке «План».':'');
+ $('#cx-bars').innerHTML=Array.from({length:10},(_,i)=>{const y=2026+i,v=capYear(P,y);
+  return `<div class="fr ${y<Y0+N?'':'dim'}"><span class="yl">${y}</span><div class="tr"><div class="seg1" style="width:${max>0?v/max*100:0}%;background-color:var(--blue)" data-tip="${y}: ${fmt(v,1)} млн ₽"></div></div><span class="v num">${fmt(v,1)}</span></div>`}).join('');
+}
+
+/* ---------- разборы ---------- */
+function gradesTab(){
+ let h=`<thead><tr><th class="yr">Сезон</th><th title="Закупка 2026 (88 700 шт.), дальше свои 1ц">посадка, 1-й цикл</th><th title="Закупки 2027 года и позже, дальше свои 2ц">посадка, 2-й цикл</th><th>посадка, всего</th><th>выкопано</th><th>продано</th><th>на посадку</th></tr></thead><tbody>`;
+ O.R.forEach((r,t)=>{const a=sum3(O.L[0][t]),b=sum3(O.L[1][t]);
+  h+=`<tr style="cursor:pointer" data-g="${t}" class="${t===gSel?'sel':''}"><td class="yr">${r.year}</td><td>${fmt(a,3)}</td><td>${fmt(b,3)}</td><td><b>${fmt(a+b,3)}</b></td><td>${fmt(r.dug,3)}</td><td>${fmt(r.sold,3)}</td><td>${fmt(r.keep,3)}</td></tr>`});
+ $('#gT').innerHTML=h+'</tbody>';
+ $$('#gT tr[data-g]').forEach(tr=>tr.onclick=()=>{gSel=+tr.dataset.g;gradesTab()});
+ $('#g-chips').innerHTML=O.R.map((r,t)=>`<button type="button" class="chip" data-g="${t}" aria-pressed="${t===gSel}">${r.year}</button>`).join('');
+ $$('#g-chips .chip').forEach(b=>b.onclick=()=>{gSel=+b.dataset.g;gradesTab()});
+ const t=gSel,r=O.R[t],pl=[O.L[0][t],O.L[1][t]],dg=[O.D[0][t],O.D[1][t]],sl=[O.S[0][t],O.S[1][t]];
+ $('#g-title').textContent=`Сезон ${r.year}`;
+ $('#g-sub').textContent=`Посадка осенью ${r.year}, выкопка в июне ${r.year+1}, продажа в августе ${r.year+1}. Млн шт.`;
+ const keep=[0,1].map(l=>sum3(dg[l])-sl[l]);
+ const row=(name,f,cls='')=>`<tr class="${cls}"><td>${name}</td><td>${f(0)}</td><td>${f(1)}</td><td><b>${f(2)}</b></td></tr>`;
+ const v3=(arr,g,d=3)=>l=>fmt(l===2?arr[0][g]+arr[1][g]:arr[l][g],d);
+ const tot=(arr,d=3)=>l=>fmt(l===2?sum3(arr[0])+sum3(arr[1]):sum3(arr[l]),d);
+ let s=`<thead><tr><th>Млн шт.</th><th>1-й цикл<br><small class="mute">закупка 2026 → свои 1ц</small></th><th>2-й цикл<br><small class="mute">закупки 2027+ → свои 2ц</small></th><th>Всего</th></tr></thead><tbody>`;
+ s+=`<tr><td colspan="4" class="mute" style="text-align:left;background:var(--soft)">Посадили</td></tr>`;
+ [0,1,2].forEach(g=>s+=row(`${g+1}-й разбор`,v3(pl,g)));
+ s+=row('Итого посадка',tot(pl))+row('Площадь, га',l=>fmt((l===2?sum3(pl[0])+sum3(pl[1]):sum3(pl[l]))*P.haPerMln,2));
+ s+=`<tr><td colspan="4" class="mute" style="text-align:left;background:var(--soft)">Выкопали</td></tr>`;
+ [0,1,2].forEach(g=>s+=row(`${g+1}-й разбор`,v3(dg,g)));
+ s+=row('Итого выкопано',tot(dg));
+ s+=row('Продали (1-й разбор)',l=>fmt(l===2?sl[0]+sl[1]:sl[l],3));
+ s+=row('Остаётся на посадку',l=>fmt(l===2?keep[0]+keep[1]:keep[l],3));
+ $('#gS').innerHTML=s+'</tbody>';
+ const names=['1-й цикл: закупка 2026, дальше свои 1ц','2-й цикл: закупки 2027+, дальше свои 2ц'];
+ const term=(m,v)=>m===0?'':`${m===1?'':fmt(m,1)+' × '}${fmt(v,3)}`;
+ let eq='';
+ [0,1].forEach(l=>{const p=pl[l];
+  eq+=`<p style="margin:0 0 4px"><b>${names[l]}</b></p>`;
+  [0,1,2].forEach(j=>{const parts=[0,1,2].map(i=>term(P.mat[i][j],p[i])).filter(Boolean);
+   eq+=`<div>${j+1}-й разбор = ${parts.join(' + ')||'0'} = <b>${fmt(dg[l][j],3)}</b></div>`});
+  eq+=`<div style="margin:6px 0 12px">Продали ${fmt(sl[l],3)}, на посадку ${fmt(keep[l],3)}</div>`});
+ $('#gEq').innerHTML=eq+`<p class="note" style="margin-top:8px">Линии суммируются: итог посадки следующего сезона равен выкопанному минус проданное.</p>`;
+}
+
+/* ---------- закрытие ---------- */
+function closureTab(){
+ const c=closure(P,O),id=P.cl2.sc,S=closureScen(P,O,id),all=SC.map(x=>closureScen(P,O,x[0]));
+ const z=v=>v>1e-9?rub(v*1e6):'—';
+ $('#cl-chips').innerHTML=SC.map(x=>`<button class="chip" type="button" data-scen="${x[0]}" aria-pressed="${x[0]===id}">${SL[x[0]]}. ${x[1]}</button>`).join('');
+ $('#cl-desc').textContent=SC.find(x=>x[0]===id)[2];
+ $('#cl-custom').hidden=id!=='D';
+ const fm=$('#cl-fotmode');if(fm&&fm.value!==P.cl2.fotMode)fm.value=P.cl2.fotMode;
+ $('#cl-fotnow').textContent=S.has?`В выбранном сценарии второй сезон: сажаем ${rub(S.planted*1e6)} луковиц на ${fmt(S.area2,2)} га. ФОТ ${fmt(S.fot2,2)} млн ₽, капзатраты ${fmt(S.capex2,2)} млн ₽.`:'В выбранном сценарии второго сезона нет, эти поля не влияют на результат. Выберите сценарий Б, В или Г.';
+ const res=S.result;
+ $('#cl-kpi').innerHTML=[
+  ['Выручка',fmt(S.rev1+S.rev2,2)+' млн ₽',S.has?`2027: ${fmt(S.rev1,2)} · 2028: ${fmt(S.rev2,2)}`:`${fmt(sum3(S.d)*1000,0)} тыс. шт. всех разборов`,''],
+  ['Затраты',fmt(S.total,2)+' млн ₽',`1-й сезон ${fmt(S.cost1,2)}${S.has?` · 2-й сезон ${fmt(S.cost2,2)}`:''}`,''],
+  ['Результат',fmt(res,2)+' млн ₽',(res>=0?'прибыль':'убыток')+(S.has?`, с учётом ставки ${fmt(S.pv,2)}`:''),res>=0?'pos':'neg'],
+  ['Безубыточная цена 1-го',fmt(S.be,1)+' ₽',`при цене 2-го и 3-го ${fmt(P.w2*100,1)}% и ${fmt(P.w3*100,1)}% от неё`,''],
+ ].map(i=>`<div class="kpi ${i[3]}"><small>${i[0]}</small><strong class="num">${unit(i[1])}</strong><em>${i[2]}</em></div>`).join('');
+ let f=`<thead><tr><th class="yr">Разбор</th><th>выкопано 2027, шт.</th><th>продаём 2027, шт.</th><th>цена 2027, ₽</th><th>выручка 2027, ₽</th><th>сажаем ещё на сезон, шт.</th><th>выкопано 2028, шт.</th><th>цена 2028, ₽</th><th>выручка 2028, ₽</th></tr></thead><tbody>`;
+ [0,1,2].forEach(g=>f+=`<tr><td class="yr">${g+1}-й</td><td>${rub(S.d[g]*1e6)}</td><td>${z(S.sold1[g])}</td><td>${fmt(S.p1[g],1)}</td><td>${z(S.rev1g[g])}</td><td>${z(S.pl[g])}</td><td>${z(S.d2[g])}</td><td class="${S.has?'':'mute'}">${fmt(S.p2[g],1)}</td><td>${z(S.rev2g[g])}</td></tr>`);
+ f+=`</tbody><tfoot><tr><td class="yr" style="background:var(--soft)">Итого</td><td>${rub(sum3(S.d)*1e6)}</td><td>${z(sum3(S.sold1))}</td><td></td><td>${z(S.rev1)}</td><td>${z(S.planted)}</td><td>${z(sum3(S.d2))}</td><td></td><td>${z(S.rev2)}</td></tr></tfoot>`;
+ $('#cl-flow').innerHTML=f;
+ const rows=[
+  ['Продано луковиц, шт.',x=>rub(x.soldN*1e6)],
+  ['Выручка 2027 (август), млн ₽',x=>fmt(x.rev1,2)],
+  ['Выручка 2028 (август), млн ₽',x=>x.has?fmt(x.rev2,2):'—'],
+  ['Закупка и ФОТ 1-го сезона, млн ₽',x=>fmt(x.base,2)],
+  ['Капзатраты, млн ₽',x=>fmt(x.capex1+x.capex2,2)],
+  ['ФОТ 2-го сезона, млн ₽',x=>x.has?fmt(x.fot2,2):'—'],
+  ['Результат, млн ₽',x=>`<b class="${sg(x.result)}">${fmt(x.result,2)}</b>`],
+  [`Результат с учётом ставки ${fmt(P.disc*100,0)}%, млн ₽`,x=>`<span class="${sg(x.pv)}">${fmt(x.pv,2)}</span>`],
+  ['Безубыточная цена 1-го, ₽',x=>fmt(x.be,1)]
+ ];
+ let m=`<thead><tr><th class="yr">Показатель</th>`+SC.map(x=>`<th data-scen="${x[0]}" class="scn ${x[0]===id?'selc':''}">${SL[x[0]]}. ${x[1]}</th>`).join('')+`</tr></thead><tbody>`;
+ rows.forEach(r=>m+=`<tr><td class="yr" style="white-space:normal">${r[0]}</td>`+all.map(x=>`<td class="${x.id===id?'selc':''}">${r[1](x)}</td>`).join('')+'</tr>');
+ $('#cl-cmp').innerHTML=m+'</tbody>';
+ const best=all.reduce((a,x)=>x.result>a.result?x:a,all[0]);
+ $('#cl-cmpnote').textContent=`Лучший результат без учёта сроков у сценария ${SL[best.id]}: ${fmt(best.result,2)} млн ₽. Деньги второй продажи приходят на год позже, поэтому строка «с учётом ставки» показывает их дисконтированную стоимость. Цены 2028 года берутся из журнала (сезон 2027). Не учтены хранение луковиц с июня по октябрь и потери.`;
+ let g=`<thead><tr><th class="yr">Разбор</th><th>шт.</th><th>цена, ₽</th><th>выручка, ₽</th><th title="Посадка и ФОТ первого цикла, без капзатрат">себест., ₽</th><th title="С учётом выбранных капзатрат">с капзатр., ₽</th></tr></thead><tbody>`;
+ [0,1,2].forEach(i=>g+=`<tr><td class="yr">${i+1}-й</td><td>${rub(c.d[i]*1e6)}</td><td>${fmt(c.p[i],1)}</td><td>${rub(c.rev[i]*1e6)}</td><td><b>${fmt(c.cost[i],2)}</b></td><td class="mute">${fmt(c.costFull[i],2)}</td></tr>`);
+ g+=`</tbody><tfoot><tr><td class="yr" style="background:var(--soft)">Итого</td><td>${rub(sum3(c.d)*1e6)}</td><td></td><td>${rub(c.revT*1e6)}</td><td></td><td></td></tr></tfoot>`;
+ $('#cl-grades').innerHTML=g;
+ $('#cl-note').textContent=`Урожай июня 2027 с посадки 2026. Цена 1-го разбора берётся из сезона 2026 журнала (${fmt(P.price[0],0)} ₽), 2-го и 3-го по доле из правил расчёта. Себестоимость делится между разборами пропорционально цене. Цель по себестоимости ${fmt(P.target,0)} ₽.`;
+ let k=`<thead><tr><th class="chk"></th><th class="yr">Статья</th><th>млн ₽</th></tr></thead><tbody>`;
+ k+=`<tr><td class="chk"></td><td class="yr" style="white-space:normal">Закупка луковиц первого цикла</td><td>${fmt(c.plant,3)}</td></tr><tr><td class="chk"></td><td class="yr">ФОТ по выращиванию</td><td>${fmt(c.fot,3)}</td></tr>`;
+ c.items.forEach(i=>{
+  if(i.sub){
+   k+=`<tr class="${i.amt>0?'':'dim'}"><td class="chk"></td><td class="yr" style="white-space:normal"><span class="mute" style="font-weight:500">${i.y}</span> ${i.name}</td><td>${fmt(i.amt,2)}</td></tr>`;
+   i.sub.forEach(r=>k+=`<tr class="${r.on?'':'dim'}"><td class="chk"><input type="checkbox" data-closews="${r.idx}" ${r.on?'checked':''} aria-label="${r.name}"></td><td class="yr" style="white-space:normal;font-weight:500;padding-left:12px"><span class="mute">—</span> ${r.name}</td><td class="mute">${fmt(r.amt,2)}</td></tr>`);
+  } else k+=`<tr class="${i.on?'':'dim'}"><td class="chk"><input type="checkbox" data-close="${i.key}" ${i.on?'checked':''} aria-label="${i.name}"></td><td class="yr" style="white-space:normal"><span class="mute" style="font-weight:500">${i.y}</span> ${i.name}</td><td>${fmt(i.amt,2)}</td></tr>`});
+ k+=`</tbody><tfoot><tr><td></td><td class="yr" style="background:var(--soft)">Итого затрат 1-го сезона</td><td>${fmt(c.total,2)}</td></tr></tfoot>`;
+ $('#cl-costs').innerHTML=k;
+}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-scen]');if(!b)return;P.cl2.sc=b.dataset.scen;refresh()});
+
+
+/* ---------- версии ---------- */
+const VKEY='krym-tulip-v2-versions', VMAX=30;
+let V=[];try{V=JSON.parse(localStorage.getItem(VKEY)||'[]');if(!Array.isArray(V))V=[]}catch(e){V=[]}
+const vstore=()=>{try{localStorage.setItem(VKEY,JSON.stringify(V));return true}catch(e){return false}};
+const clone=o=>JSON.parse(JSON.stringify(o));
+function norm(p){p=p&&typeof p==='object'?mig(clone(p)):p;const d=defaults();for(const k of Object.keys(d))if(p&&Object.prototype.hasOwnProperty.call(p,k))d[k]=clone(p[k]);return d}
+function validP(p){
+ if(!p||typeof p!=='object')return false;
+ const arr=k=>Array.isArray(p[k])&&p[k].length===N;
+ return arr('price')&&arr('s1')&&arr('s2')&&arr('coef')&&arr('buy')&&Array.isArray(p.mat)&&p.mat.length===3&&p.mat.every(r=>Array.isArray(r)&&r.length===3)&&p.capex&&typeof p.capex==='object'&&p.c1&&typeof p.c1==='object'&&Array.isArray(p.c1.ws)&&Array.isArray(p.c1.fot);
+}
+function metrics(Pv){
+ const Ov=run(Pv),R=Ov.R,last=R[N-1],cl=closure(Pv,Ov),v=Ov.inv;
+ return{cum:last.cum,npv:v.npv,irr:v.irr,pay:Ov.pay,dpay:v.dpay,peak:-Math.min(0,Ov.peak),rev:Ov.tot.rev,plant:Ov.tot.plant,fot:Ov.tot.fot,capex:Ov.tot.capex,
+  sold:Ov.tot.sold,cost1:last.cost1,maxHa:Math.max(...R.map(r=>r.ha)),stock:Ov.stock,clRes:cl.result,cumSeries:R.map(r=>r.cum)};
+}
+const lastY=Y0+N-1;
+const MROWS=[
+ ['Баланс на конец периода, млн ₽','cum',0,1],['NPV, млн ₽','npv',0,1],['IRR','irr','pct',1],['Выход в плюс','pay','year',-1],['Окупаемость с дисконтом','dpay','year',-1],
+ ['Пик финансирования, млн ₽','peak',0,-1],['Выручка, млн ₽','rev',0,1],['Закупка луковиц, млн ₽','plant',0,-1],['ФОТ, млн ₽','fot',0,-1],['Капзатраты, млн ₽','capex',0,-1],
+ ['Продано, млн шт.','sold',1,1],[`Себестоимость 1-го разбора в ${lastY}, ₽`,'cost1',1,-1],['Максимум площади, га','maxHa',0,0],['Запас на конец, млн шт.','stock',1,1],['Закрытие 2027: результат, млн ₽','clRes',2,1]
+];
+const fv=(t,v)=>t==='pct'?(v==null?'нет':fmt(v*100,1)+'%'):t==='year'?(v?String(v):'после '+lastY):fmt(v,t);
+function fd(t,a,b,dir){
+ let d,txt;
+ if(t==='year'){if(a&&b){d=b-a;txt=d===0?'0':(d>0?'+':'−')+Math.abs(d)+' г.'}else if(!a&&!b)return['—',''];else{d=a?1:-1;txt=b?'вышел в плюс':'не вышел в плюс'}}
+ else if(a==null||b==null)return['—',''];
+ else{d=t==='pct'?(b-a)*100:b-a;const n=t==='pct'?1:t;txt=Math.abs(d)<Math.pow(10,-n)/2?'0':(d>0?'+':'−')+fmt(Math.abs(d),n)+(t==='pct'?' п.п.':'')}
+ const cls=!dir||txt==='0'?'':(dir*d>0?'pos':'neg');return[txt,cls];
+}
+const VPCT={w2:1,w3:1,disc:1};
+const VLAB={haPerMln:'Гектаров на 1 млн шт.',loss:'Потери, %',area0:'Площадь 2026, га',w2:'Цена 2-го разбора, % от 1-го',w3:'Цена 3-го разбора, % от 1-го',target:'Целевая себестоимость, ₽',disc:'Ставка дисконтирования, %',termOn:'Запас на конец в потоках',wsOn:'Рабочее пространство в капзатратах 2027',tprice:'Целевая цена закупки, ₽',closeWs:'Закрытие 2027: рабочее пространство',
+ 'c1.holl.q':'Затраты 1-го цикла: закупка, Голландия, шт.','c1.holl.p':'Затраты 1-го цикла: цена, Голландия','c1.crim.q':'Затраты 1-го цикла: закупка, Крым, шт.','c1.crim.p':'Затраты 1-го цикла: цена, Крым','c1.deliv':'Затраты 1-го цикла: доставка'};
+function flat(o,pre,out){if(o!==null&&typeof o==='object'){Object.keys(o).forEach(k=>flat(o[k],pre?pre+'.'+k:k,out))}else out[pre]=o;return out}
+function plab(path,Pa,Pb){
+ if(VLAB[path])return VLAB[path];
+ const q=path.split('.'),y=i=>Y0+(+i);
+ const nm={pct:'Доля продажи 1-го разбора',buyQ:'Закупка, млн шт.',buy:'Цена закупки',price:'Цена 1-го разбора',s1:'Продажа 1-го цикла, млн шт.',s2:'Продажа 2-го цикла, млн шт.',coef:'Га на 1 млн ₽ ФОТ'};
+ if(nm[q[0]]&&q.length===2)return `${nm[q[0]]}, ${y(q[1])}`;
+ if(q[0]==='mat')return `Матрица: посадили ${+q[1]+1}-й, выкопали ${+q[2]+1}-й`;
+ if(q[0]==='capex'){const r=((Pb.capex[q[1]]||[])[q[2]])||((Pa.capex[q[1]]||[])[q[2]]);return `Капзатраты ${q[1]}: ${r?r[0]:'статья '+(+q[2]+1)}${q[3]==='0'?' (название)':''}`}
+ if(q[0]==='c1'&&q[1]==='ws'){const r=(Pb.c1.ws||[])[q[2]]||(Pa.c1.ws||[])[q[2]];return `Рабочее пространство: ${r?r[0]:q[2]}`}
+ if(q[0]==='c1'&&q[1]==='fot'){const r=(Pb.c1.fot||[])[q[2]]||(Pa.c1.fot||[])[q[2]];return `ФОТ 1-го цикла: ${r?r[0]:q[2]}, ${q[3]==='1'?'дни':'ставка'}`}
+ if(q[0]==='cl2'){const m={sc:'Закрытие: сценарий',fotMode:'Закрытие: режим ФОТ 2-го сезона',fotCustom:'Закрытие: своё значение ФОТ, млн ₽',capex2:'Закрытие: капзатраты 2-го сезона, млн ₽'};if(m[q[1]])return m[q[1]];if(q[1]==='sell')return `Закрытие: доля продажи ${+q[2]+1}-го разбора в 2027 (свой вариант)`}
+ if(q[0]==='plan'){if(q[1]==='on')return 'План: считать по моему плану';if(q[1]==='end')return 'План: последний год продаж (0 = не закрываем)';if(q[1]==='mv'){const r=((Pb.capex[q[2]]||[])[q[3]])||((Pa.capex[q[2]]||[])[q[3]]);return `План: год статьи «${r?r[0]:q[2]+'.'+q[3]}» (−1 = не делаем)`}}
+ if(q[0]==='closeWsOn'){const r=(Pb.c1.ws||[])[q[1]];return `Закрытие: статья «${r?r[0]:q[1]}» включена`}
+ return path;
+}
+function pv(path,v){
+ if(v==null)return '—';if(/^pct\./.test(path))return (+(v*100).toFixed(1)).toLocaleString('ru-RU')+'%';if(path==='cl2.sc')return SL[v]||v;if(path==='cl2.fotMode')return {rule:'расчётный',same:'как в 2026',custom:'своё значение'}[v]||v;if(/^plan\.(end|mv\.)/.test(path))return v===0?'не закрываем':v===-1?'не делаем':String(v);if(typeof v==='boolean')return v?'да':'нет';if(typeof v==='string')return v;
+ const k=path.split('.')[0];const x=(VPCT[k]&&path===k)||path.indexOf('cl2.sell.')===0?v*100:v;return (+(+x).toFixed(4)).toLocaleString('ru-RU');
+}
+function diffP(Pa,Pb){
+ const a=clone(Pa),b=clone(Pb),sa=JSON.stringify((a.closeSel||[]).filter(k=>k==='2026.0')),sb=JSON.stringify((b.closeSel||[]).filter(k=>k==='2026.0'));delete a.closeSel;delete b.closeSel;
+ const fa=flat(a,'',{}),fb=flat(b,'',{}),keys=[...new Set([...Object.keys(fa),...Object.keys(fb)])],rows=[];
+ keys.forEach(k=>{const x=fa[k],y=fb[k];const same=(typeof x==='number'&&typeof y==='number')?Math.abs(x-y)<1e-9:x===y;if(!same)rows.push([plab(k,Pa,Pb),pv(k,x),pv(k,y)])});
+ if(sa!==sb)rows.push(['Закрытие 2027: набор капзатрат',JSON.parse(sa).join(', ')||'—',JSON.parse(sb).join(', ')||'—']);
+ return rows;
+}
+let vSelA=null,vSelB='cur',vArmed=null,vTimer;
+const vP=id=>id==='cur'?P:(()=>{const v=V.find(x=>x.id===id);return v?norm(v.P):null})();
+const vName=id=>id==='cur'?'Текущий расчёт':(V.find(x=>x.id===id)||{name:'?'}).name;
+const vDate=ts=>{const d=new Date(ts);return d.toLocaleDateString('ru-RU')+' '+d.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})};
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function vMsg(t,bad){const e=$('#v-msg');if(e){e.textContent=t;e.style.color=bad?'var(--bad)':''}}
+function vRender(){
+ if(!V.some(x=>x.id===vSelA))vSelA=V.length?V[0].id:'cur';
+ if(vSelB!=='cur'&&!V.some(x=>x.id===vSelB))vSelB='cur';
+ let h=`<thead><tr><th class="yr">Название</th><th>дата</th><th>баланс, млн ₽</th><th>NPV, млн ₽</th><th>выход в плюс</th><th></th></tr></thead><tbody>`;
+ if(!V.length)h+=`<tr><td colspan="6" class="mute" style="text-align:left;white-space:normal">Пока нет сохранённых версий. Введите название и нажмите «Зафиксировать расчёт».</td></tr>`;
+ V.forEach(v=>{const m=metrics(norm(v.P)),arm=a=>vArmed===a+':'+v.id;
+  h+=`<tr><td class="yr" style="white-space:normal">${esc(v.name)}</td><td class="mute">${vDate(v.ts)}</td><td>${fmt(m.cum,0)}</td><td>${fmt(m.npv,0)}</td><td>${m.pay?m.pay+' год':'после '+lastY}</td>
+  <td><div class="vact"><button class="btn ${arm('open')?'warn':''}" data-vact="open" data-id="${v.id}" type="button">${arm('open')?'Заменить текущий?':'Открыть в расчёте'}</button><button class="btn" data-vact="dl" data-id="${v.id}" type="button">Скачать</button><button class="btn ${arm('del')?'warn':''}" data-vact="del" data-id="${v.id}" type="button">${arm('del')?'Точно удалить?':'Удалить'}</button></div></td></tr>`});
+ $('#v-list').innerHTML=h+'</tbody>';
+ const opt=sel=>`<option value="cur" ${sel==='cur'?'selected':''}>Текущий расчёт</option>`+V.map(v=>`<option value="${v.id}" ${sel===v.id?'selected':''}>${esc(v.name)}</option>`).join('');
+ $('#v-a').innerHTML=opt(vSelA);$('#v-b').innerHTML=opt(vSelB);
+ const Pa=vP(vSelA),Pb=vP(vSelB);if(!Pa||!Pb)return;
+ const ma=metrics(Pa),mb=metrics(Pb),na=vName(vSelA),nb=vName(vSelB);
+ let c=`<thead><tr><th class="yr">Показатель</th><th>${esc(na)}</th><th>${esc(nb)}</th><th>разница (B − A)</th></tr></thead><tbody>`;
+ MROWS.forEach(([lab,k,t,dir])=>{const[tx,cl]=fd(t,ma[k],mb[k],dir);c+=`<tr><td class="yr" style="white-space:normal">${lab}</td><td>${fv(t,ma[k])}</td><td><b>${fv(t,mb[k])}</b></td><td class="${cl}">${tx}</td></tr>`});
+ $('#v-cmp').innerHTML=c+'</tbody>';
+ $('#v-la').textContent=na;$('#v-lb').textContent=nb;
+ vChart(ma.cumSeries,mb.cumSeries);
+ const d=diffP(Pa,Pb);
+ $('#v-diff').innerHTML=`<thead><tr><th class="yr">Параметр</th><th>A</th><th>B</th></tr></thead><tbody>`+(d.length?d.map(r=>`<tr><td class="yr" style="white-space:normal;font-weight:500">${esc(r[0])}</td><td>${esc(r[1])}</td><td><b>${esc(r[2])}</b></td></tr>`).join(''):`<tr><td colspan="3" class="mute" style="text-align:left;white-space:normal">Вводные одинаковы.</td></tr>`)+'</tbody>';
+}
+function vChart(sa,sb){
+ const el=$('#ch-v'),W=Math.max(280,el.clientWidth||480),H=250,m={l:48,r:50,t:14,b:26};
+ const vals=[...sa,...sb,0];let lo=Math.min(...vals),hi=Math.max(...vals);const step=nice((hi-lo)/4||1);lo=Math.floor(lo/step)*step;hi=Math.ceil(hi/step)*step;
+ const iw=W-m.l-m.r,ih=H-m.t-m.b,bw=iw/N,y=a=>m.t+ih-((a-lo)/(hi-lo))*ih,X=i=>m.l+i*bw+bw/2;
+ let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" role="img" aria-label="Накопленный баланс двух версий, млн рублей">`;
+ for(let a=lo;a<=hi+1e-6;a+=step)s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y(a)}" y2="${y(a)}" stroke="${Math.abs(a)<1e-6?'var(--muted)':'var(--line)'}"/><text x="${m.l-6}" y="${y(a)+4}" text-anchor="end">${fmt(a,0)}</text>`;
+ const line=(arr,c,w)=>`<polyline points="${arr.map((a,i)=>X(i)+','+y(a)).join(' ')}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linejoin="round"/>`;
+ s+=line(sa,'var(--ink)',2)+line(sb,'var(--tulip)',2.5);
+ for(let i=0;i<N;i++){
+  const tip=`<b>Сезон ${Y0+i}</b><br>A: ${fmt(sa[i],1)}<br>B: ${fmt(sb[i],1)}`;
+  s+=`<g data-tip="${tip}"><circle cx="${X(i)}" cy="${y(sa[i])}" r="3" fill="var(--ink)"/><circle cx="${X(i)}" cy="${y(sb[i])}" r="3.5" fill="var(--tulip)"/><rect x="${m.l+i*bw}" y="${m.t}" width="${bw}" height="${ih}" fill="transparent"/></g>`;
+  if(bw>34||i%2===0)s+=`<text x="${X(i)}" y="${H-8}" text-anchor="middle">${bw>34?Y0+i:String(Y0+i).slice(2)}</text>`;
+ }
+ const e=N-1,lx=Math.min(X(e)+8,W-2),an=X(e)+8>W-50?'end':'start';
+ s+=`<text class="b" x="${lx}" y="${y(sb[e])+(sb[e]<sa[e]?16:-8)}" text-anchor="${an}" fill="var(--tulip)">${fmt(sb[e],0)}</text>`;
+ el.innerHTML=s+'</svg>';
+}
+$('#v-save').onclick=()=>{
+ if(V.length>=VMAX){vMsg(`Сохранено максимум ${VMAX} версий. Удалите ненужные.`,true);return}
+ const inp=$('#v-name'),name=inp.value.trim()||`Версия ${V.length+1}`;
+ V.unshift({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),name,ts:Date.now(),P:clone(P)});
+ if(!vstore())vMsg('Версия создана, но браузер не даёт её сохранить. Скачайте файл, чтобы не потерять.',true);else vMsg(`Зафиксировано: «${name}».`);
+ inp.value='';vSelA=V[0].id;vSelB='cur';vRender();
+};
+$('#v-name').addEventListener('keydown',e=>{if(e.key==='Enter')$('#v-save').click()});
+$('#v-a').onchange=e=>{vSelA=e.target.value;vRender()};
+$('#v-b').onchange=e=>{vSelB=e.target.value;vRender()};
+$('#v-list').addEventListener('click',e=>{
+ const b=e.target.closest('button[data-vact]');if(!b)return;
+ const act=b.dataset.vact,id=b.dataset.id,v=V.find(x=>x.id===id);if(!v)return;
+ if(act==='dl'){vDownload(`krym-tulip-${v.name.replace(/[^\wА-Яа-яЁё-]+/g,'_')}.json`,[v]);return}
+ const key=act+':'+id;
+ if(vArmed!==key){vArmed=key;clearTimeout(vTimer);vTimer=setTimeout(()=>{vArmed=null;vRender()},4000);vRender();return}
+ vArmed=null;clearTimeout(vTimer);
+ if(act==='del'){V=V.filter(x=>x.id!==id);vstore();vMsg(`Удалено: «${v.name}».`);vRender()}
+ if(act==='open'){P=norm(v.P);$('#wsOn').checked=P.wsOn;$('#termOn').checked=P.termOn;syncInputs();refresh();vMsg(`В расчёт загружена версия «${v.name}».`);tab('model')}
+});
+function vDownload(name,arr){
+ try{const b=new Blob([JSON.stringify({app:'krym-tulip',version:2,versions:arr})],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500);vMsg('Файл сформирован. Если он не скачался, воспользуйтесь переносом текстом ниже.')}
+ catch(e){vMsg('Браузер не дал скачать файл. Используйте перенос текстом ниже.',true)}
+}
+$('#v-dl').onclick=()=>{if(!V.length){vMsg('Нет сохранённых версий для скачивания.',true);return}vDownload('krym-tulip-versions.json',V)};
+function vImport(text){
+ let o;try{o=JSON.parse(text)}catch(e){vMsg('Не удалось прочитать данные: это не файл версий.',true);return}
+ const arr=Array.isArray(o)?o:(o&&o.versions);if(!Array.isArray(arr)){vMsg('В данных нет версий.',true);return}
+ let n=0,bad=0;
+ arr.forEach(v=>{
+  if(!v||typeof v.name!=='string'||!validP(v.P)){bad++;return}
+  if(V.length>=VMAX){bad++;return}
+  let id=typeof v.id==='string'&&/^[\w-]{1,20}$/.test(v.id)?v.id:Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+  if(V.some(x=>x.id===id)){if(JSON.stringify(V.find(x=>x.id===id).P)===JSON.stringify(v.P))return;id=Date.now().toString(36)+Math.random().toString(36).slice(2,5)}
+  V.push({id,name:v.name.slice(0,60),ts:+v.ts||Date.now(),P:clone(v.P)});n++;
+ });
+ V.sort((a,b)=>b.ts-a.ts);vstore();
+ vMsg(`Загружено версий: ${n}.`+(bad?` Пропущено: ${bad}.`:''),!n&&bad>0);vRender();
+}
+$('#v-file').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>vImport(String(r.result));r.onerror=()=>vMsg('Не удалось прочитать файл.',true);r.readAsText(f);e.target.value=''};
+$('#v-show').onclick=()=>{$('#v-text').value=JSON.stringify({app:'krym-tulip',version:2,versions:V})};
+$('#v-load').onclick=()=>{const t=$('#v-text').value.trim();if(!t){vMsg('Вставьте данные в поле.',true);return}vImport(t)};
+
+
+/* ---------- подсказки к заголовкам ---------- */
+const SEZ='Сезон: посадка осенью этого года, выкопка в июне и продажа в августе следующего. Выручка и затраты сезона стоят в одной строке.';
+const HT={
+ '*|сезон':SEZ,
+ 'model|сезон':SEZ,
+ 'model|посадка, га':'Площадь, которую засаживаем в сезоне. Считается как млн шт. × гектаров на 1 млн (правила расчёта).',
+ 'model|посадка, млн шт.':'Сколько луковиц сажаем осенью, в миллионах штук. Делится на закупленные и свои.',
+ 'model|цена 1 шт., ₽':'Цены за одну луковицу: по какой цене покупаем и по какой продаём 1-й разбор.',
+ 'model|реализация':'Продажа 1-го разбора в августе следующего года: сколько продаём и какая выручка.',
+ 'model|затраты, млн ₽':'Деньги, которые тратим в сезоне: закупка луковиц, зарплата и капитальные вложения.',
+ 'model|баланс, млн ₽':'Выручка минус все затраты: за сезон и накопленным итогом.',
+ 'model#0':'Вся площадь посадки в сезоне: закупные + свои 1ц + свои 2ц.',
+ 'model#1':'Площадь под луковицами, которые купили. За них платим по цене закупки.',
+ 'model#2':'Площадь под своими луковицами 1-го цикла. Это потомство закупки 2026 (88 700 шт.), оно бесплатное.',
+ 'model#3':'Площадь под своими луковицами 2-го цикла. Это потомство закупок 2027 года и позже, оно бесплатное.',
+ 'model#4':'Вся посадка в сезоне, млн шт.: закупные + свои 1ц + свои 2ц.',
+ 'model#5':'Купленные луковицы, млн шт. Жёлтую ячейку можно менять. Платим по цене закупки.',
+ 'model#6':'Свои луковицы 1-го цикла, млн шт. Это то, что осталось от продажи в линии 1-го цикла.',
+ 'model#7':'Свои луковицы 2-го цикла, млн шт. Это то, что осталось от продажи в линии 2-го цикла.',
+ 'model#8':'Сколько стоит купить один тюльпан. Платим только за купленное в этом году. Своё потомство бесплатно.',
+ 'model#9':'Цена продажи 1-го разбора за штуку.',
+ 'model#10':'Сколько продаём 1-го разбора из линии 1-го цикла, млн шт. Больше выкопанного продать нельзя. Если год задан ползунком на вкладке «План», ячейка заблокирована.',
+ 'model#11':'Сколько продаём 1-го разбора из линии 2-го цикла, млн шт. Больше выкопанного продать нельзя. Если год задан ползунком на вкладке «План», ячейка заблокирована.',
+ 'model#12':'Выручка = цена реализации × проданные штуки, млн ₽.',
+ 'model#13':'Затраты на покупку = цена закупки × купленные в этом году луковицы. Для 2026 берётся с вкладки затрат 1-го цикла.',
+ 'model#14':'Фонд оплаты труда = площадь ÷ коэффициент га/ФОТ. Для 2026 берётся с вкладки затрат 1-го цикла.',
+ 'model#15':'Гектаров на 1 млн ₽ ФОТ. Чем выше число, тем меньше ФОТ на гектар. Можно менять по годам.',
+ 'model#16':'Капитальные затраты года: ангары, техника, оборудование. Берутся с вкладки «Капзатраты».',
+ 'model#17':'Баланс сезона = выручка − посадка − ФОТ − капзатраты.',
+ 'model#18':'Накопленный баланс: сумма балансов всех сезонов с 2026 года. Минус показывает, сколько денег вложено, плюс значит проект вышел в прибыль.',
+ 'model|себест. 1-го, ₽':'Себестоимость выращивания одной луковицы 1-го разбора: затраты сезона (посадка и ФОТ, без капзатрат) ÷ выкопанные луковицы.',
+ 'invT|поток, млн ₽':'Баланс сезона: выручка минус посадка, ФОТ и капзатраты. В последний год плюс запас, если включена галочка.',
+ 'invT|коэфф.':'Коэффициент дисконтирования = 1 ÷ (1 + ставка) в степени номера года. 2026 это нулевой год, у него 1,000.',
+ 'invT|pv, млн ₽':'Приведённая стоимость: поток сезона × коэффициент, то есть сколько этот поток стоит в рублях 2026 года.',
+ 'invT|накопл. pv':'Сумма приведённых стоимостей с 2026 года. Когда становится положительной, проект окупился с учётом ставки.',
+ 'costT|затраты, млн ₽':'Затраты сезона на выращивание: посадка плюс ФОТ, без капзатрат.',
+ 'costT|выкопано, млн':'Сколько луковиц всех разборов выкопали в июне, млн шт.',
+ 'costT|1-й, ₽':'Себестоимость одной луковицы 1-го разбора: затраты ÷ выкопанные луковицы, пересчитанные по цене разборов.',
+ 'costT|2-й, ₽':'Себестоимость 2-го разбора. Затраты делятся пропорционально цене, поэтому она ниже, чем у 1-го.',
+ 'costT|3-й, ₽':'Себестоимость 3-го разбора. Самая низкая, потому что и цена у этого разбора самая низкая.',
+ 'costT|цена 1-го':'Цена продажи 1-го разбора в этом сезоне из журнала, ₽.',
+ 'costT|маржа 1-го':'Маржа = (цена − себестоимость) ÷ цена. Показывает, какая доля цены остаётся после затрат на выращивание.',
+ 'salesT|выкопано':'Сколько выкопали в июне, млн шт.: сумма всех разборов.',
+ 'salesT|1-й':'Выкопано 1-го разбора: крупная луковица с гарантированным цветением. Продаём именно её.',
+ 'salesT|2-й':'Выкопано 2-го разбора: меньше размером, цветение не гарантировано. Идёт на посадку.',
+ 'salesT|3-й':'Выкопано 3-го разбора: мелкая луковица, цвести не будет, но вырастет до 1-го разбора за два года.',
+ 'salesT|продаём':'Сколько продаём из выкопанного (только 1-й разбор), млн шт.',
+ 'salesT|сажаем':'Остаётся на посадку осенью: выкопано минус продано, млн шт.',
+ 'salesT|доля':'Доля проданного от всего выкопанного.',
+ 'c-buy|название':'Что покупаем: источник и сорт луковиц.',
+ 'c-buy|к-во, шт.':'Сколько луковиц покупаем, штук. Жёлтую ячейку можно менять.',
+ 'c-buy|цена, ₽':'Цена одной луковицы в рублях.',
+ 'c-buy|сумма, ₽':'Количество × цена.',
+ 'c-fot|работа':'Вид работ первого цикла.',
+ 'c-fot|чел-дней':'Сколько человеко-дней нужно на эту работу.',
+ 'c-fot|ставка, ₽/день':'Оплата одного человеко-дня, ₽.',
+ 'c-fot|сумма, ₽':'Человеко-дни × ставка.',
+ 'c-ws|статья':'Что нужно для сортировки и хранения урожая.',
+ 'c-ws|сумма, ₽':'Стоимость статьи, ₽. Жёлтую ячейку можно менять.',
+ '*|назначение':'На что тратим капитальные деньги в этом году.',
+ '*|млн ₽':'Сумма в миллионах рублей. Жёлтую ячейку можно менять.',
+ 'gT|сезон':SEZ+' Нажмите на строку, чтобы посмотреть разбор сезона.',
+ 'gT|посадка, всего':'Всего посадили в сезоне: сумма двух циклов, млн шт.',
+ 'gT|выкопано':'Выкопано в июне следующего года, все разборы, млн шт.',
+ 'gT|продано':'Продано 1-го разбора обоих циклов, млн шт.',
+ 'gT|на посадку':'Остаётся на посадку следующей осенью: выкопано минус продано, млн шт.',
+ 'gS|млн шт.':'Все числа в таблице в миллионах штук, если не указано иное.',
+ 'gS|1-й цикл':'Линия от закупки 2026 (88 700 шт.). Дальше растёт из своих луковиц, это колонки «свои 1ц» в журнале.',
+ 'gS|2-й цикл':'Линия от закупок 2027 года и позже. Дальше растёт из своих луковиц, это колонки «свои 2ц» в журнале.',
+ 'gS|всего':'Сумма двух циклов.',
+ 'cl-grades|разбор':'Разбор это размерная группа луковиц: 1-й крупный, 2-й меньше, 3-й мелкий.',
+ 'cl-grades|шт.':'Сколько луковиц этого разбора выкопано в июне 2027 с посадки 2026.',
+ 'cl-grades|цена, ₽':'Цена за штуку. 1-й разбор берётся из журнала, 2-й и 3-й это доля от неё из правил расчёта.',
+ 'cl-grades|выручка, ₽':'Штуки × цена.',
+ 'cl-costs|':'Галочка включает статью в затраты закрытия.',
+ 'cl-costs|статья':'Статья затрат закрытия. Закупка и ФОТ идут всегда, остальное по галочкам.',
+ 'cl-costs|млн ₽':'Сумма статьи, млн ₽.',
+ 'v-list|':'Действия с версией: открыть в расчёте, скачать, удалить.',
+ 'cl-flow#0':'Разбор: размерная группа луковиц.',
+ 'cl-flow#1':'Сколько луковиц этого разбора выкопали в июне 2027 с посадки 2026.',
+ 'cl-flow#2':'Сколько продаём в августе 2027 в выбранном сценарии.',
+ 'cl-flow#3':'Цена одной луковицы в 2027: 1-й разбор из журнала, 2-й и 3-й по доле цены.',
+ 'cl-flow#4':'Выручка августа 2027 = штуки × цена, рублей.',
+ 'cl-flow#5':'Что не продали, сажаем в октябре 2027 ещё на один сезон.',
+ 'cl-flow#6':'Сколько луковиц выкопаем в июне 2028 по правилу размножения: 2-й разбор даёт 1-й, 3-й даёт 2-й, 1-й даёт все три.',
+ 'cl-flow#7':'Цена одной луковицы в 2028. Берётся из журнала (сезон 2027).',
+ 'cl-flow#8':'Выручка августа 2028 = штуки × цена, рублей.',
+ 'cl-cmp#0':'Показатель сравнения сценариев.',
+ 'cl-cmp#1':'Сразу продаём все три разбора в 2027 и закрываем проект.',
+ 'cl-cmp#2':'Продаём 1-й разбор в 2027, а 2-й и 3-й сажаем ещё на сезон.',
+ 'cl-cmp#3':'Ничего не продаём в 2027, всё сажаем ещё на сезон и продаём в 2028.',
+ 'cl-cmp#4':'Доли продажи каждого разбора в 2027 задаёте вы.',
+ 'pl-map|что решаем':'Что мы выбираем в плане: закупки, год закрытия, капзатраты.',
+ 'pl-map|нет':'Статью капзатрат не делаем совсем.',
+ 'pl-cmp|показатель':'Что сравниваем.',
+ 'pl-cmp|без плана':'Значение при расчёте без плана: без закрытия проекта и переносов капзатрат.',
+ 'pl-cmp|мой план':'Значение при расчёте по карте плана.',
+ 'pl-cmp|разница':'Мой план минус расчёт без плана. Зелёным выделено улучшение, красным ухудшение.',
+ 'v-list|название':'Имя, которое вы дали версии.',
+ 'v-list|дата':'Когда версия зафиксирована.',
+ 'v-list|баланс, млн ₽':'Накопленный баланс на конец периода в этой версии.',
+ 'v-list|npv, млн ₽':'Чистая приведённая стоимость при ставке дисконтирования этой версии.',
+ 'v-list|выход в плюс':'Год, когда накопленный баланс впервые стал положительным.',
+ 'v-cmp|показатель':'Что сравниваем.',
+ 'v-cmp#1':'Значение в версии A.',
+ 'v-cmp#2':'Значение в версии B.',
+ 'v-cmp#3':'Значение B минус значение A. Зелёным выделено улучшение, красным ухудшение.',
+ 'v-diff|параметр':'Вводное значение, которое отличается между версиями.',
+ 'v-diff|a':'Значение в версии A.',
+ 'v-diff|b':'Значение в версии B.'
+};
+function addTips(){
+ document.querySelectorAll('th').forEach(th=>{
+  if(th.dataset.tip)return;
+  const tb=th.closest('table'),tid=tb?tb.id:'';
+  let key=(th.childNodes[0]?th.childNodes[0].textContent:'').replace(/\s+/g,' ').trim().toLowerCase();
+  if(!th.querySelector('small'))key=th.textContent.replace(/\s+/g,' ').trim().toLowerCase();
+  let t=null;
+  const idx=[...th.parentElement.children].indexOf(th);
+  if(tid==='model'){const r2=th.parentElement.previousElementSibling;t=(r2&&th.parentElement.parentElement.tagName==='THEAD'&&th.parentElement.rowIndex===1)?HT['model#'+idx]:HT['model|'+key]}
+  else if(tid==='v-cmp'&&idx>0)t=HT['v-cmp#'+idx];
+  else t=HT[tid+'|'+key]||HT['*|'+key]||HT[tid+'#'+idx];
+  const own=th.getAttribute('title');
+  if(!t&&own)t=own;
+  if(t){th.dataset.tip=t;th.removeAttribute('title');th.classList.add('hastip')}
+ });
+}
+let tipRaf=0;
+new MutationObserver(()=>{if(!tipRaf)tipRaf=requestAnimationFrame(()=>{tipRaf=0;addTips()})}).observe(document.body,{childList:true,subtree:true});
+document.addEventListener('click',e=>{
+ const t=e.target.closest&&e.target.closest('th[data-tip]');
+ if(!t||!matchMedia('(hover:none)').matches)return;
+ const r=t.getBoundingClientRect(),tp=document.getElementById('tip');
+ tp.innerHTML=t.dataset.tip;tp.style.opacity=1;tp.style.left=Math.max(8,Math.min(r.left,innerWidth-tp.offsetWidth-8))+'px';tp.style.top=(r.bottom+6)+'px';
+ clearTimeout(tp._t);tp._t=setTimeout(()=>tp.style.opacity=0,3500);
+});
+
+
+/* ---------- старт ---------- */
+const GO=[['plan','План'],['model','Журнал сезонов'],['costs','Затраты 1-го цикла'],['capex','Капзатраты'],['grades','Разборы'],['closure','Закрытие 2027'],['versions','Версии'],['guide','Инструкция']];
+function startTab(){
+ if(!document.getElementById('st-steps'))return;
+ const R=O.R,last=R[N-1],c=O.c,v=O.inv,cl=closure(P,O),ly=last.year;
+ const firstProfit=R.find(r=>r.bal>0), paidY=R.filter((r,i)=>i>0&&r.paid).map(r=>r.year);
+ const k=[[`Баланс к ${ly}`,fmt(last.cum,0)+' млн ₽','накопленный итог',sg(last.cum)],
+  ['Выход в плюс',O.pay?O.pay+' год':'после '+ly,'накопленный баланс ≥ 0',O.pay?'pos':'neg'],
+  ['Нужно финансирование',fmt(-Math.min(0,O.peak),0)+' млн ₽','пик минуса: столько денег нужно найти',''],
+  ['NPV',fmt(v.npv,0)+' млн ₽',`при ставке ${fmt(P.disc*100,0)}% годовых`,sg(v.npv)]];
+ $('#st-kpi').innerHTML=k.map(i=>`<div class="kpi ${i[3]}"><small>${i[0]}</small><strong class="num">${unit(i[1])}</strong><em>${i[2]}</em></div>`).join('');
+ const gl=['1-й','2-й','3-й'],gc=['var(--tulip)','var(--amber)','var(--blue)'];
+ const chip=(g,n)=>`<span class="gc" style="--c:${gc[g]}"><i></i>${gl[g]}${n!==1?` <em>× ${fmt(n,1)}</em>`:''}</span>`;
+ $('#st-mx').innerHTML=[0,1,2].map(i=>{const to=[0,1,2].filter(j=>P.mat[i][j]>0).map(j=>chip(j,P.mat[i][j])).join('')||'<span class="mute">ничего</span>';
+  return `<div class="mxr"><span class="lb">Посадили</span>${chip(i,1)}<span class="arr">→</span><span class="lb" style="width:auto">выкопали</span><span class="to">${to}</span></div>`}).join('');
+ const g0=sum3(O.D[0][0])*1e6, q2s=P.buyQ[1]||0, pr1=R[1].price, fr=R.find(r=>r.fin);
+ const steps=[
+  ['Сезон','Сезон 2026 это посадка осенью 2026, выкопка в июне 2027 и продажа в августе 2027. Выручка и затраты сезона стоят в одной строке журнала, поэтому каждая строка читается как отдельный год.',null],
+  [`Старт в ${R[0].year}`,`Покупаем ${rub(c.qty)} луковиц (${rub(P.c1.holl.q)} в Голландии и ${rub(P.c1.crim.q)} в Крыму) за ${fmt(c.buy/1e6,2)} млн ₽, это ${fmt(c.buy/c.qty,1)} ₽ за штуку. ФОТ ${fmt(c.fot/1e6,2)} млн ₽, площадь ${fmt(P.area0,1)} га, ремонт помещения ${fmt(capYear(P,Y0),1)} млн ₽.`,'costs'],
+  ['Что вырастает',`Выкопанные луковицы делятся на три разбора. Размножение идёт по правилу выше. Из ${rub(c.qty)} купленных в июне ${Y0+1} выкопали ${rub(g0)} луковиц разных разборов.`,null],
+  ['Что продаём и что сажаем',`Продаётся только 1-й разбор. Остальное и непроданная часть 1-го снова идут в посадку. Сколько продавать, вы задаёте в журнале или ползунком на вкладке «План». За весь период продаём ${fmt(O.tot.sold,1)} млн шт., в ${ly} это ${fmt(last.dug>0?last.sold/last.dug*100:0,0)}% от выкопанного.`,'model'],
+  ['Две линии',`1-й цикл растёт из луковиц, купленных в ${Y0}. Во 2-м цикле в ${Y0+1} докупаем ${fmt(q2s,1)} млн шт.${pr1>0?` по ${fmt(pr1,0)} ₽ (${fmt(R[1].plant,0)} млн ₽)`:''}. Потомство этих луковиц своё и бесплатное. Как луковицы раскладываются по линиям и разборам, показано на вкладке «Разборы».`,'grades'],
+  ['Площадь и люди',`На каждый миллион посаженных луковиц нужно ${fmt(P.haPerMln,1)} га. ФОТ равен площади, делённой на коэффициент (сейчас от ${fmt(Math.min(...P.coef),2)} до ${fmt(Math.max(...P.coef),2)} по годам). К ${ly} площадь ${fmt(last.ha,0)} га, посадка ${fmt(last.mln,1)} млн шт.`,'model'],
+  ['Деньги сезона',`Затраты: закупка луковиц, ФОТ и капитальные вложения (до ${ly} всего ${fmt(O.tot.capex,0)} млн ₽). Выручка равна цене 1-го разбора (в ${ly} ${fmt(P.price[N-1],0)} ₽), умноженной на проданные штуки. Баланс сезона это выручка минус затраты.`,'capex'],
+  ['Как идут годы',`Вкладываем и копим минус до ${fmt(-Math.min(0,O.peak),0)} млн ₽. ${firstProfit?`Первый прибыльный сезон ${firstProfit.year}. `:''}Накопленный баланс ${O.pay?`выходит в плюс в ${O.pay} году`:`не выходит в плюс до ${ly}`}. К ${ly} он равен ${fmt(last.cum,0)} млн ₽, выручка за период ${fmt(O.tot.rev,0)} млн ₽.`,'model'],
+  ['Себестоимость одной луковицы',`В ${R[0].year} году ${fmt(R[0].cost1,1)} ₽, в ${ly} ${fmt(last.cost1,1)} ₽. Она падает, потому что своя луковица для посадки в расчёте бесплатна. Цель из вашего файла ${fmt(P.target,0)} ₽.`,'model'],
+  ['Оценка проекта',`NPV ${fmt(v.npv,0)} млн ₽ при ставке ${fmt(P.disc*100,0)}%, IRR ${v.irr==null?'не определён':fmt(v.irr*100,1)+'%'}, окупаемость с учётом ставки ${v.dpay?v.dpay+' год':'после '+ly}.`,'model'],
+  ['Если закрыть в 2027',`Продаём ${rub(sum3(cl.d)*1e6)} луковиц за ${fmt(cl.revT,2)} млн ₽ при затратах ${fmt(cl.total,2)} млн ₽. Результат ${fmt(cl.result,2)} млн ₽. Чтобы выйти в ноль, 1-й разбор пришлось бы продавать по ${fmt(cl.be,0)} ₽. На вкладке есть и варианты с доращиванием 2-го и 3-го разбора ещё на сезон.`,'closure'],
+  ['Чем управлять','Меняйте жёлтые ячейки: цены, объём продаж, закупку, коэффициенты. На вкладке «План» выбирайте годы закупок, год закрытия и годы капзатрат. Сохраняйте расчёт кнопкой «Зафиксировать» и сравнивайте два варианта рядом.','plan']
+ ];
+ const tn=Object.fromEntries(GO);
+ $('#st-steps').innerHTML=steps.map((a,i)=>`<article class="step"><div class="n">${i+1}</div><div><h4>${a[0]}</h4><p>${a[1]}</p>${a[2]?`<button class="go" type="button" data-goto="${a[2]}">Открыть: ${tn[a[2]]} →</button>`:''}</div></article>`).join('');
+ $('#st-ass').innerHTML=[
+  `Продаётся только 1-й разбор. 2-й и 3-й сажаются снова и в выручку не входят.${fr?` Исключение: в плане проект заканчивается, и в последний сезон (продажа в августе ${fr.year+1}) продаются все разборы.`:''}`,
+  `Цена продажи 1-го разбора в ${ly} году ${fmt(P.price[N-1],0)} ₽. Её можно менять отдельно по каждому году.`,
+  `Свои луковицы для посадки считаются бесплатными. Себестоимость поэтому низкая и не включает их стоимость.`,
+  paidY.length?`Платим только за купленные луковицы (${paidY.length>1?'годы':'год'} ${paidY.join(', ')}): цена × количество. Своё потомство бесплатно, в том числе то, что выращено из закупки ${Y0+1} года.`:`После ${Y0} ничего не докупаем, весь материал свой.`,
+  `Продажи задаются вручную по каждой линии или долей от выкопанного 1-го разбора на вкладке «План». Продать больше выкопанного нельзя, такая ячейка получает красную рамку.`,
+  `ФОТ считается как площадь ÷ коэффициент. Для ${Y0} года ФОТ и закупка берутся с вкладки «Затраты 1-го цикла».`,
+  `Капзатраты берутся с вкладки «Капзатраты» за ${Y0}–${ly}. Рабочее пространство для сортировки и хранения ${fmt(c.ws/1e6,1)} млн ₽ в основной модели ${P.wsOn?'включено':'выключено'} (переключатель на вкладке затрат 1-го цикла).`,
+  `Дисконтирование: ${Y0} считается нулевым годом, ставка ${fmt(P.disc*100,0)}%. Запас луковиц на конец периода в NPV ${P.termOn?'учтён':'не учтён'}.`
+ ].map(t=>`<li>${t}</li>`).join('');
+ $('#st-go').innerHTML=GO.map(g=>`<button class="btn" type="button" data-goto="${g[0]}">${g[1]}</button>`).join('');
+}
+document.addEventListener('click',e=>{const g=e.target.closest&&e.target.closest('[data-goto]');if(!g)return;tab(g.dataset.goto);window.scrollTo({top:0,behavior:'smooth'})});
+
+
+/* ---------- план ---------- */
+function planBuild(){
+ let h=`<thead><tr><th>Что решаем</th>`+Array.from({length:N},(_,t)=>`<th data-col="${t}" title="${yearTitle(Y0+t)}">${Y0+t}</th>`).join('')+`<th title="Статья не выполняется в плане">нет</th></tr></thead><tbody>`;
+ const cols=f=>Array.from({length:N},(_,t)=>f(t)).join('');
+ h+=`<tr><td>Что делаем в сезоне</td>`+cols(t=>`<td data-col="${t}" id="pl-st${t}" style="font-size:12px;white-space:normal"></td>`)+`<td></td></tr>`;
+ h+=`<tr class="sec"><td colspan="${N+2}">Закупка луковиц</td></tr>`;
+ h+=`<tr><td>Покупаем, млн шт.<br><span class="mute" style="font-size:12px">платные луковицы 1-го разбора, остальное своё</span></td>`+cols(t=>t===0?`<td data-col="0" id="pl-q0"></td>`:`<td data-col="${t}" class="in"><input class="y" type="number" step="0.5" min="0" data-path="buyQ.${t}" aria-label="Закупка ${Y0+t}, млн шт."></td>`)+`<td></td></tr>`;
+ h+=`<tr><td>Цена закупки, ₽<br><span class="mute" style="font-size:12px">платим только за купленное в этом году</span></td>`+cols(t=>t===0?`<td data-col="0" id="pl-p0"></td>`:`<td data-col="${t}" class="in"><input class="y" type="number" step="1" min="0" data-path="buy.${t}" aria-label="Цена закупки ${Y0+t}, ₽"></td>`)+`<td></td></tr>`;
+ h+=`<tr class="tot"><td>Расходы на закупку, млн ₽</td>`+cols(t=>`<td data-col="${t}" id="pl-pl${t}"></td>`)+`<td></td></tr>`;
+ h+=`<tr class="sec"><td colspan="${N+2}">Продажи 1-го разбора</td></tr>`;
+ h+=`<tr><td>Выкопано 1-го разбора, млн шт.</td>`+cols(t=>`<td data-col="${t}" id="pl-d1${t}"></td>`)+`<td></td></tr>`;
+ h+=`<tr><td>Всего выкопано, все разборы, млн шт.<br><span class="mute" style="font-size:12px">1-й, 2-й и 3-й вместе</span></td>`+cols(t=>`<td data-col="${t}" id="pl-dg${t}"></td>`)+`<td></td></tr>`;
+ h+=`<tr><td>Какую долю 1-го разбора продаём<br><span class="mute" style="font-size:12px">двигайте ползунок. Пока не трогали, берётся из журнала</span></td>`+cols(t=>`<td data-col="${t}"><input type="range" class="pslider" min="0" max="100" step="1" id="pl-sl${t}" data-path="pct.${t}" data-pct="1" aria-label="Доля продажи 1-го разбора, ${Y0+t}, %"><div id="pl-pv${t}" style="font-size:12px;color:var(--muted)"></div></td>`)+`<td></td></tr>`;
+ h+=`<tr><td>Продаём, млн шт.</td>`+cols(t=>`<td data-col="${t}" id="pl-sd${t}"></td>`)+`<td></td></tr>`;
+ h+=`<tr><td>Цена реализации, ₽</td>`+cols(t=>`<td data-col="${t}" class="in"><input class="y" type="number" step="1" min="0" data-path="price.${t}" aria-label="Цена реализации ${Y0+t}, ₽"></td>`)+`<td></td></tr>`;
+ h+=`<tr class="tot"><td>Выручка, млн ₽</td>`+cols(t=>`<td data-col="${t}" id="pl-rev${t}"></td>`)+`<td></td></tr>`;
+ h+=`<tr class="sec"><td colspan="${N+2}">Капитальные затраты: выберите год для каждой статьи</td></tr>`;
+ for(let yy=Y0;yy<Y0+N;yy++)(P.capex[yy]||[]).forEach((r,i)=>{
+  h+=`<tr><td>${r[0]}<br><span class="mute" style="font-size:12px">в списке ${yy} · <span id="pl-a${yy}-${i}"></span> млн ₽</span></td>`+cols(t=>`<td data-col="${t}"><button type="button" class="pcell" data-cx="${yy}.${i}" data-yr="${Y0+t}" aria-pressed="false" aria-label="${r[0]}: сделать в ${Y0+t}"></button></td>`)+`<td><button type="button" class="pcell off" data-cx="${yy}.${i}" data-yr="-1" aria-pressed="false" aria-label="${r[0]}: не делать">нет</button></td></tr>`});
+ h+=`<tr class="tot"><td>Капзатраты по годам, млн ₽</td>`+cols(t=>`<td data-col="${t}" id="pl-cx${t}"></td>`)+`<td></td></tr>`;
+ h+=`<tr class="sec"><td colspan="${N+2}">Результат плана</td></tr>`;
+ h+=`<tr><td>Баланс сезона, млн ₽</td>`+cols(t=>`<td data-col="${t}" id="pl-bal${t}"></td>`)+`<td></td></tr>`;
+ h+=`<tr class="tot"><td>Накопленный баланс, млн ₽</td>`+cols(t=>`<td data-col="${t}" id="pl-cum${t}"></td>`)+`<td></td></tr>`;
+ $('#pl-map').innerHTML=h+'</tbody>';
+ $('#plan-end').innerHTML=`<option value="0">Не заканчиваем, считаем до ${Y0+N-1}</option>`+Array.from({length:N-1},(_,i)=>{const E=Y0+1+i;return `<option value="${E}">Последняя продажа в августе ${E}</option>`}).join('');
+}
+function planChart(Op,Of){
+ const el=$('#pl-chart');if(!el)return;
+ const W=Math.max(280,el.clientWidth||480),H=250,m={l:48,r:14,t:14,b:26};
+ const a=Op.R.map(r=>r.cum),b=Of.R.map(r=>r.cum),all=[...a,...b,0];
+ let lo=Math.min(...all),hi=Math.max(...all);const step=nice((hi-lo)/4||1);lo=Math.floor(lo/step)*step;hi=Math.ceil(hi/step)*step;if(hi===lo)hi=lo+step;
+ const iw=W-m.l-m.r,ih=H-m.t-m.b,x=i=>m.l+iw*(N>1?i/(N-1):0),y=v=>m.t+ih-((v-lo)/(hi-lo))*ih;
+ let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" role="img" aria-label="Накопленный баланс: мой план и расчёт без плана, млн рублей">`;
+ for(let v=lo;v<=hi+1e-6;v+=step)s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y(v)}" y2="${y(v)}" stroke="${Math.abs(v)<1e-6?'var(--muted)':'var(--line)'}"/><text x="${m.l-6}" y="${y(v)+4}" text-anchor="end">${fmt(v,0)}</text>`;
+ Op.R.forEach((r,i)=>{s+=`<text x="${x(i)}" y="${H-8}" text-anchor="middle">${W>420?r.year:String(r.year).slice(2)}</text>`});
+ s+=`<polyline points="${b.map((v,i)=>x(i)+','+y(v)).join(' ')}" fill="none" stroke="var(--tulip)" stroke-width="2" stroke-dasharray="5 4"/>`;
+ s+=`<polyline points="${a.map((v,i)=>x(i)+','+y(v)).join(' ')}" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linejoin="round"/>`;
+ a.forEach((v,i)=>s+=`<circle cx="${x(i)}" cy="${y(v)}" r="3.5" fill="var(--ink)" stroke="var(--surface)" stroke-width="2"><title>${Op.R[i].year}: план ${fmt(v,1)}, без плана ${fmt(b[i],1)}</title></circle>`);
+ s+=`</svg><div class="row-flex" style="gap:16px;font-size:12.5px;color:var(--muted);margin-top:6px"><span><b style="color:var(--ink)">━</b> мой план, ${fmt(a[N-1],0)}</span><span><b style="color:var(--tulip)">╍</b> расчёт без плана, ${fmt(b[N-1],0)}</span></div>`;
+ el.innerHTML=s;
+}
+function planTab(){
+ if(!$('#pl-map').firstChild)return;
+ const Pp=clone(P);Pp.plan.on=true;const Op=run(Pp);
+ const Pf=clone(P);Pf.plan.on=false;const Of=run(Pf);
+ const mp=metrics(Pp),mf=metrics(Pf),on=P.plan.on;
+ $('#plan-on').checked=on;
+ const se=$('#plan-end');if(se.value!==String(P.plan.end||0))se.value=String(P.plan.end||0);
+ const tc=Op.R.findIndex(r=>r.closed),E=tc<0?0:Y0+tc;
+ const buys=Op.R.map((r,t)=>t>0&&!r.closed&&P.buyQ[t]>0?`${r.year}: ${fmt(P.buyQ[t],1)} млн шт. по ${fmt(r.price,0)} ₽`:'').filter(Boolean);
+ const moved=Object.keys(P.plan.mv).length;
+ const lostCx=Op.R.reduce((a,r,t)=>a+(r.closed?capYear(Pp,Y0+t):0),0);
+ $('#plan-state').textContent=(on?'План включён: закрытие проекта и переносы капзатрат применяются ко всей модели.':'План не включён: закрытие проекта и переносы капзатрат на остальных вкладках пока не применяются, ниже предпросмотр. Закупки, цены и ползунки продаж общие для всей модели и сразу попадают в журнал.')
+  +` Закупки: ${buys.length?buys.join('; '):'нет'}. ${E?`Проект заканчиваем: последняя продажа в августе ${E}.`:'Проект не закрываем.'}${moved?` Статей капзатрат перенесено или отключено: ${moved}.`:''}`
+  +(lostCx>1e-9?` Внимание: ${fmt(lostCx,1)} млн ₽ капзатрат стоят в годах после закрытия, в расчёт они не входят.`:'');
+ const d=(a,b,dir)=>{const x=a-b;return Math.abs(x)<0.05?'без изменений':(x>0?'+':'−')+fmt(Math.abs(x),0)+' к файлу'};
+ const last=Op.R[N-1],lastF=Of.R[N-1];
+ const k=[
+  [`Баланс к ${last.year}`,fmt(last.cum,0)+' млн ₽',`без плана ${fmt(lastF.cum,0)} · ${d(last.cum,lastF.cum)}`,sg(last.cum)],
+  ['Выход в плюс',Op.pay?Op.pay+' год':'не выходит',`без плана: ${Of.pay?Of.pay+' год':'не выходит'}`,Op.pay?'pos':'neg'],
+  ['Нужно финансирование',fmt(-Math.min(0,Op.peak),0)+' млн ₽',`без плана ${fmt(-Math.min(0,Of.peak),0)}`,''],
+  ['NPV',fmt(Op.inv.npv,0)+' млн ₽',`без плана ${fmt(Of.inv.npv,0)} · ${d(Op.inv.npv,Of.inv.npv)}`,sg(Op.inv.npv)],
+  ['Выручка',fmt(Op.tot.rev,0)+' млн ₽',`без плана ${fmt(Of.tot.rev,0)}`,''],
+  ['Затраты',fmt(Op.tot.plant+Op.tot.fot+Op.tot.capex,0)+' млн ₽',`без плана ${fmt(Of.tot.plant+Of.tot.fot+Of.tot.capex,0)}`,'']
+ ];
+ $('#pl-kpi').innerHTML=k.map(i=>`<div class="kpi ${i[3]}"><small>${i[0]}</small><strong class="num">${unit(i[1])}</strong><em>${i[2]}</em></div>`).join('');
+ const warns=[];
+ Op.R.forEach((r,t)=>{
+  const st=r.closed?'закрыт':r.fin?'последний: продаём всё':(t===0?'стартовая посадка':'сажаем');
+  T('pl-st'+t,st);
+  if(t===0){T('pl-q0',fmt(r.mlnB,4));T('pl-p0',fmt(r.price,2))}
+T('pl-pl'+t,r.plant>1e-9?fmt(r.plant,1):'—');
+  {const sl=document.getElementById('pl-sl'+t),ov=P.pct[t]!=null,imp=r.d1>1e-9?(r.sold1+r.sold2)/r.d1:0,dis=r.closed||r.fin,val=ov?P.pct[t]:imp;
+   T('pl-d1'+t,r.d1>1e-9?fmt(r.d1,2):'—');T('pl-dg'+t,r.dug>1e-9?fmt(r.dug,2):'—');T('pl-sd'+t,r.sold>1e-9?fmt(r.sold,2):'—');
+   sl.disabled=dis;if(document.activeElement!==sl)sl.value=Math.round(Math.min(1,Math.max(0,val))*100);
+   let wt='',wc='';
+   if(!dis){
+    if(!ov&&(r.short1||r.short2)){wt='В журнале задано больше, чем выкопано 1-го разбора: '+[r.short1?`в 1-м цикле задано ${fmt(P.s1[t]||0,2)}, есть ${fmt(r.d1max,2)} млн шт.`:'',r.short2?`во 2-м цикле задано ${fmt(P.s2[t]||0,2)}, есть ${fmt(r.d2max,2)} млн шт.`:''].filter(Boolean).join('; ')+'. Продаётся только выкопанное.';wc='pw-bad'}
+    else if(r.d1<=1e-9){wt='Продавать нечего: 1-го разбора в этом сезоне нет.';wc='pw-bad'}
+    else if(val>=0.995){wt=ov?'Продаём весь выкопанный 1-й разбор. Для посадки следующего сезона 1-го разбора не остаётся, размножение замедлится.':'Продаётся весь выкопанный 1-й разбор. Для посадки следующего сезона он не остаётся.';wc='pw-warn'}
+    if(wt)warns.push(`${r.year}: ${wt}`);
+   }
+   const tdc=sl.parentElement;tdc.classList.remove('pw-bad','pw-warn');if(wc)tdc.classList.add(wc);
+   tdc.title=wt;sl.title=wt||'Двигайте, чтобы задать долю продажи 1-го разбора';
+   const pv=document.getElementById('pl-pv'+t);pv.innerHTML=r.closed?'—':r.fin?'продаём всё':fmt(val*100,1)+'%<br>'+(wc==='pw-bad'?'не хватает':wc==='pw-warn'?'продаём всё':ov?'ваша доля':'из журнала');pv.className=wc==='pw-bad'?'pvbad':'';}
+  const cx=capYear(Pp,Y0+t);T('pl-cx'+t,cx>1e-9?fmt(cx,1):'—',r.closed&&cx>1e-9?'neg':'');
+  T('pl-rev'+t,r.rev>1e-9?fmt(r.rev,1):'—');T('pl-bal'+t,fmt(r.bal,1),sg(r.bal));T('pl-cum'+t,fmt(r.cum,1),sg(r.cum));
+  $$(`#pl-map [data-col="${t}"]`).forEach(e=>e.classList.toggle('pcl',!!r.closed));
+ });
+ if(warns.length)$('#plan-state').textContent+=' Внимание по продажам: '+warns.join(' ');
+ $$('#pl-map button[data-cx]').forEach(b=>{
+  const [yy,i]=b.dataset.cx.split('.').map(Number),tg=capTarget(Pp,yy,i),yr=+b.dataset.yr,amt=P.capex[yy][i][1];
+  const pr=tg===yr;b.setAttribute('aria-pressed',pr);if(yr>0)b.textContent=pr?fmt(amt,1):'';
+  T(`pl-a${yy}-${i}`,fmt(amt,1));
+ });
+ let h=`<thead><tr><th class="yr">Показатель</th><th>без плана</th><th>мой план</th><th>разница</th></tr></thead><tbody>`;
+ MROWS.filter(r=>r[1]!=='clRes'&&r[1]!=='maxHa'&&r[1]!=='stock').forEach(([l,key,t,dir])=>{const [txt,cls]=fd(t,mf[key],mp[key],dir);h+=`<tr><td class="yr" style="white-space:normal">${l}</td><td>${fv(t,mf[key])}</td><td>${fv(t,mp[key])}</td><td class="${cls}">${txt}</td></tr>`});
+ $('#pl-cmp').innerHTML=h+'</tbody>';
+ planChart(Op,Of);
+}
+document.addEventListener('click',e=>{
+ const b=e.target.closest&&e.target.closest('button[data-cx]');
+ if(b){const key=b.dataset.cx,yr=+b.dataset.yr,orig=+key.split('.')[0];if(yr===orig)delete P.plan.mv[key];else P.plan.mv[key]=yr;refresh();return}
+ if(e.target.id==='plan-pct-reset'){P.pct=defaults().pct;syncInputs();refresh()}
+ if(e.target.id==='plan-reset'){const d=defaults();P.plan=d.plan;P.buyQ=d.buyQ;P.buy=d.buy;P.pct=d.pct;syncInputs();refresh()}
+});
+
+/* ---------- матрица и общие события ---------- */
+function buildMat(){
+ let h=`<span></span><span class="h">1-й разбор</span><span class="h">2-й разбор</span><span class="h">3-й разбор</span>`;
+ ['Посадили 1-й разбор','Посадили 2-й разбор','Посадили 3-й разбор'].forEach((n,i)=>{h+=`<span>${n}</span>`+[0,1,2].map(j=>`<span class="y"><input type="number" step="0.1" min="0" class="y" data-path="mat.${i}.${j}" aria-label="${n}, выкопали ${j+1}-й разбор"></span>`).join('')});
+ $('#mat').innerHTML=h;
+}
+$('#apply-all').onclick=()=>{const v=parseFloat($('#p-all').value);if(isNaN(v))return;P.price=P.price.map(()=>v);syncInputs();refresh()};
+$('#apply-coef').onclick=()=>{const v=parseFloat($('#p-coefAll').value);if(isNaN(v)||v<=0)return;P.coef=P.coef.map(()=>v);syncInputs();refresh()};
+const TABS=['start','plan','model','costs','capex','grades','closure','versions','guide'];
+function tab(n){
+ TABS.forEach(x=>{$('#tab-'+x).hidden=x!==n});
+ $$('nav.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===n));
+ try{history.replaceState(null,'','#'+n)}catch(e){}
+ try{localStorage.setItem('krym-tulip-tab',n)}catch(e){}
+ if(n==='model')charts();
+ if(n==='plan')planTab();
+ if(n==='versions')vRender();
+ const tp0=document.getElementById('tip');if(tp0)tp0.style.opacity=0;
+}
+$$('nav.tabs button').forEach(b=>b.onclick=()=>tab(b.dataset.tab));
+$('#plan-badge').onclick=()=>tab('plan');
+$('#reset').onclick=()=>{try{localStorage.removeItem(KEY)}catch(e){}P=defaults();$('#wsOn').checked=false;$('#termOn').checked=false;syncInputs();refresh()};
+$('#theme').onclick=()=>{const r=document.documentElement,dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;r.dataset.theme=dark?'light':'dark'};
+const tip=$('#tip');
+document.addEventListener('mousemove',e=>{const t=e.target.closest&&e.target.closest('[data-tip]');if(!t){tip.style.opacity=0;return}tip.innerHTML=t.dataset.tip;tip.style.opacity=1;const w=tip.offsetWidth;tip.style.left=Math.min(e.clientX+14,innerWidth-w-8)+'px';tip.style.top=(e.clientY+14)+'px'});
+document.addEventListener('mouseleave',()=>tip.style.opacity=0);
+let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(charts,120)});
+buildTable();buildCosts();buildCapex();buildMat();planBuild();syncInputs();refresh();addTips();
+let h0=location.hash.slice(1);if(!TABS.includes(h0)){try{h0=localStorage.getItem('krym-tulip-tab')||''}catch(e){h0=''}}
+tab(TABS.includes(h0)?h0:'start');
+addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(TABS.includes(h))tab(h)});
+
+</script>
