@@ -1094,7 +1094,20 @@ function diffP(Pa,Pb){
 }
 let vSelA=null,vSelB='cur',vArmed=null,vTimer;
 const allV=()=>BUILTIN.map(b=>Object.assign({builtin:true},b)).concat(V);
+/* убираем из «своих» версий точные копии готовых сценариев (одинаковый id или то же имя и те же вводные) */
+let vDupRemoved=0;
+function vDedupe(){
+ const bj=BUILTIN.map(b=>({id:b.id,name:b.name,j:JSON.stringify(norm(b.P))}));
+ const keep=V.filter(v=>{
+  if(!v||!v.P)return true;
+  const same=bj.some(b=>b.id===v.id||(b.name===v.name&&b.j===JSON.stringify(norm(v.P))));
+  return !same;
+ });
+ const n=V.length-keep.length;
+ if(n>0){V=keep;vstore();vDupRemoved+=n;try{if(Array.isArray(vSel))vSel=vSel.filter(id=>vIds().includes(id))}catch(e){}}
+}
 const vP=id=>id==='cur'?P:(()=>{const v=allV().find(x=>x.id===id);return v?norm(v.P):null})();
+vDedupe();
 const vName=id=>id==='cur'?'Текущий расчёт':(allV().find(x=>x.id===id)||{name:'?'}).name;
 const vDate=ts=>{const d=new Date(ts);return d.toLocaleDateString('ru-RU')+' '+d.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})};
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -1118,6 +1131,7 @@ function vRow(id){
 }
 function vRender(){
  vSelInit();
+ if(vDupRemoved>0){vMsg(`Убрано повторов готовых сценариев: ${vDupRemoved}. Ваши остальные версии на месте.`);vDupRemoved=0}
  const AV=allV();
  if(!AV.some(x=>x.id===vSelA))vSelA=AV[0].id;
  if(vSelB!=='cur'&&!AV.some(x=>x.id===vSelB))vSelB='cur';
@@ -1251,7 +1265,7 @@ function vImport(text){
   if(V.some(x=>x.id===id)){if(JSON.stringify(V.find(x=>x.id===id).P)===JSON.stringify(v.P))return;id=Date.now().toString(36)+Math.random().toString(36).slice(2,5)}
   V.push({id,name:v.name.slice(0,60),ts:+v.ts||Date.now(),P:clone(v.P)});n++;
  });
- V.sort((a,b)=>b.ts-a.ts);vstore();
+ V.sort((a,b)=>b.ts-a.ts);vstore();vDedupe();
  vMsg(`Загружено версий: ${n}.`+(dup?` Уже есть среди готовых: ${dup}.`:'')+(bad?` Пропущено: ${bad}.`:''),!n&&bad>0);vRender();
 }
 $('#v-file').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>vImport(String(r.result));r.onerror=()=>vMsg('Не удалось прочитать файл.',true);r.readAsText(f);e.target.value=''};
