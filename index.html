@@ -183,6 +183,7 @@ nav.tabs button{padding:8px 10px;font-size:13.5px}
   <button role="tab" id="t-capex" aria-selected="false" data-tab="capex">Капзатраты</button>
   <button role="tab" id="t-grades" aria-selected="false" data-tab="grades">Разборы</button>
   <button role="tab" id="t-closure" aria-selected="false" data-tab="closure">Закрытие 2027</button>
+  <button role="tab" id="t-stress" aria-selected="false" data-tab="stress">Стресс-тесты</button>
   <button role="tab" id="t-versions" aria-selected="false" data-tab="versions">Версии</button>
   <button role="tab" id="t-guide" aria-selected="false" data-tab="guide">Инструкция</button>
  </nav>
@@ -413,6 +414,27 @@ nav.tabs button{padding:8px 10px;font-size:13.5px}
  </div>
 </section>
 
+<section id="tab-stress" hidden aria-labelledby="t-stress">
+ <div style="margin-bottom:18px">
+  <h2>Стресс-тесты</h2>
+  <p class="lead">Каждая строка берёт текущую модель (все ваши вводные, включая амортизацию и проценты), меняет один фактор и пересчитывает показатели. Значения в жёлтых полях можно менять. Сравнение идёт с текущей базой, то есть с тем, что сейчас на вкладке «Модель».</p>
+ </div>
+ <div class="panel" style="margin-bottom:14px">
+  <header><h3>Чувствительность</h3></header>
+  <div class="tw"><table id="st-t"></table></div>
+  <p class="lead" style="font-size:12.5px;margin-top:8px" id="st-note"></p>
+  <div class="row-flex" style="margin-top:10px"><button class="btn" id="st-reset" type="button">Вернуть шаги по умолчанию</button></div>
+ </div>
+ <div class="panel">
+  <header><h3>Что сильнее всего меняет NPV</h3></header>
+  <div id="st-bars"></div>
+ </div>
+ <div class="panel" style="margin-top:14px">
+  <header><h3>Наиболее чувствительные факторы</h3></header>
+  <div id="st-sum" class="lead" style="max-width:90ch;display:flex;flex-direction:column;gap:10px"></div>
+ </div>
+</section>
+
 <section id="tab-versions" hidden aria-labelledby="t-versions">
  <div style="margin-bottom:18px">
   <h2>Версии расчёта</h2>
@@ -538,7 +560,7 @@ th.hastip:hover{color:var(--ink)}
 </style>
 <div style="margin-bottom:18px"><h2>Как пользоваться моделью</h2><p class="lead">Модель показывает, как растёт питомник тюльпанов по сезонам: сколько сажаем, продаём и тратим, сколько стоит вырастить одну луковицу и когда проект выходит в плюс.</p></div>
 <div class="panel"><h3>Главное</h3><ul><li><span class="legend-y"></span>Жёлтые ячейки можно менять. Белые считаются сами и пересчитываются сразу.</li><li>Введённые числа запоминаются в этом браузере. Кнопка «Сбросить к исходным» возвращает исходные числа из вашего файла «Расчеты Крымские тюльпаны 2». Одно отличие: платим только за купленные луковицы, а не за всю посадку 2-го цикла. Сохранённые версии при этом не удаляются.</li><li>Наведите курсор на название любого столбца в таблицах, и появится короткое объяснение. На телефоне нажмите на заголовок.</li><li>Сезон 2026 означает: посадка осенью 2026, выкопка в июне 2027, продажа в августе 2027. Выручка и затраты сезона стоят в одной строке.</li></ul></div>
-<div class="panel"><h3>Вкладки</h3><ul><li><b>Старт.</b> Общая картина процесса выращивания по шагам с живыми цифрами. Лучше начать с неё.</li><li><b>План.</b> Карта решений: в какие годы закупаем луковицы и по какой цене, когда заканчиваем проект и в какие годы делаем каждую капзатрату. Результат виден сразу. Закупки общие для всей модели, а галочка «Считать всю модель по моему плану» переносит на все вкладки закрытие проекта и переносы капзатрат.</li><li><b>Модель.</b> Правила расчёта, журнал сезонов, себестоимость, картина по продажам, карта полей, деньги и показатели инвестора.</li><li><b>Затраты 1-го цикла.</b> Закупка, ФОТ и хранение для первой посадки. Итоги идут в сезон 2026.</li><li><b>Капзатраты.</b> Статьи по годам. Суммы 2026–2033 идут в журнал сезонов.</li><li><b>Разборы.</b> Как луковицы раскладываются по разборам в каждой линии и как линии суммируются.</li><li><b>Закрытие 2027.</b> Сколько получится, если закрыть проект после первого цикла.</li><li><b>Версии.</b> Пять готовых сценариев, фиксация своих расчётов, сравнение сразу нескольких версий в таблице и на графике, перенос между компьютерами.</li></ul></div>
+<div class="panel"><h3>Вкладки</h3><ul><li><b>Старт.</b> Общая картина процесса выращивания по шагам с живыми цифрами. Лучше начать с неё.</li><li><b>План.</b> Карта решений: в какие годы закупаем луковицы и по какой цене, когда заканчиваем проект и в какие годы делаем каждую капзатрату. Результат виден сразу. Закупки общие для всей модели, а галочка «Считать всю модель по моему плану» переносит на все вкладки закрытие проекта и переносы капзатрат.</li><li><b>Модель.</b> Правила расчёта, журнал сезонов, себестоимость, картина по продажам, карта полей, деньги и показатели инвестора.</li><li><b>Затраты 1-го цикла.</b> Закупка, ФОТ и хранение для первой посадки. Итоги идут в сезон 2026.</li><li><b>Капзатраты.</b> Статьи по годам. Суммы 2026–2033 идут в журнал сезонов.</li><li><b>Разборы.</b> Как луковицы раскладываются по разборам в каждой линии и как линии суммируются.</li><li><b>Закрытие 2027.</b> Сколько получится, если закрыть проект после первого цикла.</li><li><b>Стресс-тесты.</b> Берёт текущую модель, по одному меняет цену, потери, капзатраты, закупку, объёмы и сроки продаж и показывает NPV, IRR, баланс и пик финансирования против базы. Шаги в жёлтых полях меняются, ниже идут диаграмма и вывод о самых чувствительных факторах.</li><li><b>Версии.</b> Пять готовых сценариев, фиксация своих расчётов, сравнение сразу нескольких версий в таблице и на графике, перенос между компьютерами.</li></ul></div>
 <div class="panel"><h3>Шаг 1. Правила расчёта</h3><ol><li><b>Гектаров на 1 млн шт.</b> Площадь равна млн шт. посадки, умноженным на это число (по умолчанию 2).</li><li><b>Гектаров на 1 млн ₽ ФОТ.</b> ФОТ равен гектарам, делённым на коэффициент. Коэффициенты по годам (1,25 до 2,6) уже стоят в таблице. Поле «Во все годы» ставит один коэффициент на все сезоны.</li><li><b>Закупка 2-го цикла.</b> Сколько млн закупленных луковиц сажаем в 2027 (по умолчанию 5). Закупки других лет задаются в журнале и на вкладке «План».</li><li><b>Цена 1-го разбора.</b> Одна цена на все годы одной кнопкой или своя цена для каждого года в таблице.</li><li><b>Цена 2-го и 3-го разбора.</b> Доля от цены 1-го. Пропорционально цене распределяются и затраты в себестоимости.</li><li><b>Целевая себестоимость.</b> Ориентир из вашего файла, 10 ₽ за луковицу.</li></ol></div>
 <div class="panel"><h3>Шаг 2. Журнал сезонов</h3><ol><li><b>Цена закупки, ₽.</b> Цена, по которой покупаете луковицы (по умолчанию 35 ₽). Затраты на посадку равны цене, умноженной на купленное в этом году количество. Своё потомство бесплатно: например, 14,9 млн шт. в 2028 году выращены из закупки 2027 года и ничего не стоят. Сколько докупаем в каждом году, задаётся в колонке «закупные» журнала и на вкладке «План».</li><li><b>Цена реализации, ₽.</b> Цена одной проданной луковицы. Задаётся для каждого года, в том числе для первых трёх.</li><li><b>Продаём, 1ц и 2ц.</b> Сколько млн луковиц 1-го разбора продаём из каждой линии. Остальное сажается снова. Красная рамка означает, что столько 1-го разбора нет, и продажа ограничится имеющимся. Если продажи года заданы ползунком на вкладке «План», эти ячейки заблокированы и показывают итог.</li><li><b>га/ФОТ.</b> Коэффициент для отдельного года.</li><li><b>Себестоимость.</b> Показана в журнале для 1-го разбора, а по всем трём разборам в отдельном блоке ниже.</li><li><b>Общие затраты.</b> Посадка + ФОТ + амортизация + проценты сезона одной суммой. Если учёт амортизации выключен: посадка + ФОТ + капзатраты.</li><li><b>1-й в наличии.</b> Сколько 1-го разбора есть в сезоне: выкопано из двух линий вместе. Именно из этого количества задаются продажи.</li><li><b>Амортизация и проценты.</b> Капзатраты каждой статьи делятся на срок амортизации (по умолчанию 10 лет) и списываются равными долями с года вложения. Проценты по кредиту (по умолчанию 15% в год) считаются в двух вариантах на выбор. «На все вложения»: на всё вложенное нарастающим итогом (закупка, ФОТ, капзатраты), независимо от выручки. «На непогашенный долг»: только на накопленный денежный минус после выручки и затрат сезона, проценты растут вместе с долгом и прекращаются, когда проект вышел в плюс. Это отдельные колонки в затратах. Переключатель и параметры в блоке «Правила расчёта». После закрытия проекта на вкладке «План» амортизация и проценты не считаются, а непогашенная часть капзатрат остаётся в справочной строке «Остаточная стоимость» и в баланс не входит.</li><li><b>Баланс.</b> Выручка минус общие затраты. «Накопленный» это сумма балансов всех сезонов. Когда он становится положительным, проект окупился.</li></ol></div>
 <div class="panel"><h3>Как считается себестоимость</h3><ul><li><code>себестоимость 1-го разбора = (посадка + ФОТ сезона) ÷ (выкопано 1-го + 2-го × доля цены + 3-го × доля цены)</code>.</li><li>Себестоимость 2-го и 3-го разбора равна себестоимости 1-го, умноженной на их долю цены.</li><li>Капитальные затраты в себестоимость не входят.</li><li>Свои луковицы для посадки считаются бесплатными, поэтому в годы без закупки (по умолчанию с 2028) себестоимость сильно ниже целевой.</li></ul></div>
@@ -776,6 +798,7 @@ function refresh(){
  const b=k.rev-k.exp;T('f-bal',fmt(b,0),sg(b));
  {const fbn=document.getElementById('finBaseNote');if(fbn)fbn.textContent=(P.fin&&P.fin.base==='debt')?'Только на долг: накопленный денежный минус после выручки и затрат сезона (с уже начисленными процентами). Когда проект вышел в плюс и долг погашен, проценты не начисляются.':'На всё, что вложено нарастающим итогом (закупка, ФОТ, капзатраты), независимо от выручки. Не уменьшается, когда долг гасится.';
  const rl=O.R[N-1],on=P.fin&&P.fin.on,cl=O.R.find(r=>r.closed);T('resid-note',on?`Справка: остаточная стоимость капзатрат ${cl?`к закрытию проекта (${cl.year-1} г.)`:`на конец ${rl.year} года`} ${fmt(rl.resid,0)} млн ₽ (вложено ${fmt(k.capex,0)}, списано амортизацией ${fmt(k.dep,0)}). Это техника и оборудование, которые остаются у вас. В баланс эта сумма не входит: ни как убыток, ни как выручка от продажи.`:'Учёт амортизации выключен: капзатраты стоят в балансе целиком в год вложения, остаточной стоимости нет.')}
+ if(!$('#tab-stress').hidden)stRender();
  kpis();invView();costView();salesTable();charts();costsTab();capexTab();gradesTab();closureTab();planTab();startTab();
  $('#plan-badge').hidden=!P.plan.on;
  fitSoon();
@@ -1436,7 +1459,7 @@ document.addEventListener('click',e=>{
 
 
 /* ---------- старт ---------- */
-const GO=[['plan','План'],['model','Журнал сезонов'],['costs','Затраты 1-го цикла'],['capex','Капзатраты'],['grades','Разборы'],['closure','Закрытие 2027'],['versions','Версии'],['guide','Инструкция']];
+const GO=[['plan','План'],['model','Журнал сезонов'],['costs','Затраты 1-го цикла'],['capex','Капзатраты'],['grades','Разборы'],['closure','Закрытие 2027'],['stress','Стресс-тесты'],['versions','Версии'],['guide','Инструкция']];
 function startTab(){
  if(!document.getElementById('st-steps'))return;
  const R=O.R,last=R[N-1],c=O.c,v=O.inv,cl=closure(P,O),ly=last.year;
@@ -1604,7 +1627,73 @@ function buildMat(){
 }
 $('#apply-all').onclick=()=>{const v=parseFloat($('#p-all').value);if(isNaN(v))return;P.price=P.price.map(()=>v);syncInputs();refresh()};
 $('#apply-coef').onclick=()=>{const v=parseFloat($('#p-coefAll').value);if(isNaN(v)||v<=0)return;P.coef=P.coef.map(()=>v);syncInputs();refresh()};
-const TABS=['start','plan','model','costs','capex','grades','closure','versions','guide'];
+
+/* ===== Стресс-тесты ===== */
+const ST_DEF=[
+ {id:'p1',n:'Цена реализации, %',v:-15,u:'%'},{id:'p2',n:'Цена реализации, %',v:-25,u:'%'},{id:'p3',n:'Цена реализации, %',v:15,u:'%'},
+ {id:'l1',n:'Потери при размножении, п.п. к текущим',v:5,u:'п.п.'},{id:'l2',n:'Потери при размножении, п.п. к текущим',v:10,u:'п.п.'},{id:'l3',n:'Потери при размножении, п.п. к текущим',v:15,u:'п.п.'},
+ {id:'c1',n:'Капзатраты, %',v:20,u:'%'},{id:'c2',n:'Капзатраты, %',v:30,u:'%'},
+ {id:'b1',n:'Цена закупки луковиц, %',v:20,u:'%'},
+ {id:'v1',n:'Объёмы продаж, %',v:-30,u:'%'},
+ {id:'s1',n:'Сдвиг продаж позже, лет',v:1,u:'лет'},
+ {id:'cb',n:'Комбо: цена (1-я строка) + потери (1-я) + капзатраты (1-я)',v:null,u:''}];
+let ST=ST_DEF.map(x=>x.v);
+try{const q=JSON.parse(localStorage.getItem('krym-tulip-v2-stress'));if(Array.isArray(q)&&q.length===ST.length&&q.every(x=>x===null||isFinite(x)))ST=q}catch(e){}
+function stApply(id,v,Q){
+ const sc=(a,k)=>a.map(x=>x==null?x:x*k);
+ if(id==='p'){Q.price=sc(Q.price,1+v/100)}
+ else if(id==='l'){Q.loss=Math.max(0,Math.min(100,(+Q.loss||0)+v))}
+ else if(id==='c'){for(const y of Object.keys(Q.capex))Q.capex[y]=Q.capex[y].map(r=>[r[0],r[1]*(1+v/100)])}
+ else if(id==='b'){Q.buy=sc(Q.buy,1+v/100)}
+ else if(id==='v'){const k=Math.max(0,1+v/100);Q.s1=sc(Q.s1,k);Q.s2=sc(Q.s2,k);Q.pct=Q.pct.map(x=>x==null?x:Math.min(100,x*k))}
+ else if(id==='s'){const d=Math.max(0,Math.round(v));const sh=a=>a.map((x,t)=>t<1?x:(t-d<1?(a[t]==null?x:0):a[t-d]));Q.s1=sh(Q.s1);Q.s2=sh(Q.s2);Q.pct=Q.pct.map((x,t)=>t<1?x:(t-d<1?null:Q.pct[t-d]))}
+}
+function stRun(i){
+ const Q=clone(P),d=ST_DEF[i];
+ if(d.id==='cb'){stApply('p',ST[0],Q);stApply('l',ST[3],Q);stApply('c',ST[6],Q)}
+ else stApply(d.id[0],ST[i],Q);
+ return metrics(Q)}
+function stRender(){
+ const el=$('#st-t');if(!el)return;
+ const B=metrics(P),fm=(x,d=0)=>fmt(x,d),dl=(x,d=0)=>(x>1e-9?'+':'')+fmt(x,d);
+ const rows=ST_DEF.map((d,i)=>{const m=stRun(i);return{i,d,m,dn:m.npv-B.npv,dc:m.cum-B.cum,dp:m.peak-B.peak}});
+ const irr=x=>x==null||!isFinite(x)?'—':fmt(x*100,1)+'%';
+ let h='<thead><tr><th class="yr">Сценарий</th><th style="width:150px">Изменение</th><th>NPV, млн ₽</th><th>Δ NPV</th><th>IRR</th><th>Накопленный баланс, млн ₽</th><th>Δ баланса</th><th>Пик финансирования, млн ₽</th><th>Δ пика</th></tr></thead><tbody>';
+ h+=`<tr><td class="yr">Базовая модель</td><td class="mute">—</td><td>${fm(B.npv)}</td><td class="mute">—</td><td>${irr(B.irr)}</td><td class="${sg(B.cum)}">${fm(B.cum)}</td><td class="mute">—</td><td>${fm(B.peak)}</td><td class="mute">—</td></tr>`;
+ rows.forEach(r=>{const wr=x=>`<div style="display:flex;justify-content:flex-end;align-items:center;gap:6px;width:136px;margin-left:auto">${x}</div>`;
+  const inp=r.d.v===null?wr('<span class="mute" style="width:136px;text-align:center">строки 1, 4, 7</span>'):wr(`<input class="y" type="number" step="${r.d.u==='лет'?1:5}" data-st="${r.i}" value="${ST[r.i]}" aria-label="${r.d.n}" style="width:84px;box-sizing:border-box"><span class="mute" style="width:34px;text-align:left">${r.d.u}</span>`);
+  h+=`<tr><td class="yr" style="white-space:normal;min-width:190px">${r.d.n}</td><td>${inp}</td><td class="${sg(r.m.npv)}">${fm(r.m.npv)}</td><td class="${sg(r.dn)}">${dl(r.dn)}</td><td>${irr(r.m.irr)}</td><td class="${sg(r.m.cum)}">${fm(r.m.cum)}</td><td class="${sg(r.dc)}">${dl(r.dc)}</td><td>${fm(r.m.peak)}</td><td class="${sg(-r.dp)}">${dl(r.dp)}</td></tr>`});
+ el.innerHTML=h+'</tbody>';
+ el.querySelectorAll('input[data-st]').forEach(x=>x.onchange=()=>{const v=parseFloat(String(x.value).replace(',','.'));if(isFinite(v)){ST[+x.dataset.st]=v;try{localStorage.setItem('krym-tulip-v2-stress',JSON.stringify(ST))}catch(e){}}stRender()});
+ const mx=Math.max(1,...rows.map(r=>Math.abs(r.dn)));
+ const lab=r=>r.d.v===null?'Комбо':r.d.u==='лет'?`Продажи позже на ${ST[r.i]} г.`:`${r.d.n.replace(/, п\.п\. к текущим/,'').replace(/, %$/,'')} ${ST[r.i]>0?'+':''}${String(ST[r.i]).replace('-','−')}${r.d.u==='%'?'%':' '+r.d.u}`;
+ $('#st-bars').innerHTML=[...rows].sort((a,b)=>a.dn-b.dn).map(r=>`<div style="display:grid;grid-template-columns:minmax(150px,34%) 1fr 72px;gap:10px;align-items:center;margin:5px 0;font-size:13px"><span>${lab(r)}</span><div style="background:var(--soft);border-radius:6px;height:14px;position:relative"><div style="position:absolute;top:0;bottom:0;${r.dn<0?'right':'left'}:50%;width:${Math.abs(r.dn)/mx*50}%;background:var(${r.dn<0?'--tulip':'--leaf'});border-radius:6px"></div><div style="position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:var(--muted)"></div></div><b class="num ${sg(r.dn)}" style="text-align:right">${dl(r.dn)}</b></div>`).join('');
+ const worst=[...rows].filter(r=>r.d.v!==null).sort((a,b)=>a.dn-b.dn)[0];
+ T('st-note',`Δ — отличие от базовой модели, млн ₽. Самое сильное падение NPV из одиночных сценариев: «${lab(worst)}» (${dl(worst.dn)} млн ₽).${B.irr==null?'':''} IRR «—» значит, что поток не окупается или IRR не определён. Базовая модель — это текущие вводные, а не исходные значения.`);
+ {
+  const G=[['l','Потери при размножении'],['s','Сроки продаж'],['v','Объёмы продаж'],['p','Цена реализации'],['c','Капзатраты'],['b','Цена закупки луковиц']];
+  const pc=x=>B.npv>1e-9?fmt(Math.abs(x)/B.npv*100,0)+'%':'—';
+  const gw=G.map(([k,n])=>{const rs=rows.filter(r=>r.d.v!==null&&r.d.id[0]===k&&r.dn<0);const w=rs.sort((a,b)=>a.dn-b.dn)[0];return w?{k,n,w}:null}).filter(Boolean).sort((a,b)=>a.w.dn-b.w.dn);
+  const why={l:'Потери накапливаются от поколения к поколению: каждый год луковиц, из которых вырастут следующие, становится меньше, поэтому падает и объём продаж, и выручка во все последующие годы.',
+   s:'Затраты на посадку, ФОТ и капзатраты остаются в тех же годах, а выручка приходит позже. Растёт пик финансирования, проценты по вложениям начисляются дольше, NPV уменьшается из-за дисконтирования.',
+   v:'Выручка падает пропорционально, а затраты остаются прежними, поэтому сильнее всего страдает накопленный баланс.',
+   p:'Влияние прямое и почти линейное: выручка меняется пропорционально цене, а затраты остаются прежними. Это самый предсказуемый фактор: эффект пропорционален изменению цены.',
+   c:'Капзатраты тратятся один раз и распределяются на 10 лет амортизации. Для NPV это небольшая сумма, но заметно растёт пик финансирования и проценты по вложениям.',
+   b:'Закупка луковиц нужна один раз (в 2027 году): влияние небольшое, в основном растёт пик финансирования.'};
+  const L=r=>lab(r);
+  let h='<p>Рейтинг по самому сильному падению NPV среди заданных шагов (база: NPV '+fmt(B.npv,0)+' млн ₽):</p><ol style="margin:0;padding-left:22px;display:flex;flex-direction:column;gap:8px">';
+  gw.forEach(g=>{h+=`<li><b>${g.n}</b>: «${L(g.w)}» уменьшает NPV на ${fmt(-g.w.dn,0)} млн ₽ (${pc(g.w.dn)} от базы), IRR становится ${irr(g.w.m.irr)}, пик финансирования ${fm(g.w.m.peak)} млн ₽. ${why[g.k]}</li>`});
+  h+='</ol>';
+  const sgn=x=>(x>0?'+':'')+String(x).replace('-','−');
+  const cb=rows.find(r=>r.d.v===null);
+  h+=`<p>Комбо (цена ${sgn(ST[0])}%, потери ${sgn(ST[3])} п.п., капзатраты ${sgn(ST[6])}%): NPV ${fm(cb.m.npv)} млн ₽ (${dl(cb.dn)}), IRR ${irr(cb.m.irr)}, пик финансирования ${fm(cb.m.peak)} млн ₽. Все значения в рейтинге пересчитываются при изменении шагов и вводных модели. Вывод: главный риск проекта — биологический (потери и сроки размножения), а не цена или смета.</p>`;
+  $('#st-sum').innerHTML=h;
+ }
+ fitSoon();
+}
+$('#st-reset').onclick=()=>{ST=ST_DEF.map(x=>x.v);try{localStorage.removeItem('krym-tulip-v2-stress')}catch(e){}stRender()};
+
+const TABS=['start','plan','model','costs','capex','grades','closure','stress','versions','guide'];
 function tab(n){
  TABS.forEach(x=>{$('#tab-'+x).hidden=x!==n});
  $$('nav.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===n));
@@ -1613,6 +1702,7 @@ function tab(n){
  if(n==='model')charts();
  if(n==='plan')planTab();
  if(n==='versions')vRender();
+ if(n==='stress')stRender();
  const tp0=document.getElementById('tip');if(tp0)tp0.style.opacity=0;
  fitSoon();
 }
