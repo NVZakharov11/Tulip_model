@@ -454,7 +454,7 @@ nav.tabs button{padding:8px 10px;font-size:13.5px}
    <div class="tw"><table id="v-multi"></table></div>
    <div style="margin-top:16px">
     <div class="row-flex" style="justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px"><h3 style="font-size:15px" id="v-ctitle">Накопленный баланс, млн ₽</h3>
-     <div class="seg" id="v-cseg" role="group" aria-label="Что показывать на графике"><button type="button" data-vm="cum" aria-pressed="true">Накопленный баланс</button><button type="button" data-vm="bal" aria-pressed="false">Баланс сезона</button><button type="button" data-vm="rev" aria-pressed="false">Выручка</button><button type="button" data-vm="exp" aria-pressed="false">Общие затраты</button><button type="button" data-vm="d1" aria-pressed="false">1-й разбор в наличии</button></div></div>
+     <div class="seg" id="v-cseg" role="group" aria-label="Что показывать на графике"><button type="button" data-vm="cum" aria-pressed="true">Накопленный баланс</button><button type="button" data-vm="bal" aria-pressed="false">Баланс сезона</button><button type="button" data-vm="rev" aria-pressed="false">Выручка</button><button type="button" data-vm="exp" aria-pressed="false">Общие затраты</button><button type="button" data-vm="eb" aria-pressed="false">EBITDA</button><button type="button" data-vm="d1" aria-pressed="false">1-й разбор в наличии</button></div></div>
     <div class="lg" id="v-mleg"></div><div id="ch-vm"></div>
    </div>
    <h3 style="font-size:15px;margin:18px 0 6px">Чем отличаются вводные у выбранных версий</h3>
@@ -552,7 +552,7 @@ th.hastip:hover{color:var(--ink)}
 #pl-chart svg text{font:11px var(--f-body);fill:var(--muted)}
 #pl-cmp td,#pl-cmp th{padding:7px 10px}
 #plan-end{max-width:none;min-width:290px}
-@media (min-width:1000px){#kpis{grid-template-columns:repeat(4,1fr)}nav.tabs{order:3;flex:1 0 100%;max-width:none;justify-content:space-between}nav.tabs button{padding:8px 12px;font-size:14px}.top .wrap .btn{white-space:nowrap}}
+@media (min-width:1000px){#kpis{grid-template-columns:repeat(5,1fr)}nav.tabs{order:3;flex:1 0 100%;max-width:none;justify-content:space-between}nav.tabs button{padding:8px 12px;font-size:14px}.top .wrap .btn{white-space:nowrap}}
 #pl-map input.pslider{width:100%;min-width:56px;padding:0;border:0;background:none;height:20px;accent-color:var(--ink);cursor:pointer}
 #pl-map input.pslider:disabled{opacity:.4;cursor:default}
 #pl-map td.pw-bad{background:color-mix(in srgb,var(--bad) 14%,transparent);box-shadow:inset 0 0 0 1.5px var(--bad)}
@@ -564,6 +564,7 @@ th.hastip:hover{color:var(--ink)}
 <div class="panel"><h3>Вкладки</h3><ul><li><b>Старт.</b> Общая картина процесса выращивания по шагам с живыми цифрами. Лучше начать с неё.</li><li><b>План.</b> Карта решений: в какие годы закупаем луковицы и по какой цене, когда заканчиваем проект и в какие годы делаем каждую капзатрату. Результат виден сразу. Закупки общие для всей модели, а галочка «Считать всю модель по моему плану» переносит на все вкладки закрытие проекта и переносы капзатрат.</li><li><b>Модель.</b> Правила расчёта, журнал сезонов, себестоимость, картина по продажам, карта полей, деньги и показатели инвестора.</li><li><b>Затраты 1-го цикла.</b> Закупка, ФОТ и хранение для первой посадки. Итоги идут в сезон 2026.</li><li><b>Капзатраты.</b> Статьи по годам. Суммы 2026–2033 идут в журнал сезонов.</li><li><b>Разборы.</b> Как луковицы раскладываются по разборам в каждой линии и как линии суммируются.</li><li><b>Закрытие 2027.</b> Сколько получится, если закрыть проект после первого цикла.</li><li><b>Стресс-тесты.</b> Берёт текущую модель, по одному меняет цену, потери, капзатраты, закупку, объёмы и сроки продаж и показывает NPV, IRR, баланс и пик финансирования против базы. Шаги в жёлтых полях меняются, ниже идут диаграмма и вывод о самых чувствительных факторах.</li><li><b>Версии.</b> Пять готовых сценариев, фиксация своих расчётов, сравнение сразу нескольких версий в таблице и на графике, перенос между компьютерами.</li></ul></div>
 <div class="panel"><h3>Шаг 1. Правила расчёта</h3><ol><li><b>Гектаров на 1 млн шт.</b> Площадь равна млн шт. посадки, умноженным на это число (по умолчанию 2).</li><li><b>Гектаров на 1 млн ₽ ФОТ.</b> ФОТ равен гектарам, делённым на коэффициент. Коэффициенты по годам (1,25 до 2,6) уже стоят в таблице. Поле «Во все годы» ставит один коэффициент на все сезоны.</li><li><b>Закупка 2-го цикла.</b> Сколько млн закупленных луковиц сажаем в 2027 (по умолчанию 5). Закупки других лет задаются в журнале и на вкладке «План».</li><li><b>Цена 1-го разбора.</b> Одна цена на все годы одной кнопкой или своя цена для каждого года в таблице.</li><li><b>Цена 2-го и 3-го разбора.</b> Доля от цены 1-го. Пропорционально цене распределяются и затраты в себестоимости.</li><li><b>Целевая себестоимость.</b> Ориентир из вашего файла, 10 ₽ за луковицу.</li></ol></div>
 <div class="panel"><h3>Шаг 2. Журнал сезонов</h3><ol><li><b>Цена закупки, ₽.</b> Цена, по которой покупаете луковицы (по умолчанию 35 ₽). Затраты на посадку равны цене, умноженной на купленное в этом году количество. Своё потомство бесплатно: например, 14,9 млн шт. в 2028 году выращены из закупки 2027 года и ничего не стоят. Сколько докупаем в каждом году, задаётся в колонке «закупные» журнала и на вкладке «План».</li><li><b>Цена реализации, ₽.</b> Цена одной проданной луковицы. Задаётся для каждого года, в том числе для первых трёх.</li><li><b>Продаём, 1ц и 2ц.</b> Сколько млн луковиц 1-го разбора продаём из каждой линии. Остальное сажается снова. Красная рамка означает, что столько 1-го разбора нет, и продажа ограничится имеющимся. Если продажи года заданы ползунком на вкладке «План», эти ячейки заблокированы и показывают итог.</li><li><b>га/ФОТ.</b> Коэффициент для отдельного года.</li><li><b>Себестоимость.</b> Показана в журнале для 1-го разбора, а по всем трём разборам в отдельном блоке ниже.</li><li><b>Общие затраты.</b> Посадка + ФОТ + амортизация + проценты сезона одной суммой. Если учёт амортизации выключен: посадка + ФОТ + капзатраты.</li><li><b>1-й в наличии.</b> Сколько 1-го разбора есть в сезоне: выкопано из двух линий вместе. Именно из этого количества задаются продажи.</li><li><b>Амортизация и проценты.</b> Капзатраты каждой статьи делятся на срок амортизации (по умолчанию 10 лет) и списываются равными долями с года вложения. Проценты по кредиту (по умолчанию 15% в год) считаются в двух вариантах на выбор. «На все вложения»: на всё вложенное нарастающим итогом (закупка, ФОТ, капзатраты), независимо от выручки. «На непогашенный долг»: только на накопленный денежный минус после выручки и затрат сезона, проценты растут вместе с долгом и прекращаются, когда проект вышел в плюс. Это отдельные колонки в затратах. Переключатель и параметры в блоке «Правила расчёта». После закрытия проекта на вкладке «План» амортизация и проценты не считаются, а непогашенная часть капзатрат остаётся в справочной строке «Остаточная стоимость» и в баланс не входит.</li><li><b>Баланс.</b> Выручка минус общие затраты. «Накопленный» это сумма балансов всех сезонов. Когда он становится положительным, проект окупился.</li></ol></div>
+<div class="panel"><h3>EBITDA и рентабельность</h3><ul><li><code>EBITDA сезона = выручка − посадка − ФОТ</code>. Это результат до амортизации капзатрат и процентов по кредиту; капзатраты в EBITDA не входят.</li><li><code>рентабельность по EBITDA = EBITDA ÷ выручка</code>. В сезонах без выручки показывается прочерк, итог считается как сумма EBITDA ÷ сумма выручки за период.</li><li>Показатели не зависят от переключателя «Амортизация и проценты»: он меняет только баланс и себестоимость.</li></ul></div>
 <div class="panel"><h3>Как считается себестоимость</h3><ul><li><code>себестоимость 1-го разбора = (посадка + ФОТ + амортизация + проценты сезона) ÷ (выкопано 1-го + 2-го × доля цены + 3-го × доля цены)</code>.</li><li>Себестоимость 2-го и 3-го разбора равна себестоимости 1-го, умноженной на их долю цены.</li><li>Капитальные затраты входят в себестоимость через амортизацию (по умолчанию на 10 лет) и проценты по кредиту. Если на вкладке «Модель» отключить «Амортизацию и проценты», в затраты сезона идут капзатраты целиком, как в журнале. В закрытом сезоне затрат нет и себестоимость не считается.</li><li>Свои луковицы для посадки считаются бесплатными, поэтому в годы без закупки (по умолчанию с 2028) себестоимость сильно ниже целевой.</li></ul></div>
 <div class="panel"><h3>Что такое разборы и как размножается луковица</h3><ul><li>Разбор это сортировочная группа луковиц после выкопки. 1-й разбор: большая луковица под посадку или продажу с гарантированным цветением. 2-й: доращивание цветком, цветение не гарантировано, меньший размер и дешевле. 3-й: мелкая, цвести не будет, до 1-го разбора вырастет через 2 года.</li><li>Правило размножения в таблице внизу вкладки «Модель»: строка означает, что посадили, столбец означает, сколько луковиц этого разбора выкопали из одной посаженной.</li><li>Из 1-го разбора получаются 1-й, 2-й и 3-й по одному. Из 2-го вырастает один 1-й. Из 3-го вырастает один 2-й. Если посадили a, b и c луковиц 1-го, 2-го и 3-го разбора, выкопаем 1-го <code>a + b</code>, 2-го <code>a + c</code>, 3-го <code>a</code>.</li><li>Числа можно менять. Поле «Потери» уменьшает всё выкопанное на заданный процент.</li></ul></div>
 <div class="panel"><h3>Две линии</h3><ul><li><b>1-й цикл.</b> Старт — луковицы, купленные в 2026 (88 700 шт.), дальше цикл растёт из своих, это колонки «свои 1ц». Левая часть листа «2 цикла» в вашем файле.</li><li><b>2-й цикл.</b> Старт — луковицы, купленные в 2027 году и позже (по умолчанию 5 млн в 2027), дальше цикл растёт из своих, это колонки «свои 2ц». Правая часть листа. Купленные в этом году луковицы стоят в журнале в колонке «закупные», потомство в колонке «свои 2ц».</li><li>Продажи задаются отдельно для каждой линии, посадка следующего сезона равна выкопанному минус проданное. Итог линий суммируется на вкладке «Разборы».</li></ul></div>
@@ -644,18 +645,18 @@ function run(P){
   const dep=(F.on&&!closed)?(capArr.slice(Math.max(0,t-yrs+1)).reduce((a,b)=>a+b,0)+capex)/yrs:0, intr=(F.on&&!closed)?frt*(F.base==='debt'?Math.max(0,-(cumCash+cf0)):invCum):0;
   capArr.push(capex);capCum+=capex;depCum+=dep;const resid=F.on?capCum-depCum:0;
   const exp=F.on?plant+fot+dep+intr:plant+fot+capex, bal=rev-exp, cash=cf0-intr; cum+=bal; cumCash+=cash; const debt=Math.max(0,-cumCash);
-  const costOp=plant+fot, costBase=exp, dugW=d[0]+P.w2*d[1]+P.w3*d[2];
+  const costOp=plant+fot, ebitda=rev-plant-fot, ebm=rev>1e-9?ebitda/rev:null, costBase=exp, dugW=d[0]+P.w2*d[1]+P.w3*d[2];
   const c1u=dugW>0?costBase/dugW:null;
   R.push({year:Y0+t,mln,ha,haB:mlnB*(t===0?ha/Math.max(m1,1e-12):k),ha1:mln1*k,ha2:mln2*k,mlnB,mln1,mln2,
    price,paid:t===0||paid,sp:P.price[t],sold,sold1:S[0][t],sold2:S[1][t],short1:short[0][t],short2:short[1][t],
    d1max:D[0][t][0],d2max:D[1][t][0],rev,plant,fot,coefEff,capex,dep,intr,resid,debt,cf0,cash,cumCash,exp,bal,cum,closed,fin,
-   dug,keep:dug-sold,d1:d[0],d2:d[1],d3:d[2],costBase,costOp,dugW,cost1:c1u,cost2:c1u==null?null:c1u*P.w2,cost3:c1u==null?null:c1u*P.w3,
+   dug,keep:dug-sold,d1:d[0],d2:d[1],d3:d[2],costBase,costOp,ebitda,ebm,dugW,cost1:c1u,cost2:c1u==null?null:c1u*P.w2,cost3:c1u==null?null:c1u*P.w3,
    pl:[0,1,2].map(g=>L[0][t][g]+L[1][t][g])});
  }
  const last=R[N-1], tot=k=>R.reduce((a,r)=>a+r[k],0);
  const sv=P.price[N-1]*((last.d1-last.sold)+P.w2*last.d2+P.w3*last.d3);
  let pay=null;for(let t=1;t<N;t++)if(R[t].cum>=0&&R[t-1].cum<0){pay=R[t].year;break;}
- return{R,c,L,D,S,tot:{rev:tot('rev'),plant:tot('plant'),fot:tot('fot'),capex:tot('capex'),dep:tot('dep'),intr:tot('intr'),exp:tot('exp'),sold:tot('sold')},
+ return{R,c,L,D,S,tot:{rev:tot('rev'),plant:tot('plant'),fot:tot('fot'),capex:tot('capex'),dep:tot('dep'),intr:tot('intr'),exp:tot('exp'),sold:tot('sold'),ebitda:tot('ebitda')},
   peak:Math.min(...R.map(r=>r.cumCash)),pay,stock:last.keep,stockVal:sv,inv:invest(P,R,sv)};
 }
 function invest(P,R,term){
@@ -727,6 +728,7 @@ const fmt=(n,d=1)=>{if(n==null||!isFinite(n))return '—';const s=Math.abs(n).to
 const rub=n=>Math.round(n).toLocaleString('ru-RU');
 const setPath=(o,p,v)=>{const k=p.split('.');let c=o;for(let i=0;i<k.length-1;i++)c=c[k[i]];c[k[k.length-1]]=v};
 const getPath=(o,p)=>p.split('.').reduce((c,k)=>c[k],o);
+const fpm=v=>v==null?'—':v<-9.99?'< −1 000%':fmt(v*100,0)+'%';
 const sg=n=>n<-1e-9?'neg':n>1e-9?'pos':'';
 const yearTitle=y=>`Сезон ${y}/${String(y+1).slice(2)}: посадка осенью ${y}, выкопка в июне ${y+1}, продажа в августе ${y+1}`;
 const T=(id,txt,cls)=>{const e=document.getElementById(id);if(!e)return;e.textContent=txt;if(cls!==undefined)e.className=(e.className.replace(/\b(neg|pos)\b/g,'')+' '+cls).trim()};
@@ -763,17 +765,17 @@ function syncInputs(){const fo=document.getElementById('finOn');if(fo)fo.checked
 const CIL={buy:'Цена закупки, ₽',buyQ:'Закупка, млн шт.',price:'Цена реализации, ₽',s1:'Продажа 1-го цикла, млн шт.',s2:'Продажа 2-го цикла, млн шт.',coef:'Гектаров на 1 млн ₽ ФОТ'};
 const ci=(path,ph,step)=>{const q=path.split('.');return `<td class="in"><input class="y" type="number" step="${step||'any'}" min="0" data-path="${path}" ${ph?`placeholder="${ph}"`:''} aria-label="${CIL[q[0]]||path}, ${Y0+(+q[1])}"></td>`}
 function buildTable(){
- let h=`<thead><tr class="g"><th class="yr" rowspan="2">Сезон</th><th colspan="4">Посадка, га</th><th colspan="4">Посадка, млн шт.</th><th colspan="2">Цена 1 шт., ₽</th><th colspan="4">Реализация</th><th colspan="7">Затраты, млн ₽</th><th rowspan="2" title="Себестоимость выращивания 1 шт. 1-го разбора, без капзатрат">себест. 1-го, ₽</th><th colspan="2">Баланс, млн ₽</th></tr>
- <tr><th class="gs">итого</th><th>закупные</th><th>свои 1ц</th><th>свои 2ц</th><th class="gs">итого</th><th>закупные</th><th>свои 1ц</th><th>свои 2ц</th><th class="gs" title="Сколько стоит купить один тюльпан. Действует в годы, где указана цена">закупки</th><th title="Цена продажи 1-го разбора">реализ.</th><th class="gs" title="Сколько 1-го разбора есть в сезоне: выкопано из двух линий, млн шт.">1-й в наличии, млн</th><th title="Продаём 1-го разбора из линии 1-го цикла, млн шт.">млн, 1ц</th><th title="Продаём 1-го разбора из линии 2-го цикла, млн шт.">млн, 2ц</th><th>млн ₽</th><th class="gs">посадка</th><th>ФОТ</th><th title="Гектаров на 1 млн ₽ ФОТ">га/ФОТ</th><th title="Берётся с вкладки Капзатраты">капит.</th><th title="Амортизация: капзатраты, разнесённые на срок амортизации, начиная с года вложения, млн ₽">амортиз.</th><th title="Проценты по кредиту: ставка × все вложения нарастающим итогом, млн ₽">проценты</th><th title="Общие затраты сезона, млн ₽">общие</th><th class="gs">за сезон</th><th>накопленный</th></tr></thead><tbody>`;
+ let h=`<thead><tr class="g"><th class="yr" rowspan="2">Сезон</th><th colspan="4">Посадка, га</th><th colspan="4">Посадка, млн шт.</th><th colspan="2">Цена 1 шт., ₽</th><th colspan="4">Реализация</th><th colspan="7">Затраты, млн ₽</th><th rowspan="2" title="Себестоимость выращивания 1 шт. 1-го разбора, без капзатрат">себест. 1-го, ₽</th><th colspan="2">Баланс, млн ₽</th><th colspan="2" title="EBITDA = выручка − посадка − ФОТ, до амортизации и процентов">EBITDA</th></tr>
+ <tr><th class="gs">итого</th><th>закупные</th><th>свои 1ц</th><th>свои 2ц</th><th class="gs">итого</th><th>закупные</th><th>свои 1ц</th><th>свои 2ц</th><th class="gs" title="Сколько стоит купить один тюльпан. Действует в годы, где указана цена">закупки</th><th title="Цена продажи 1-го разбора">реализ.</th><th class="gs" title="Сколько 1-го разбора есть в сезоне: выкопано из двух линий, млн шт.">1-й в наличии, млн</th><th title="Продаём 1-го разбора из линии 1-го цикла, млн шт.">млн, 1ц</th><th title="Продаём 1-го разбора из линии 2-го цикла, млн шт.">млн, 2ц</th><th>млн ₽</th><th class="gs">посадка</th><th>ФОТ</th><th title="Гектаров на 1 млн ₽ ФОТ">га/ФОТ</th><th title="Берётся с вкладки Капзатраты">капит.</th><th title="Амортизация: капзатраты, разнесённые на срок амортизации, начиная с года вложения, млн ₽">амортиз.</th><th title="Проценты по кредиту: ставка × все вложения нарастающим итогом, млн ₽">проценты</th><th title="Общие затраты сезона, млн ₽">общие</th><th class="gs">за сезон</th><th>накопленный</th><th class="gs">млн ₽</th><th>рентаб., %</th></tr></thead><tbody>`;
  for(let t=0;t<N;t++){
   const c=(k,cls='cmp')=>`<td class="${cls}" id="c${t}-${k}"></td>`;
   h+=`<tr><td class="yr" title="${yearTitle(Y0+t)}">${Y0+t}</td>${c('ha')}${c('haB','mute')}${c('ha1','mute')}${c('ha2','mute')}${c('mln')}${t===0?c('mlnB','mute'):ci('buyQ.'+t,'—',0.5)}${c('mln1','mute')}${c('mln2','mute')}`;
   h+= t===0? `<td class="mute gs" id="c0-price" title="Считается на вкладке «Затраты 1-го цикла»"></td>` : ci(`buy.${t}`,'—');
   h+= ci(`price.${t}`)+c('d1a','cmp gs')+ci(`s1.${t}`)+ci(`s2.${t}`)+c('rev')+c('plant')+c('fot');
   h+= t===0? `<td class="mute" id="c0-k" title="Площадь ÷ ФОТ первого цикла"></td>` : ci(`coef.${t}`,'',0.05);
-  h+= c('capex','mute')+c('dep','mute')+c('intr','mute')+c('exp')+c('cost1')+c('bal')+c('cum')+'</tr>';
+  h+= c('capex','mute')+c('dep','mute')+c('intr','mute')+c('exp')+c('cost1')+c('bal')+c('cum')+c('eb','cmp gs')+c('ebm','mute')+'</tr>';
  }
- h+=`</tbody><tfoot><tr><td class="yr" style="background:var(--soft)">Итого</td><td colspan="10"></td><td></td><td id="f-s1"></td><td id="f-s2"></td><td id="f-rev"></td><td id="f-plant"></td><td id="f-fot"></td><td></td><td id="f-capex"></td><td id="f-dep"></td><td id="f-intr"></td><td id="f-exp"></td><td></td><td id="f-bal"></td><td></td></tr></tfoot>`;
+ h+=`</tbody><tfoot><tr><td class="yr" style="background:var(--soft)">Итого</td><td colspan="10"></td><td></td><td id="f-s1"></td><td id="f-s2"></td><td id="f-rev"></td><td id="f-plant"></td><td id="f-fot"></td><td></td><td id="f-capex"></td><td id="f-dep"></td><td id="f-intr"></td><td id="f-exp"></td><td></td><td id="f-bal"></td><td></td><td id="f-eb"></td><td id="f-ebm"></td></tr></tfoot>`;
  $('#model').innerHTML=h;
 }
 
@@ -785,7 +787,7 @@ function refresh(){
   T(`c${t}-mln`,fmt(r.mln,2));T(`c${t}-mlnB`,z(r.mlnB,2));T(`c${t}-mln1`,z(r.mln1,2));T(`c${t}-mln2`,z(r.mln2,2));
   if(t===0){T('c0-price',fmt(r.price,2));T('c0-k',fmt(r.coefEff,2))}
   T(`c${t}-rev`,z(r.rev));T(`c${t}-plant`,z(r.plant));T(`c${t}-fot`,fmt(r.fot,1));T(`c${t}-capex`,z(r.capex));T(`c${t}-exp`,fmt(r.exp,1));T(`c${t}-dep`,z(r.dep));T(`c${t}-intr`,z(r.intr));T(`c${t}-d1a`,z(r.d1,2));
-  T(`c${t}-cost1`,r.cost1==null?'—':fmt(r.cost1,1));
+  T(`c${t}-cost1`,r.cost1==null?'—':fmt(r.cost1,1));T(`c${t}-eb`,fmt(r.ebitda,1),sg(r.ebitda));T(`c${t}-ebm`,fpm(r.ebm));
   T(`c${t}-bal`,fmt(r.bal,1),sg(r.bal));T(`c${t}-cum`,fmt(r.cum,1),sg(r.cum));
   [['s1',r.short1,r.d1max],['s2',r.short2,r.d2max]].forEach(([k,sh,mx])=>{const i=document.querySelector(`input[data-path="${k}.${t}"]`);if(i){i.classList.toggle('short',sh);i.title=sh?`Столько 1-го разбора нет. Продаётся максимум ${fmt(mx,2)} млн шт.`:''}});
  });
@@ -796,7 +798,7 @@ function refresh(){
  T('w2-rub',`При цене 1-го ${fmt(P.price[0],0)} ₽ это ${fmt(P.price[0]*P.w2,2)} ₽.`);T('w3-rub',`При цене 1-го ${fmt(P.price[0],0)} ₽ это ${fmt(P.price[0]*P.w3,2)} ₽.`);
  const k=O.tot,s1=O.R.reduce((a,r)=>a+r.sold1,0),s2=O.R.reduce((a,r)=>a+r.sold2,0);
  T('f-s1',fmt(s1,1));T('f-s2',fmt(s2,1));T('f-exp',fmt(k.exp,0));T('f-dep',fmt(k.dep,0));T('f-intr',fmt(k.intr,0));T('f-rev',fmt(k.rev,0));T('f-plant',fmt(k.plant,0));T('f-fot',fmt(k.fot,0));T('f-capex',fmt(k.capex,0));
- const b=k.rev-k.exp;T('f-bal',fmt(b,0),sg(b));
+ const b=k.rev-k.exp;T('f-bal',fmt(b,0),sg(b));T('f-eb',fmt(k.ebitda,0),sg(k.ebitda));T('f-ebm',k.rev>1e-9?fmt(k.ebitda/k.rev*100,0)+'%':'—');
  {const fbn=document.getElementById('finBaseNote');if(fbn)fbn.textContent=(P.fin&&P.fin.base==='debt')?'Только на долг: накопленный денежный минус после выручки и затрат сезона (с уже начисленными процентами). Когда проект вышел в плюс и долг погашен, проценты не начисляются.':'На всё, что вложено нарастающим итогом (закупка, ФОТ, капзатраты), независимо от выручки. Не уменьшается, когда долг гасится.';
  const rl=O.R[N-1],on=P.fin&&P.fin.on,cl=O.R.find(r=>r.closed);T('resid-note',on?`Справка: остаточная стоимость капзатрат ${cl?`к закрытию проекта (${cl.year-1} г.)`:`на конец ${rl.year} года`} ${fmt(rl.resid,0)} млн ₽ (вложено ${fmt(k.capex,0)}, списано амортизацией ${fmt(k.dep,0)}). Это техника и оборудование, которые остаются у вас. В баланс эта сумма не входит: ни как убыток, ни как выручка от продажи.`:'Учёт амортизации выключен: капзатраты стоят в балансе целиком в год вложения, остаточной стоимости нет.')}
  if(!$('#tab-stress').hidden)stRender();
@@ -815,6 +817,8 @@ function kpis(){
   ['Выручка',fmt(O.tot.rev,0)+' млн ₽',`${fmt(O.tot.sold,1)} млн шт. продано`,''],
   ['Общие затраты',fmt(O.tot.exp,0)+' млн ₽',(P.fin&&P.fin.on?`посадка ${fmt(O.tot.plant,0)} · ФОТ ${fmt(O.tot.fot,0)} · амортиз. ${fmt(O.tot.dep,0)} · проценты ${fmt(O.tot.intr,0)}`:`посадка ${fmt(O.tot.plant,0)} · ФОТ ${fmt(O.tot.fot,0)} · капит. ${fmt(O.tot.capex,0)}`),''],
   [`Себестоимость в ${last.year}`,fmt(last.cost1,1)+' ₽',`1-й разбор, с амортизацией и процентами, без стоимости своих луковиц. Цель ${fmt(P.target,0)} ₽`,last.cost1!=null&&last.cost1<=P.target?'pos':'neg'],
+  ['EBITDA',fmt(O.tot.ebitda,0)+' млн ₽','выручка − посадка − ФОТ, до амортизации и процентов',sg(O.tot.ebitda)],
+  ['Рентабельность по EBITDA',O.tot.rev>1e-9?fmt(O.tot.ebitda/O.tot.rev*100,0)+' %':'—','EBITDA ÷ выручка за весь период',O.tot.ebitda>1e-9?'pos':'neg'],
   ['Максимум площади',fmt(maxHa,0)+' га','в пиковый сезон',''],
   ['Запас на конец',fmt(O.stock,1)+' млн шт.',`≈ ${fmt(O.stockVal,0)} млн ₽ по ценам 1-го, 2-го и 3-го разбора`,'']
  ];
@@ -1086,16 +1090,16 @@ function validP(p){
 }
 function metrics(Pv){
  const Ov=run(Pv),R=Ov.R,last=R[N-1],lastOpen=[...R].reverse().find(r=>!r.closed)||last,cl=closure(Pv,Ov),v=Ov.inv;
- return{cum:last.cum,npv:v.npv,irr:v.irr,pay:Ov.pay,dpay:v.dpay,peak:-Math.min(0,Ov.peak),rev:Ov.tot.rev,plant:Ov.tot.plant,fot:Ov.tot.fot,capex:Ov.tot.capex,dep:Ov.tot.dep,intr:Ov.tot.intr,resid:last.resid,
-  sold:Ov.tot.sold,cost1:last.cost1,maxHa:Math.max(...R.map(r=>r.ha)),stock:Ov.stock,clRes:cl.result,cumSeries:R.map(r=>r.cum),balSeries:R.map(r=>r.bal),revSeries:R.map(r=>r.rev),expSeries:R.map(r=>r.exp),d1Series:R.map(r=>r.d1),exp:Ov.tot.exp,d1End:lastOpen.d1,buyMln:R.reduce((a,r,t)=>a+(t>0&&!r.closed?(+Pv.buyQ[t]||0):0),0)};
+ return{cum:last.cum,npv:v.npv,irr:v.irr,pay:Ov.pay,dpay:v.dpay,peak:-Math.min(0,Ov.peak),rev:Ov.tot.rev,ebitda:Ov.tot.ebitda,ebm:Ov.tot.rev>1e-9?Ov.tot.ebitda/Ov.tot.rev:null,plant:Ov.tot.plant,fot:Ov.tot.fot,capex:Ov.tot.capex,dep:Ov.tot.dep,intr:Ov.tot.intr,resid:last.resid,
+  sold:Ov.tot.sold,cost1:last.cost1,maxHa:Math.max(...R.map(r=>r.ha)),stock:Ov.stock,clRes:cl.result,cumSeries:R.map(r=>r.cum),balSeries:R.map(r=>r.bal),revSeries:R.map(r=>r.rev),ebSeries:R.map(r=>r.ebitda),expSeries:R.map(r=>r.exp),d1Series:R.map(r=>r.d1),exp:Ov.tot.exp,d1End:lastOpen.d1,buyMln:R.reduce((a,r,t)=>a+(t>0&&!r.closed?(+Pv.buyQ[t]||0):0),0)};
 }
 const lastY=Y0+N-1;
 const MROWS=[
  ['Закупки, млн шт. за период','buyMln',1,0],[`Накопленный баланс к ${lastY}, млн ₽`,'cum',0,1],['NPV, млн ₽','npv',0,1],['IRR','irr','pct',1],['Выход в плюс','pay','year',-1],['Окупаемость с дисконтом','dpay','year',-1],
- ['Пик финансирования, млн ₽','peak',0,-1],['Выручка, млн ₽','rev',0,1],['Закупка луковиц, млн ₽','plant',0,-1],['ФОТ, млн ₽','fot',0,-1],['Капзатраты (вложено), млн ₽','capex',0,-1],['Амортизация, млн ₽','dep',0,-1],['Проценты по кредиту, млн ₽','intr',0,-1],['Общие затраты, млн ₽','exp',0,-1],['Остаточная стоимость капзатрат в конце (справка), млн ₽','resid',0,0],
+ ['Пик финансирования, млн ₽','peak',0,-1],['Выручка, млн ₽','rev',0,1],['EBITDA, млн ₽','ebitda',0,1],['Рентабельность по EBITDA','ebm','pct',1],['Закупка луковиц, млн ₽','plant',0,-1],['ФОТ, млн ₽','fot',0,-1],['Капзатраты (вложено), млн ₽','capex',0,-1],['Амортизация, млн ₽','dep',0,-1],['Проценты по кредиту, млн ₽','intr',0,-1],['Общие затраты, млн ₽','exp',0,-1],['Остаточная стоимость капзатрат в конце (справка), млн ₽','resid',0,0],
  ['1-й разбор в наличии в последний сезон, млн шт.','d1End',1,1],['Продано, млн шт.','sold',1,1],[`Себестоимость 1-го разбора в ${lastY}, ₽`,'cost1',1,-1],['Максимум площади, га','maxHa',0,0],['Запас на конец, млн шт.','stock',1,1],['Закрытие 2027: результат, млн ₽','clRes',2,1]
 ];
-const fv=(t,v)=>t==='pct'?(v==null?'нет':fmt(v*100,1)+'%'):t==='year'?(v?String(v):'после '+lastY):fmt(v,t);
+const fv=(t,v)=>t==='pct'?(v==null?'нет':v<-9.99?'< −1 000%':fmt(v*100,1)+'%'):t==='year'?(v?String(v):'после '+lastY):fmt(v,t);
 function fd(t,a,b,dir){
  let d,txt;
  if(t==='year'){if(a&&b){d=b-a;txt=d===0?'0':(d>0?'+':'−')+Math.abs(d)+' г.'}else if(!a&&!b)return['—',''];else{d=a?1:-1;txt=b?'вышел в плюс':'не вышел в плюс'}}
@@ -1192,7 +1196,7 @@ function vRender(){
  $('#v-diff').innerHTML=`<thead><tr><th class="yr">Параметр</th><th>A</th><th>B</th></tr></thead><tbody>`+(d.length?d.map(r=>`<tr><td class="yr" style="white-space:normal;font-weight:500">${esc(r[0])}</td><td>${esc(r[1])}</td><td><b>${esc(r[2])}</b></td></tr>`).join(''):`<tr><td colspan="3" class="mute" style="text-align:left;white-space:normal">Вводные одинаковы.</td></tr>`)+'</tbody>';
 }
 const VBEST=['cum','npv','irr','pay','dpay','peak'];
-const VMN={cum:'Накопленный баланс, млн ₽',bal:'Баланс сезона, млн ₽',rev:'Выручка сезона, млн ₽',exp:'Общие затраты сезона, млн ₽',d1:'1-й разбор в наличии в сезоне, млн шт.'};
+const VMN={cum:'Накопленный баланс, млн ₽',bal:'Баланс сезона, млн ₽',rev:'Выручка сезона, млн ₽',exp:'Общие затраты сезона, млн ₽',eb:'EBITDA сезона, млн ₽',d1:'1-й разбор в наличии в сезоне, млн шт.'};
 function vMulti(){
  const ids=vSelOrdered();
  $$('#v-cseg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.vm===vMetric?'true':'false'));
@@ -1346,6 +1350,8 @@ const HT={
  'model#16':'Гектаров на 1 млн ₽ ФОТ. Чем выше число, тем меньше ФОТ на гектар. Можно менять по годам.',
  'model#17':'Вложено в капитальные затраты за год: ангары, техника, оборудование. Берутся с вкладки «Капзатраты». В баланс идёт через амортизацию, если она включена.',
  'model#21':'Баланс сезона = выручка − общие затраты (посадка, ФОТ, амортизация, проценты). Если учёт амортизации выключен: выручка − посадка − ФОТ − капзатраты.',
+ 'model#23':'EBITDA сезона = выручка − посадка − ФОТ. Это операционный результат до амортизации капзатрат и процентов по кредиту. Капзатраты в EBITDA не входят.',
+ 'model#24':'Рентабельность по EBITDA = EBITDA ÷ выручка сезона. В сезонах без выручки показывается прочерк.',
  'model#22':'Накопленный баланс: сумма балансов всех сезонов с 2026 года. Минус показывает, сколько денег вложено, плюс значит проект вышел в прибыль.',
  'model|себест. 1-го, ₽':'Себестоимость выращивания одной луковицы 1-го разбора: общие затраты сезона (посадка, ФОТ, амортизация и проценты; при выключенных амортизации и процентах вместо них капзатраты) ÷ выкопанные луковицы с учётом цены разборов.',
  'invT|1-й в наличии, млн шт.':'Сколько 1-го разбора выкопано и есть в сезоне, млн шт.',
@@ -1536,6 +1542,8 @@ function planBuild(){
  h+=`<tr><td>Амортизация, млн ₽<br><span class="mute" style="font-size:12px">капзатраты ÷ срок, с года вложения</span></td>`+cols(t=>`<td data-col="${t}" id="pl-dp${t}"></td>`)+`<td></td></tr>`;
  h+=`<tr><td>Проценты по кредиту, млн ₽<br><span class="mute" style="font-size:12px">ставка × база (все вложения или долг)</span></td>`+cols(t=>`<td data-col="${t}" id="pl-in${t}"></td>`)+`<td></td></tr>`;
  h+=`<tr class="tot"><td>Общие затраты, млн ₽<br><span class="mute" style="font-size:12px">закупка + ФОТ + амортизация + проценты</span></td>`+cols(t=>`<td data-col="${t}" id="pl-ex${t}"></td>`)+`<td></td></tr>`;
+ h+=`<tr><td>EBITDA, млн ₽<br><span class="mute" style="font-size:12px">выручка − закупка − ФОТ, до амортизации и процентов</span></td>`+cols(t=>`<td data-col="${t}" id="pl-eb${t}"></td>`)+`<td></td></tr>`;
+ h+=`<tr><td>Рентабельность по EBITDA, %<br><span class="mute" style="font-size:12px">EBITDA ÷ выручка</span></td>`+cols(t=>`<td data-col="${t}" id="pl-ebm${t}" class="mute"></td>`)+`<td></td></tr>`;
  h+=`<tr><td>Остаточная стоимость капзатрат, млн ₽<br><span class="mute" style="font-size:12px">для справки: вложено минус амортизация, в баланс не входит</span></td>`+cols(t=>`<td data-col="${t}" id="pl-rs${t}" class="mute"></td>`)+`<td></td></tr>`;
  h+=`<tr><td>Долг на конец сезона, млн ₽<br><span class="mute" style="font-size:12px">накопленный денежный минус, с процентами</span></td>`+cols(t=>`<td data-col="${t}" id="pl-db${t}" class="mute"></td>`)+`<td></td></tr>`;
  h+=`<tr><td>Баланс сезона, млн ₽</td>`+cols(t=>`<td data-col="${t}" id="pl-bal${t}"></td>`)+`<td></td></tr>`;
@@ -1604,7 +1612,7 @@ T('pl-pl'+t,r.plant>1e-9?fmt(r.plant,1):'—');
    tdc.title=wt;sl.title=wt||'Двигайте, чтобы задать долю продажи 1-го разбора';
    const pv=document.getElementById('pl-pv'+t);pv.innerHTML=r.closed?'—':r.fin?'продаём всё':fmt(val*100,1)+'%<br>'+(wc==='pw-bad'?'не хватает':wc==='pw-warn'?'продаём всё':ov?'ваша доля':'из журнала');pv.className=wc==='pw-bad'?'pvbad':'';}
   const cx=capYear(Pp,Y0+t);T('pl-cx'+t,cx>1e-9?fmt(cx,1):'—',r.closed&&cx>1e-9?'neg':'');
-  T('pl-rev'+t,r.rev>1e-9?fmt(r.rev,1):'—');T('pl-ex'+t,r.exp>1e-9?fmt(r.exp,1):'—');T('pl-dp'+t,r.dep>1e-9?fmt(r.dep,1):'—');T('pl-rs'+t,P.fin&&P.fin.on?fmt(r.resid,1):'—');T('pl-db'+t,r.debt>1e-9?fmt(r.debt,1):'—');T('pl-in'+t,r.intr>1e-9?fmt(r.intr,1):'—');T('pl-bal'+t,fmt(r.bal,1),sg(r.bal));T('pl-cum'+t,fmt(r.cum,1),sg(r.cum));
+  T('pl-rev'+t,r.rev>1e-9?fmt(r.rev,1):'—');T('pl-eb'+t,r.rev>1e-9||r.exp>1e-9?fmt(r.ebitda,1):'—',sg(r.ebitda));T('pl-ebm'+t,fpm(r.ebm));T('pl-ex'+t,r.exp>1e-9?fmt(r.exp,1):'—');T('pl-dp'+t,r.dep>1e-9?fmt(r.dep,1):'—');T('pl-rs'+t,P.fin&&P.fin.on?fmt(r.resid,1):'—');T('pl-db'+t,r.debt>1e-9?fmt(r.debt,1):'—');T('pl-in'+t,r.intr>1e-9?fmt(r.intr,1):'—');T('pl-bal'+t,fmt(r.bal,1),sg(r.bal));T('pl-cum'+t,fmt(r.cum,1),sg(r.cum));
   $$(`#pl-map [data-col="${t}"]`).forEach(e=>e.classList.toggle('pcl',!!r.closed));
  });
  if(warns.length)$('#plan-state').textContent+=' Внимание по продажам: '+warns.join(' ');
@@ -1727,7 +1735,7 @@ function fitTables(){
   const w=t.parentElement;if(!w.clientWidth)return;
   t.style.zoom='';
   const nat=Math.max(t.scrollWidth,t.offsetWidth);
-  if(nat>w.clientWidth+1){t.style.zoom=Math.max(0.66,w.clientWidth/nat-0.005).toFixed(3)}
+  if(nat>w.clientWidth+1){t.style.zoom=Math.max(0.62,w.clientWidth/nat-0.005).toFixed(3)}
  });
 }
 const fitSoon=()=>{if(!fitRaf)fitRaf=requestAnimationFrame(()=>{fitRaf=0;fitTables()})};
